@@ -1,27 +1,28 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ObjectId, Types } from 'mongoose';
+import { LocationEntity } from 'src/location/entities/location.entity';
 
 export class CreateShiftDto {
-  @IsNotEmpty()
-  @IsNumber()
-  shiftNumber: number;
+    @IsNotEmpty()
+    @IsNumber()
+    shiftNumber: number;
 
-  @IsNotEmpty()
-  @IsString()
-  startTime: string;
+    @IsNotEmpty()
+    @IsString()
+    startTime: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  endTime: string;
+    @IsNotEmpty()
+    @IsNumber()
+    endTime: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  price: number;
+    @IsNotEmpty()
+    @IsNumber()
+    price: number;
 
-  @IsNotEmpty()
-  @IsString()
-  period: string;
+    @IsNotEmpty()
+    @IsString()
+    period: string;
 
-  @IsNotEmpty()
-  locationId: Types.ObjectId;
+    @IsNotEmpty()
+    location: LocationEntity;
 }

@@ -5,17 +5,17 @@ import { Types } from 'mongoose';
 
 @Injectable()
 export class ShiftService {
-  constructor(private readonly shiftRepository: ShiftRepository) {}
+    constructor(private readonly shiftRepository: ShiftRepository) {}
 
-  async createShift(createShiftDto: CreateShiftDto) {
-    await this.shiftRepository.createShift(createShiftDto);
-  }
+    async createShift(createShiftDto: CreateShiftDto) {
+        const newShift = await this.shiftRepository.create(createShiftDto);
+    }
 
-  async getShiftById(id: string) {
-    return await this.shiftRepository.getShiftById(id);
-  }
+    async getShiftById(id: number) {
+        return await this.shiftRepository.getShiftById(id);
+    }
 
-  async getShiftsByLocationId(locationId: Types.ObjectId) {
-    this.shiftRepository.getShiftsByLocationId(locationId);
-  }
+    async getShiftsByLocationId(locationId: number) {
+        this.shiftRepository.getShiftsByLocationId(locationId);
+    }
 }

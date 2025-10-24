@@ -1,49 +1,54 @@
 import { JwtService } from '@nestjs/jwt';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class CheckPermissionMiddleware implements NestMiddleware {
-  constructor(
-    private readonly jwtService: JwtService,
-    @InjectModel(User.name) private readonly userModel: Model<User>,
-  ) {}
+    constructor(
+        private readonly jwtService: JwtService,
+        @InjectRepository(User) private readonly userRepo: Repository<User>,
+    ) {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      if (!token) {
-        return res.status(403).json({
-          message: 'Bạn cần phải đăng nhập để thực hiện hành động này!',
-        });
-      }
+    async use(req: Request, res: Response, next: NextFunction) {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
 
-      const decoded = await this.jwtService.verifyAsync(token, {
-        secret: process.env.ACCESS_TOKEN_SECRET,
-      });
-      console.log('test');
+            if (!token) {
+                return res.status(403).json({
+                    message:
+                        'Bạn cần phải đăng nhập để thực hiện hành động này!',
+                });
+            }
 
-      const user = await this.userModel.findById(decoded.userId);
-      if (!user) {
-        return res.status(403).json({
-          message: 'Token lỗi',
-        });
-      }
+            const decoded = await this.jwtService.verifyAsync(token, {
+                secret: process.env.ACCESS_TOKEN_SECRET,
+            });
 
-      if (user.role !== 'admin') {
-        return res.status(403).json({
-          message: 'Bạn không có quyền thực hiện hành động này',
-        });
-      }
+            const user = await this.userRepo.findOne({
+                where: {
+                    id: decoded.userId,
+                },
+            });
+            if (!user) {
+                return res.status(403).json({
+                    message: 'Token lỗi',
+                });
+            }
 
-      next();
-    } catch (error) {
-      res.status(500).json({
-        name: error.name,
-        message: error.message,
-      });
+            if (user.role !== 'admin') {
+                return res.status(403).json({
+                    message: 'Bạn không có quyền thực hiện hành động này',
+                });
+            }
+
+            next();
+        } catch (error) {
+            res.status(500).json({
+                name: error.name,
+                message: error.message,
+            });
+        }
     }
-  }
 }

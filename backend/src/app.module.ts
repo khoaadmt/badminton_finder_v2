@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { LocationModule } from './location/location.module';
 
 @Module({
     imports: [
@@ -26,7 +27,7 @@ import { UserModule } from './user/user.module';
             inject: [ConfigService],
         }),
         // Các module khác của project
-        // LocationModule,
+        LocationModule,
         // PostsModule,
         AuthModule,
         // UploadModule,

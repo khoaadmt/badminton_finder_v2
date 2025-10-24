@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Shift } from '../schemas/Shift.schema';
+import { Shift } from '../entities/Shift.entity';
 import { CreateShiftDto } from '../dto/createShift.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 require('dotenv').config();
 
 @Injectable()
 export class ShiftRepository {
-  constructor(
-    @InjectModel(Shift.name)
-    private ShiftModel: Model<Shift>,
-  ) {}
+    constructor(
+        @InjectRepository(Shift)
+        private ShiftRepo: Repository<Shift>,
+    ) {}
 
-  async createShift(createShiftDto: CreateShiftDto) {
-    return await this.ShiftModel.create(createShiftDto);
-  }
+    async create(createShiftDto: CreateShiftDto) {
+        const newShift = this.ShiftRepo.create(createShiftDto);
+        return await this.ShiftRepo.save(newShift);
+    }
 
-  async getShiftById(id: string) {
-    return await this.ShiftModel.findById(id);
-  }
+    async getShiftById(id: number) {
+        return await this.ShiftRepo.findOne({ where: { id } });
+    }
 
-  async getShiftsByLocationId(LocationId: Types.ObjectId) {
-    return await this.ShiftModel.find({ locationId: LocationId });
-  }
+    async getShiftsByLocationId(locationId: number) {
+        return await this.ShiftRepo.find({
+            where: { location: { id: locationId } },
+            relations: ['location'],
+        });
+    }
 }

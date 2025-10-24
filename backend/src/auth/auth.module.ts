@@ -15,6 +15,7 @@ import { VerifyTokenMiddleware } from 'src/middlewares/logging.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { UserRepository } from 'src/user/repository/user.repository';
+import { CheckPermissionMiddleware } from 'src/middlewares/checkPermission.middleware';
 require('dotenv').config();
 
 @Module({

@@ -2,20 +2,20 @@ import { IsNotEmpty, IsNumber } from 'class-validator';
 import { Types } from 'mongoose';
 
 export class CreateBookingDto {
-  @IsNotEmpty()
-  userName: string;
+    @IsNotEmpty()
+    userName: string;
 
-  @IsNotEmpty()
-  courtId: string;
+    @IsNotEmpty()
+    courtId: number;
 
-  @IsNotEmpty()
-  shiftId: string;
+    @IsNotEmpty()
+    shiftId: number;
 
-  @IsNotEmpty()
-  locationId: string;
+    @IsNotEmpty()
+    locationId: string;
 
-  @IsNotEmpty()
-  date: string;
+    @IsNotEmpty()
+    date: string;
 
-  price: Number;
+    price: Number;
 }
