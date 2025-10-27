@@ -1,0 +1,82 @@
+.calendar .ant-picker-calendar-year-select {
+    display: none;
+}
+.calendar .ant-picker-calendar .ant-picker-calendar-header .ant-radio-group label:nth-child(2) {
+    display: none;
+}
+.ant-picker-calendar-header .ant-radio-group {
+    display: none;
+}
+.active-button {
+    background-color: #f5002f !important;
+    color: white !important;
+    border: none !important;
+}
+.badminton-yard-container {
+    position: relative;
+    display: inline-block;
+}
+
+.badminton-yard-img {
+    width: 80px;
+    display: block;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+.blur {
+    filter: brightness(70%);
+}
+
+.btn-book-court {
+    height: 60px;
+    font-weight: 700;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.badminton-yard-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+}
+.btn-book-court:hover {
+    background-color: rgba(186, 186, 186, 0.484) !important;
+    color: white !important;
+    border: 1px solid white !important;
+}
+.badminton-yard-container:hover .btn-book-court {
+    display: block;
+}
+.badminton-yard-container:hover .badminton-yard-number {
+    display: none;
+}
+.shift-price {
+    color: #f5002f;
+    font-weight: 700;
+    margin-left: 4px;
+}
+.disabled {
+    cursor: none;
+    filter: brightness(50%);
+    pointer-events: none;
+}
+.btn-disabled {
+    cursor: none;
+    pointer-events: none;
+    background-color: #d1d1d1;
+}
+@media (max-width: 768px) {
+    .btn-shift {
+        width: 100px;
+        margin-bottom: 8px;
+    }
+}
