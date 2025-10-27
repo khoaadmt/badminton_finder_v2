@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { LocationModule } from './location/location.module';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
     imports: [
@@ -28,7 +29,7 @@ import { LocationModule } from './location/location.module';
         }),
         // Các module khác của project
         LocationModule,
-        // PostsModule,
+        PostsModule,
         AuthModule,
         // UploadModule,
         UserModule,

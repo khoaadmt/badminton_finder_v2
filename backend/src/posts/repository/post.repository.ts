@@ -1,236 +1,117 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Post } from '../shemas/post.schema';
+import { Post } from '../entities/post.entity';
 import { ObjectId } from 'mongodb';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PostRepository {
-  constructor(
-    @InjectModel(Post.name)
-    private Post: Model<Post>,
-  ) {}
+    constructor(
+        @InjectRepository(Post)
+        private postRepo: Repository<Post>,
+    ) {}
 
-  async finAllPost(city) {
-    const currentDate = new Date();
-    const currentTimestamp = currentDate.getTime();
+    async findAllPost(city: string) {
+        const currentTimestamp = Date.now();
 
-    return await this.Post.aggregate([
-      {
-        $addFields: {
-          location_id_ObjectId: { $toObjectId: '$location_id' },
-        },
-      },
-      {
-        $lookup: {
-          from: 'locations',
-          localField: 'location_id_ObjectId',
-          foreignField: '_id',
-          as: 'location',
-        },
-      },
-      {
-        $unwind: '$location',
-      },
-      {
-        $match: { 'location.city': city },
-      },
-      {
-        $match: { startTime: { $gt: currentTimestamp } },
-      },
-      {
-        $match: { status: 'checked' },
-      },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'username',
-          foreignField: 'username',
-          as: 'user',
-        },
-      },
-      {
-        $unwind: '$user',
-      },
-      {
-        $project: {
-          location_id_ObjectId: 0,
-          location_id: 0,
-          'user._id': 0,
-          'user.password': 0,
-          'user.accessToken': 0,
-          'user.refreshToken': 0,
-        },
-      },
-    ]);
-  }
+        const posts = await this.postRepo
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.location', 'location')
+            .leftJoinAndSelect('post.user', 'user')
+            .where('location.city = :city', { city })
+            .andWhere('post.startTime > :currentTimestamp', {
+                currentTimestamp,
+            })
+            .andWhere('post.status = :status', { status: 'checked' })
+            .select([
+                'post',
+                'location',
+                'user.id',
+                'user.username',
+                'user.email',
+                'user.avatarUrl',
+            ])
+            .getMany();
 
-  async findPostByStatus(status: string) {
-    const currentDate = new Date();
-    const currentTimestamp = currentDate.getTime();
+        return posts;
+    }
 
-    return await this.Post.aggregate([
-      {
-        $addFields: {
-          location_id_ObjectId: { $toObjectId: '$location_id' },
-        },
-      },
-      {
-        $lookup: {
-          from: 'locations',
-          localField: 'location_id_ObjectId',
-          foreignField: '_id',
-          as: 'location',
-        },
-      },
-      {
-        $unwind: '$location',
-      },
-      {
-        $match: { startTime: { $gt: currentTimestamp } },
-      },
-      {
-        $match: { status: status },
-      },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'username',
-          foreignField: 'username',
-          as: 'user',
-        },
-      },
-      {
-        $unwind: '$user',
-      },
-      {
-        $project: {
-          location_id_ObjectId: 0,
-          location_id: 0,
-          'user._id': 0,
-          'user.password': 0,
-          'user.accessToken': 0,
-          'user.refreshToken': 0,
-        },
-      },
-    ]);
-  }
+    async findPostByStatus(status: string) {
+        const currentTimestamp = Date.now();
 
-  async findById(id: string) {
-    const objectId = new ObjectId(id);
+        const posts = await this.postRepo
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.location', 'location')
+            .leftJoinAndSelect('post.user', 'user')
+            .where('post.startTime > :currentTimestamp', {
+                currentTimestamp,
+            })
+            .andWhere('post.status = :status', { status })
+            .select([
+                'post',
+                'location',
+                'user.id',
+                'user.username',
+                'user.email',
+                'user.avatarUrl',
+            ])
+            .getMany();
 
-    return await this.Post.aggregate([
-      {
-        $addFields: {
-          location_id_ObjectId: { $toObjectId: '$location_id' },
-        },
-      },
-      {
-        $match: { _id: objectId },
-      },
-      {
-        $lookup: {
-          from: 'locations',
-          localField: 'location_id_ObjectId',
-          foreignField: '_id',
-          as: 'location',
-        },
-      },
-      {
-        $unwind: '$location',
-      },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'username',
-          foreignField: 'username',
-          as: 'user',
-        },
-      },
-      {
-        $unwind: '$user',
-      },
-      {
-        $project: {
-          location_id_ObjectId: 0,
-          location_id: 0,
-          'user._id': 0,
-          'user.password': 0,
-          'user.accessToken': 0,
-          'user.refreshToken': 0,
-        },
-      },
-    ]);
-  }
+        return posts;
+    }
 
-  async findByUserName(username: string) {
-    return await this.Post.aggregate([
-      {
-        $addFields: {
-          location_id_ObjectId: { $toObjectId: '$location_id' },
-        },
-      },
-      {
-        $match: { username: username },
-      },
-      {
-        $sort: { createdAt: -1 },
-      },
-      {
-        $lookup: {
-          from: 'locations',
-          localField: 'location_id_ObjectId',
-          foreignField: '_id',
-          as: 'location',
-        },
-      },
-      {
-        $unwind: '$location',
-      },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'username',
-          foreignField: 'username',
-          as: 'user',
-        },
-      },
-      {
-        $unwind: '$user',
-      },
-      {
-        $project: {
-          location_id_ObjectId: 0,
-          location_id: 0,
-          'user._id': 0,
-          'user.password': 0,
-          'user.accessToken': 0,
-          'user.refreshToken': 0,
-        },
-      },
-    ]);
-  }
+    async findById(id: number) {
+        const post = await this.postRepo
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.location', 'location')
+            .leftJoinAndSelect('post.user', 'user')
+            .where('post.id = :id', { id })
+            .select([
+                'post',
+                'location',
+                'user.id',
+                'user.username',
+                'user.email',
+                'user.avatarUrl',
+            ])
+            .getOne();
+        return post;
+    }
 
-  async updateStatus(postId: string, status: string) {
-    await this.Post.findOneAndUpdate(
-      { _id: postId },
-      { status: status },
-      { new: true },
-    );
-  }
-  async countPosts() {
-    return await this.Post.countDocuments();
-  }
+    async findByUserName(username: string) {
+        const post = await this.postRepo
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.location', 'location')
+            .leftJoinAndSelect('post.user', 'user')
+            .where('user.username = :username', { username })
+            .select([
+                'post',
+                'location',
+                'user.id',
+                'user.username',
+                'user.email',
+                'user.avatarUrl',
+            ])
+            .getOne();
 
-  async createPost(newPost) {
-    return await this.Post.create(newPost);
-  }
+        return post;
+    }
 
-  async updateImagesOfPost(postId: string, urlImage: string[]) {
-    await this.Post.updateOne({ _id: postId }, { images: urlImage });
-  }
+    async update(post: Post) {
+        return await this.postRepo.save(post);
+    }
 
-  async delete(postId: string) {
-    await this.Post.findByIdAndDelete(postId);
-  }
+    async countPosts() {
+        return await this.postRepo.count();
+    }
+
+    async createPost(newPost) {
+        return await this.postRepo.create(newPost);
+    }
+
+    async delete(postId: number) {
+        await this.postRepo.delete({ id: postId });
+    }
 }

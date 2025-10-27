@@ -1,4 +1,5 @@
 import { Court } from 'src/court/entities/court.entity';
+import { Post } from 'src/posts/entities/post.entity';
 import { Shift } from 'src/shift/entities/Shift.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -53,4 +54,7 @@ export class LocationEntity {
 
     @OneToMany(() => Shift, (shift) => shift.location)
     shifts: Shift[];
+
+    @OneToMany(() => Post, (post) => post.location)
+    posts: Post[];
 }
