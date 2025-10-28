@@ -57,7 +57,7 @@ export const CreatePostContent: React.FC = () => {
             phones: Yup.array().required("Required"),
             levelMemberMin: Yup.number().required("Required"),
             levelMemberMax: Yup.number().required("Required"),
-            location_id: Yup.string().required("Required"),
+            location_id: Yup.number().required("Required"),
         }),
         onSubmit: async (values) => {
             const formData = new FormData();
@@ -72,7 +72,10 @@ export const CreatePostContent: React.FC = () => {
                     values.priceMin = 0;
                     values.priceMax = 0;
                 }
-                resPostId = await postService.createPost(values, user?.accessToken);
+                const createPostPayload = { ...values, user_id: user?.user_id };
+                console.log("user?.userId :", typeof user?.user_id);
+
+                resPostId = await postService.createPost(createPostPayload, user?.accessToken);
                 const postId = resPostId.data.post;
 
                 if (Array.from(formData.entries()).length > 0) {

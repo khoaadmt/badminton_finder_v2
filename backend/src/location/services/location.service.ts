@@ -183,7 +183,7 @@ export class LocationService {
             const locations = await this.locationRepository.findAllLocations();
 
             const options = locations.map((location) => ({
-                value: location.id.toString(),
+                value: location.id,
                 label: `${location.name} (${location.address})`,
             }));
 

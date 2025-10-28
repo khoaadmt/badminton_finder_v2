@@ -2,57 +2,61 @@ import { Optional } from '@nestjs/common';
 import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreatePostDto {
-  @IsString()
-  @IsNotEmpty()
-  title: string;
+    @IsString()
+    @IsNotEmpty()
+    title: string;
 
-  @IsString()
-  @IsNotEmpty()
-  description: string;
+    @IsString()
+    @IsNotEmpty()
+    description: string;
 
-  @IsNumber()
-  @IsNotEmpty()
-  memberCount: number;
+    @IsNumber()
+    @IsNotEmpty()
+    memberCount: number;
 
-  @IsString()
-  @IsNotEmpty()
-  date: string;
+    @IsString()
+    @IsNotEmpty()
+    date: string;
 
-  @IsString()
-  @IsNotEmpty()
-  time: string;
+    @IsString()
+    @IsNotEmpty()
+    time: string;
 
-  @IsNumber()
-  gender: number;
+    @IsNumber()
+    gender: number;
 
-  @IsNotEmpty()
-  phones: string[];
+    @IsNotEmpty()
+    phones: string[];
 
-  images: string[];
+    images: string[];
 
-  @IsNumber()
-  levelMemberMin: number;
+    @IsNumber()
+    levelMemberMin: number;
 
-  @IsNumber()
-  levelMemberMax: number;
+    @IsNumber()
+    levelMemberMax: number;
 
-  @Optional()
-  @IsNumber()
-  priceMin: number;
+    @Optional()
+    @IsNumber()
+    priceMin: number;
 
-  @Optional()
-  @IsNumber()
-  priceMax: number;
+    @Optional()
+    @IsNumber()
+    priceMax: number;
 
-  @IsBoolean()
-  @IsNotEmpty()
-  agreement: boolean;
+    @IsBoolean()
+    @IsNotEmpty()
+    agreement: boolean;
 
-  @IsString()
-  @IsNotEmpty()
-  username: string;
+    @IsString()
+    @IsNotEmpty()
+    username: string;
 
-  @IsString()
-  @IsNotEmpty()
-  location_id: string;
+    @IsNumber()
+    @IsNotEmpty()
+    user_id: number;
+
+    @IsNumber()
+    @IsNotEmpty()
+    location_id: number;
 }

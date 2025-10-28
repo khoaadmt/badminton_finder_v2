@@ -19,7 +19,6 @@ export const loginUser = async (user: any, dispatch: any, navigate: any) => {
     dispatch(setFetchingState());
     try {
         const res = await authService.login(user);
-        console.log("res :", res);
 
         const payload = jwtDecode(res.data.accessToken) as { [key: string]: any };
         let { iat, exp, ...newPayload } = payload;

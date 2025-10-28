@@ -23,7 +23,7 @@ export class AuthService {
 
         let payload = {
             username: username,
-            userId: '',
+            user_id: 0,
             displayName: displayName,
             avaUrl: avaUrl,
             facebookId: '',
@@ -38,11 +38,11 @@ export class AuthService {
                 displayName,
                 avaUrl,
             );
-            payload.userId = newUser.id.toString();
+            payload.user_id = newUser.id;
         } else {
             payload.facebookId = user.facebookId;
             payload.contactPhone = user.contactPhone;
-            payload.userId = user.id.toString();
+            payload.user_id = user.id;
         }
         const token = await this.genarateToken(payload);
         return token;
@@ -57,7 +57,7 @@ export class AuthService {
 
         let payload = {
             username: username,
-            userId: '',
+            user_id: 0,
             displayName: displayName,
             avaUrl: '',
             facebookId: username,
@@ -72,7 +72,7 @@ export class AuthService {
                 displayName,
             );
             payload.avaUrl = newUser.avaUrl;
-            payload.userId = newUser.id.toString();
+            payload.user_id = newUser.id;
         } else {
             payload.avaUrl = user.avaUrl;
             payload.contactPhone = user.contactPhone;
@@ -129,7 +129,7 @@ export class AuthService {
 
         const payload = {
             username: user.username,
-            userId: user.id.toString(),
+            user_id: user.id,
             displayName: user.displayName,
             avaUrl: user.avaUrl,
             contactPhone: user.contactPhone,
@@ -160,7 +160,7 @@ export class AuthService {
             });
             return this.genarateToken({
                 username: verify.username,
-                userId: verify.userId,
+                user_id: verify.userId,
                 displayName: verify.displayName,
                 avaUrl: verify.avaUrl,
                 contactPhone: verify.contactPhone,
@@ -177,7 +177,7 @@ export class AuthService {
 
     private async genarateToken(payload: {
         username: string;
-        userId: string;
+        user_id: number;
         displayName: string;
         avaUrl: string;
         contactPhone: string;

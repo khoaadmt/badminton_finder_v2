@@ -17,10 +17,13 @@ export const MyPost = () => {
     useEffect(() => {
         if (user) {
             postService.getPostByUserName(user?.username).then((res) => {
-                setPosts(res.data);
+                setPosts(res.data.posts);
             });
         }
     }, []);
+
+    console.log("posts :", posts);
+
     return (
         <div className="bg-gray-100">
             <SearchPageHeader defaultSelectedKeys="" />

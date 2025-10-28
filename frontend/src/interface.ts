@@ -87,6 +87,7 @@ export interface AuthState {
     login: {
         currentUser: {
             username: string;
+            user_id: number;
             displayName: string;
             avaUrl: string;
             contactPhone: string;

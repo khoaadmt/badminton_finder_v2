@@ -68,8 +68,14 @@ export class PostsService {
     }
 
     async getPostByUserName(userName: string) {
-        const post = await this.postRepository.findByUserName(userName);
-        return post;
+        const posts = await this.postRepository.findByUserName(userName);
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'Success',
+            data: {
+                posts,
+            },
+        };
     }
 
     async getPostByStatus(status: string) {
@@ -210,7 +216,12 @@ export class PostsService {
                 `${createPostDto.date}T${createPostDto.time}`,
             );
             const { date, time, ...rest } = createPostDto;
-            const newCreatePostDto = { ...rest, startTime: dateTime };
+            const newCreatePostDto = {
+                ...rest,
+                startTime: dateTime,
+                location: { id: createPostDto.location_id },
+                user: { id: createPostDto.user_id },
+            };
 
             console.log('newCreatePostDto :', newCreatePostDto);
             const newPost =
