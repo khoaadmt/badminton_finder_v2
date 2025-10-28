@@ -38,7 +38,7 @@ export const CreatePostContent: React.FC = () => {
             date: "",
             time: "",
             gender: "",
-            phones: [""],
+            phones: [],
             levelMemberMin: null,
             levelMemberMax: null,
             priceMin: 50000,
@@ -250,6 +250,7 @@ export const CreatePostContent: React.FC = () => {
                                 mode="multiple"
                                 tagRender={tagRender}
                                 style={{ border: "2px solid #e5e7eb", width: "100%" }}
+                                defaultValue={[1]}
                                 options={genderOptions}
                                 onChange={handleGenderChange}
                             />
@@ -262,6 +263,7 @@ export const CreatePostContent: React.FC = () => {
                                 placeholder="Trình độ tối thiểu"
                                 className="input-post w-full"
                                 onChange={handleLevelMemberMinChange}
+                                defaultValue={2}
                                 options={memberLevels.filter((memberLevel) => {
                                     if (createPostForm.values.levelMemberMax) {
                                         return memberLevel.value <= createPostForm.values.levelMemberMax;
@@ -276,6 +278,7 @@ export const CreatePostContent: React.FC = () => {
                                 placeholder="Trình độ tối đa"
                                 className="input-post  w-full"
                                 onChange={handleLevelMemberMaxChange}
+                                defaultValue={4}
                                 options={memberLevels.filter((memberLevel) => {
                                     if (createPostForm.values.levelMemberMin) {
                                         return memberLevel.value >= createPostForm.values.levelMemberMin;

@@ -41,7 +41,7 @@ export class LocationRepository {
         });
     }
 
-    async finAllLocations() {
+    async findAllLocations() {
         return this.locationRepo.find();
     }
 

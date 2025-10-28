@@ -42,17 +42,17 @@ export const SessionsPage = () => {
     }, [pageNumber]);
 
     useEffect(() => {
-        console.log("filterOptions :", filterOptions);
         getLocation().then((res) => {
             postService
                 .getPostByFilter(filterOptions, pageNumber, location, "", res.latitude, res.longitude)
                 .then((res) => {
-                    if (res.data.length == 0) {
+                    if (!res.data) {
                         message.info("không có bài viết nào !");
-                    }
-                    setData(res.data.rows);
+                    } else {
+                        setData(res.data.rows);
 
-                    setTotalPosts(res.data.totalPosts);
+                        setTotalPosts(res.data.totalPosts);
+                    }
                 });
         });
     }, [filterOptions, pageNumber, searchParams]);

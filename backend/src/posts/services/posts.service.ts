@@ -207,12 +207,12 @@ export class PostsService {
     async createPost(createPostDto: CreatePostDto) {
         try {
             const dateTime = new Date(
-                createPostDto.date + 'T' + createPostDto.time,
+                `${createPostDto.date}T${createPostDto.time}`,
             );
-            const startTime = dateTime.getTime();
-
             const { date, time, ...rest } = createPostDto;
-            const newCreatePostDto = { ...rest, startTime };
+            const newCreatePostDto = { ...rest, startTime: dateTime };
+
+            console.log('newCreatePostDto :', newCreatePostDto);
             const newPost =
                 await this.postRepository.createPost(newCreatePostDto);
 

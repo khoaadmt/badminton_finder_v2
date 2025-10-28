@@ -138,7 +138,7 @@ export class LocationService {
     }
 
     async getAllLocations() {
-        const locations = await this.locationRepository.finAllLocations();
+        const locations = await this.locationRepository.findAllLocations();
         return {
             statusCode: HttpStatusCode.Ok,
             message: 'success',
@@ -153,7 +153,7 @@ export class LocationService {
         longitude: number,
         radius: number,
     ) {
-        const locations = await this.locationRepository.finAllLocations();
+        const locations = await this.locationRepository.findAllLocations();
         const locationsWithinRadius = this.getLocationsWithinRadius(
             latitude,
             longitude,
@@ -179,11 +179,29 @@ export class LocationService {
     }
 
     async getLocationOptions() {
-        const locations = await this.locationRepository.finAllLocations();
-        return locations.map((location) => ({
-            value: location.id.toString(),
-            label: `${location.name} (${location.address})`,
-        }));
+        try {
+            const locations = await this.locationRepository.findAllLocations();
+
+            const options = locations.map((location) => ({
+                value: location.id.toString(),
+                label: `${location.name} (${location.address})`,
+            }));
+
+            return {
+                statusCode: HttpStatus.OK,
+                message: 'success',
+                data: options,
+            };
+        } catch (error) {
+            throw new HttpException(
+                {
+                    statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                    message: 'Failed to fetch location options',
+                    error: error.message,
+                },
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
     }
 
     async countLocationsByCity(city: string) {

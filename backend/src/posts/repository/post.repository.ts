@@ -71,20 +71,12 @@ export class PostRepository {
     }
 
     async findByUserName(username: string) {
-        const post = await this.postRepo
-            .createQueryBuilder('post')
-            .leftJoinAndSelect('post.location', 'location')
-            .leftJoinAndSelect('post.user', 'user')
-            .where('user.username = :username', { username })
-            .select([
-                'post',
-                'location',
-                'user.id',
-                'user.username',
-                'user.email',
-                'user.avatarUrl',
-            ])
-            .getOne();
+        const post = await this.postRepo.find({
+            relations: ['location', 'user'],
+            where: {
+                username: username,
+            },
+        });
 
         return post;
     }
@@ -98,7 +90,7 @@ export class PostRepository {
     }
 
     async createPost(newPost) {
-        return await this.postRepo.create(newPost);
+        return await this.postRepo.save(newPost);
     }
 
     async delete(postId: number) {
