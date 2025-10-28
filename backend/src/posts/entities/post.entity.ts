@@ -23,8 +23,8 @@ export class Post {
     @Column()
     memberCount: number;
 
-    @Column()
-    startTime: number;
+    @Column({ type: 'timestamp' })
+    startTime: Date;
 
     @Column()
     gender: number;

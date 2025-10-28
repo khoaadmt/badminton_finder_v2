@@ -6,7 +6,7 @@ import { BASE_URL } from "../../utils/api.config";
 const configHeaders = "";
 class LocationService extends BaseService {
     constructor() {
-        super(BASE_URL, configHeaders);
+        super(`${BASE_URL}/locations`, configHeaders);
     }
 
     getLocationById(id: string) {

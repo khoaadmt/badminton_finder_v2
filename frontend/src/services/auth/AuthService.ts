@@ -4,7 +4,7 @@ import BaseService from "../BaseService";
 const configHeaders = "";
 class AuthService extends BaseService {
     constructor() {
-        super(BASE_URL, configHeaders);
+        super(`${BASE_URL}/auth`, configHeaders);
     }
     login(data: any) {
         return this.post("login", data);

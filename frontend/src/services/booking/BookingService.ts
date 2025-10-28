@@ -4,7 +4,7 @@ import BaseService from "../BaseService";
 const configHeaders = "";
 class BookingService extends BaseService {
     constructor() {
-        super(BASE_URL, configHeaders);
+        super(`${BASE_URL}/booking`, configHeaders);
     }
 
     createBooking(data: any) {

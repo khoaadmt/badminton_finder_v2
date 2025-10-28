@@ -5,7 +5,7 @@ import BaseService from "../BaseService";
 const configHeaders = "";
 class PostService extends BaseService {
     constructor() {
-        super(BASE_URL, configHeaders);
+        super(`${BASE_URL}/posts`, configHeaders);
     }
 
     getPostByFilter(

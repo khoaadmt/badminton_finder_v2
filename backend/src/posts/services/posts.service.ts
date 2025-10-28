@@ -167,6 +167,7 @@ export class PostsService {
         longitude: number,
     ) {
         const posts = await this.postRepository.findAllPost(city);
+
         const filteredPosts = this.filteredPosts(posts, filter);
 
         let postsWithDistance = await Bluebird.map(

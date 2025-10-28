@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { Post } from '../entities/post.entity';
 import { ObjectId } from 'mongodb';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 
 @Injectable()
 export class PostRepository {
@@ -16,24 +16,14 @@ export class PostRepository {
     async findAllPost(city: string) {
         const currentTimestamp = Date.now();
 
-        const posts = await this.postRepo
-            .createQueryBuilder('post')
-            .leftJoinAndSelect('post.location', 'location')
-            .leftJoinAndSelect('post.user', 'user')
-            .where('location.city = :city', { city })
-            .andWhere('post.startTime > :currentTimestamp', {
-                currentTimestamp,
-            })
-            .andWhere('post.status = :status', { status: 'checked' })
-            .select([
-                'post',
-                'location',
-                'user.id',
-                'user.username',
-                'user.email',
-                'user.avatarUrl',
-            ])
-            .getMany();
+        const posts = await this.postRepo.find({
+            relations: ['location', 'user'],
+            where: {
+                location: { city },
+                startTime: MoreThan(new Date()),
+                status: 'checked',
+            },
+        });
 
         return posts;
     }

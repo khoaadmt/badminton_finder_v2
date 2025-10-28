@@ -17,9 +17,7 @@ export class PostsController {
 
     @Get('/filter')
     getPostByFilter(@Query() data: any) {
-        console.log('data :', data);
         if (data.filter) {
-            console.log('Filter');
             return this.postService.getPostsByFilter(
                 data.filter,
                 data.page,
