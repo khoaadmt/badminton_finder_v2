@@ -31,19 +31,17 @@ export class PostRepository {
         const posts = await this.postRepo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.location', 'location')
-            .leftJoinAndSelect('post.user', 'user')
+            .leftJoin('post.user', 'user')
+            .addSelect([
+                'user.id',
+                'user.displayName',
+                'user.username',
+                'user.avaUrl',
+            ])
             .where('post.startTime > :currentTimestamp', {
                 currentTimestamp,
             })
             .andWhere('post.status = :status', { status })
-            .select([
-                'post',
-                'location',
-                'user.id',
-                'user.username',
-                'user.email',
-                'user.avatarUrl',
-            ])
             .getMany();
 
         return posts;
@@ -53,29 +51,34 @@ export class PostRepository {
         const post = await this.postRepo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.location', 'location')
-            .leftJoinAndSelect('post.user', 'user')
-            .where('post.id = :id', { id })
-            .select([
-                'post',
-                'location',
+            .leftJoin('post.user', 'user')
+            .addSelect([
                 'user.id',
+                'user.displayName',
                 'user.username',
-                'user.email',
-                'user.avatarUrl',
+                'user.avaUrl',
             ])
+            .where('post.id = :id', { id })
             .getOne();
         return post;
     }
 
     async findByUserName(username: string) {
-        const post = await this.postRepo.find({
-            relations: ['location', 'user'],
-            where: {
-                username: username,
-            },
-        });
+        const posts = await this.postRepo
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.location', 'location')
+            .leftJoin('post.user', 'user')
+            .addSelect([
+                'user.id',
+                'user.displayName',
+                'user.username',
+                'user.avaUrl',
+            ])
+            .where('user.username = :username', { username })
+            .getMany();
 
-        return post;
+        console.log('posts :', posts);
+        return posts;
     }
 
     async update(post: Post) {
