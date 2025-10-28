@@ -27,7 +27,7 @@ export class User {
 
     @Column({
         default:
-            'http://localhost:5000/api/uploads/avatar/user_avatar_default.png',
+            'https://jskadysbdihpzhmaaccv.supabase.co/storage/v1/object/public/image/default-avatar.jpg',
     })
     avaUrl: string;
 

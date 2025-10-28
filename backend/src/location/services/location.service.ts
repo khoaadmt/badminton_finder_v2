@@ -10,6 +10,7 @@ import { ShiftService } from 'src/shift/services/shift.service';
 import dayjs from 'dayjs';
 import { LocationEntity } from '../entities/location.entity';
 // import { Location } from './../../../../fontend/src/interface';
+
 require('dotenv').config();
 
 @Injectable()
@@ -128,7 +129,13 @@ export class LocationService {
         try {
             const location = await this.locationRepository.findById(id);
 
-            return location;
+            return {
+                statusCode: HttpStatus.OK,
+                message: 'success',
+                data: {
+                    location,
+                },
+            };
         } catch (err) {
             throw new HttpException(
                 'location is not exists',
@@ -205,7 +212,26 @@ export class LocationService {
     }
 
     async countLocationsByCity(city: string) {
-        return await this.locationRepository.countLocationsByCity(city);
+        try {
+            const count =
+                await this.locationRepository.countLocationsByCity(city);
+            return {
+                statusCode: HttpStatus.OK,
+                message: 'success',
+                data: {
+                    count,
+                },
+            };
+        } catch (err) {
+            throw new HttpException(
+                {
+                    statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                    message: 'Failed to get location count',
+                    error: err.message,
+                },
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
     }
     async findByCity(
         city: string,
@@ -220,9 +246,13 @@ export class LocationService {
 
         //fake data
         const distance = { text: '9.86 km', value: '9860' };
-        return locations.map((locations) => {
-            return { ...locations, distance };
-        });
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'success',
+            data: locations.map((locations) => {
+                return { ...locations, distance };
+            }),
+        };
 
         const locationsWithDistance = await Bluebird.map(
             locations,

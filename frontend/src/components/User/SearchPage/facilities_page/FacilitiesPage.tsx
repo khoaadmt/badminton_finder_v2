@@ -22,7 +22,7 @@ export const FacilitiesPage: React.FC = () => {
             },
         };
         locationService.countLocationsByCity(params).then((response) => {
-            setTotalFacility(response.data);
+            setTotalFacility(response.data.count);
         });
     }, []);
 
@@ -40,7 +40,7 @@ export const FacilitiesPage: React.FC = () => {
                 getData(resolve.latitude, resolve.longitude).then((res) => {
                     if (res.data) {
                         setData(res.data);
-                        console.log(res.data);
+                        console.log(res);
                     }
                 });
             })

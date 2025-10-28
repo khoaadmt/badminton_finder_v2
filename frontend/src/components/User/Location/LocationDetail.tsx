@@ -37,7 +37,6 @@ export const LocationDetail: React.FC = () => {
     const bookingService = new BookingService();
     const [options, setOptions] = useState<any>("");
     const { token } = theme.useToken();
-    const [shiftId, setShiftId] = useState();
 
     const wrapperStyle: React.CSSProperties = {
         width: "100%",
@@ -66,7 +65,7 @@ export const LocationDetail: React.FC = () => {
             locationService
                 .getLocationById(locationId)
                 .then((response) => {
-                    setLocationDetail(response.data[0]);
+                    setLocationDetail(response.data.location);
                 })
                 .catch((error) => {});
         }
@@ -79,8 +78,8 @@ export const LocationDetail: React.FC = () => {
             }
             const params = {
                 params: {
-                    locationId: locationDetail._id,
-                    shiftId: locationDetail.shifts[options[shiftSelected].index]._id,
+                    locationId: locationDetail.id,
+                    shiftId: locationDetail.shifts[options[shiftSelected].index].id,
                     date: dateSelected,
                 },
             };
@@ -148,7 +147,7 @@ export const LocationDetail: React.FC = () => {
     };
 
     const handleBooking = (courtId: string) => {
-        const shiftId = locationDetail?.shifts[options[shiftSelected]?.index]._id;
+        const shiftId = locationDetail?.shifts[options[shiftSelected]?.index].id;
         const userName = user?.username;
 
         let data = {

@@ -48,8 +48,8 @@ export const EditLocationModal: React.FC<Prop> = (prop) => {
         });
         const img = await upLoadService.uploadLocationImage(formData);
         values.img = img?.data;
-        if (data?._id) {
-            locationService.updateLocation(data._id, values, user?.accessToken).then(() => {
+        if (data?.id) {
+            locationService.updateLocation(data.id, values, user?.accessToken).then(() => {
                 message.success("Cập nhật thông tin thành công");
             });
         }

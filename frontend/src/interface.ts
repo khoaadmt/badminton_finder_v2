@@ -8,7 +8,7 @@ export interface Location {
     longitude: number;
 }
 export interface Shift {
-    _id: string;
+    id: string;
     shiftNumber: number;
     startTime: string;
     endTime: string;
@@ -20,7 +20,7 @@ export interface Court {
     courtNumber: number;
 }
 export interface Facility {
-    _id: string;
+    id: string;
     city: string;
     name: string;
     contact_phone: string;
