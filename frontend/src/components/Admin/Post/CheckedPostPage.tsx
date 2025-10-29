@@ -9,7 +9,7 @@ export const CheckedPostPage = () => {
     const [changeStatusPost, setChangeStatusPost] = useState(0);
     useEffect(() => {
         postService.getPostByStatus("checked").then((res) => {
-            setPosts(res.data);
+            setPosts(res.data.posts);
         });
     }, [changeStatusPost]);
     return (

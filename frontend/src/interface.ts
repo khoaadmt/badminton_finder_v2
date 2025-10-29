@@ -16,7 +16,7 @@ export interface Shift {
     price: number;
 }
 export interface Court {
-    _id: string;
+    id: string;
     courtNumber: number;
 }
 export interface Facility {
@@ -54,7 +54,7 @@ interface userInfor {
     facebookId: string;
 }
 export interface Post {
-    _id: string;
+    id: string;
     title: string;
     description: string;
     memberCount: number;
@@ -129,7 +129,7 @@ export interface FilterOptions {
     agreement: boolean;
 }
 export interface BookedCourts {
-    _id: string;
+    id: string;
     court: {
         courtNumber: number;
     };

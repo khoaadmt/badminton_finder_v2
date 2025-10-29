@@ -54,7 +54,7 @@ export const MyBookedCourts = () => {
                 {bookedCourts &&
                     bookedCourts.map((bookedCourt) => {
                         return (
-                            <div key={bookedCourt._id} className="booked-courts-card">
+                            <div key={bookedCourt.id} className="booked-courts-card">
                                 <div className="card-header">
                                     <span>Sân cầu: {bookedCourt.location.name} </span>
                                 </div>
@@ -132,7 +132,7 @@ export const MyBookedCourts = () => {
                                                 className="btn_cancel"
                                                 type="primary"
                                                 danger
-                                                onClick={() => showDeleteConfirm(bookedCourt._id.toString())}>
+                                                onClick={() => showDeleteConfirm(bookedCourt.id.toString())}>
                                                 Hủy
                                             </Button>
                                         )

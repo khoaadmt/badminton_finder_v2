@@ -46,7 +46,7 @@ export const PostCard: React.FC<Props> = (props) => {
     };
 
     const handleChangeStatusPost = (status: string) => {
-        postService.updateStatus(postDetail._id, status);
+        postService.updateStatus(postDetail.id, status);
         setChangeStatusPost((prev) => prev + 1);
     };
 

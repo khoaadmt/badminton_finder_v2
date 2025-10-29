@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { Post } from '../entities/post.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThan, Repository } from 'typeorm';
@@ -26,7 +26,7 @@ export class PostRepository {
     }
 
     async findPostByStatus(status: string) {
-        const currentTimestamp = Date.now();
+        const currentTimestamp = new Date();
 
         const posts = await this.postRepo
             .createQueryBuilder('post')
@@ -38,13 +38,17 @@ export class PostRepository {
                 'user.username',
                 'user.avaUrl',
             ])
-            .where('post.startTime > :currentTimestamp', {
-                currentTimestamp,
-            })
+            .where('post.startTime > :currentTimestamp', { currentTimestamp })
             .andWhere('post.status = :status', { status })
             .getMany();
 
-        return posts;
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'success',
+            data: {
+                posts,
+            },
+        };
     }
 
     async findById(id: number) {

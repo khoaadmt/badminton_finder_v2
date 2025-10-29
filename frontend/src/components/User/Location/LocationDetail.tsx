@@ -290,12 +290,10 @@ export const LocationDetail: React.FC = () => {
                                         locationDetail.courts.map((court) => {
                                             let isDisable = "";
                                             if (bookedCourts) {
-                                                if (bookedCourts.indexOf(court._id) != -1) isDisable = "disabled";
+                                                if (bookedCourts.indexOf(court.id) != -1) isDisable = "disabled";
                                             }
                                             return (
-                                                <div
-                                                    key={court._id}
-                                                    className={`badminton-yard-container ${isDisable}`}>
+                                                <div key={court.id} className={`badminton-yard-container ${isDisable}`}>
                                                     <img
                                                         className={`badminton-yard-img mb-4 ${
                                                             imgBlur == court.courtNumber ? "blur" : ""
@@ -307,7 +305,7 @@ export const LocationDetail: React.FC = () => {
                                                     <Button
                                                         onMouseEnter={() => handleMouseEndter(court.courtNumber)}
                                                         onMouseLeave={handleMouseLeave}
-                                                        onClick={() => handleBooking(court._id)}
+                                                        onClick={() => handleBooking(court.id)}
                                                         className="btn-book-court">
                                                         Đặt sân
                                                     </Button>

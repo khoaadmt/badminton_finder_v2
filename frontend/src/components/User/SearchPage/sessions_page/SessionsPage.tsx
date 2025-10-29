@@ -74,7 +74,7 @@ export const SessionsPage = () => {
                     <div className="px-[40px] grid gap-2 grid-cols-1 md:grid-cols-2">
                         {data &&
                             data?.map((post) => {
-                                return <PostCard key={post._id} post={post} />;
+                                return <PostCard key={post.id} post={post} />;
                             })}
                     </div>
 

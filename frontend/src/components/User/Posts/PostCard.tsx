@@ -26,7 +26,7 @@ export const PostCard: React.FC<Props> = (props) => {
     const endTime = dayjs(dateTimeConvert).add(2, "hour").format("HH:mm");
 
     return (
-        <Link to={`/post/${post._id}`}>
+        <Link to={`/post/${post.id}`}>
             <div className="flex p-2 rounded-xl shadow-[rgba(0,0,0,0.1)_0px_2px_20px_0px]">
                 <div className="relative rounded-lg overflow-hidden flex-shrink-0 mr-3 sm:mr-4 min-w-[120px] sm:min-w-[200px] min-h-[150px] sm:min-h-[166px]">
                     <img

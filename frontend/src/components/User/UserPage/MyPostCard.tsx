@@ -51,7 +51,7 @@ export const MyPostCard: React.FC<Props> = (props) => {
             return;
         }
 
-        postService.delete(post._id, user?.accessToken).then(() => {
+        postService.delete(post.id, user?.accessToken).then(() => {
             message.success("Xóa bài viết thành công");
         });
     };
