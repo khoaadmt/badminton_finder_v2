@@ -3,17 +3,13 @@ import {
     HttpStatus,
     Inject,
     Injectable,
-    Req,
-    Res,
+    NotFoundException,
     forwardRef,
 } from '@nestjs/common';
 import { BookingRepository } from '../repository/booking.repository';
-import { CreateBookingDto } from '../dto/createBooking.dto';
 import { ShiftService } from 'src/shift/services/shift.service';
 import { PaymentService } from 'src/payment/payment.service';
-import { ObjectId } from 'mongodb';
-
-const dayjs = require('dayjs');
+import { CreateBookingDto } from '../dto/createBooking.dto';
 
 @Injectable()
 export class BookingService {
@@ -25,14 +21,10 @@ export class BookingService {
     ) {}
 
     async createBooking(createBookingDto: CreateBookingDto) {
-        const courtIdObj = new ObjectId(createBookingDto.courtId);
-        const locationIdObj = new ObjectId(createBookingDto.locationId);
-        const shiftIdObj = new ObjectId(createBookingDto.shiftId);
-
         const isBooked = await this.bookingrepository.findBooking(
-            locationIdObj,
-            courtIdObj,
-            shiftIdObj,
+            createBookingDto.locationId,
+            createBookingDto.courtId,
+            createBookingDto.shiftId,
             createBookingDto.date,
         );
 
@@ -46,34 +38,33 @@ export class BookingService {
             createBookingDto.shiftId,
         );
         const price = shift.price;
-        const date = dayjs().format('YYYY-MM-DD');
 
         const data = {
             ...createBookingDto,
-            username: createBookingDto.userName,
+
             price,
-            locationId: locationIdObj,
-            shiftId: shiftIdObj,
-            courtId: courtIdObj,
-            createdAt: date,
         };
         const booking = await this.bookingrepository.createBooking(data);
 
         const resZaloPayment = await this.paymentService.createZaloPayment(
             price,
-            booking._id.toString(),
+            booking[0].id.toString(),
         );
         return resZaloPayment.order_url;
     }
 
-    async updateBookingById(id: string) {
-        return await this.bookingrepository.updateBookingById(id);
-    }
-
-    async updateStatus(bookingId: string) {
+    async updateStatus(bookingId: number, status: string) {
         try {
-            const status = 'cancel';
-            await this.bookingrepository.updateStatus(bookingId, status);
+            const existingBooking =
+                await this.bookingrepository.findBookingById(bookingId);
+
+            if (!existingBooking) {
+                throw new NotFoundException('Booking not found');
+            }
+
+            existingBooking.status = status;
+            await this.bookingrepository.update(existingBooking);
+
             return { message: 'update status success' };
         } catch (err) {
             console.log('Error:', err);
@@ -132,8 +123,8 @@ export class BookingService {
             const date = new Date(booking.createdAt);
             const m = date.getMonth() + 1;
             if (month == m) {
-                if (booking.price) {
-                    totalSales += booking.price;
+                if (booking.shift.price) {
+                    totalSales += booking.shift.price;
                 }
             }
         });
@@ -160,14 +151,16 @@ export class BookingService {
         return result;
     }
 
-    async getTransactionsInDay(day: string, locationId: string) {
+    async getTransactionsInDay(today: string, locationId: string) {
         let bookings = await this.bookingrepository.findBookingsSuccess();
         if (locationId !== null && locationId != 'all') {
             bookings = bookings.filter((booking) => {
                 return booking.locationId.toString() === locationId;
             });
         }
-        const result = bookings.filter((booking) => booking.createdAt == day);
+        const result = bookings.filter(
+            (booking) => booking.createdAt == new Date(today),
+        );
 
         return result;
     }

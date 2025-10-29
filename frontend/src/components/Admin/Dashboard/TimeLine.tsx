@@ -38,27 +38,24 @@ const TimeLine: FC<{ loading: boolean }> = ({ loading }) => {
     const [data, setData] = useState<ChartLineData[] | undefined>([]);
 
     useEffect(() => {
-        const fetchSales = async () => {
-            try {
-                const salesPromisesHN = [];
-                const salesPromisesHCM = [];
-                for (let i = 1; i <= 12; i++) {
-                    salesPromisesHN.push(bookingService.getTotalSales(i, "Hà Nội"));
-                    salesPromisesHCM.push(bookingService.getTotalSales(i, "Hồ Chí Minh"));
-                }
-
-                const salesResultsHN = await Promise.all(salesPromisesHN);
-                setTotalSalesHN(salesResultsHN.map((sale) => sale.data));
-
-                const salesResultsHCM = await Promise.all(salesPromisesHCM);
-                setTotalSalesHCM(salesResultsHCM.map((sale) => sale.data));
-            } catch (error) {
-                message.error("Có lỗi khi lấy dữ liệu từ server");
-                console.error("Lỗi khi lấy dữ liệu bán hàng:", error);
-            }
-        };
-
-        fetchSales();
+        // const fetchSales = async () => {
+        //     try {
+        //         const salesPromisesHN = [];
+        //         const salesPromisesHCM = [];
+        //         for (let i = 1; i <= 12; i++) {
+        //             salesPromisesHN.push(bookingService.getTotalSales(i, "Hà Nội"));
+        //             salesPromisesHCM.push(bookingService.getTotalSales(i, "Hồ Chí Minh"));
+        //         }
+        //         const salesResultsHN = await Promise.all(salesPromisesHN);
+        //         setTotalSalesHN(salesResultsHN.map((sale) => sale.data));
+        //         const salesResultsHCM = await Promise.all(salesPromisesHCM);
+        //         setTotalSalesHCM(salesResultsHCM.map((sale) => sale.data));
+        //     } catch (error) {
+        //         message.error("Có lỗi khi lấy dữ liệu từ server");
+        //         console.error("Lỗi khi lấy dữ liệu bán hàng:", error);
+        //     }
+        // };
+        // fetchSales();
     }, []);
 
     useEffect(() => {
@@ -71,8 +68,6 @@ const TimeLine: FC<{ loading: boolean }> = ({ loading }) => {
             setData(chartData);
         }
     }, [totalSalesHN, totalSalesHCM]);
-    console.log("totalSalesHCM :", totalSalesHCM);
-    console.log("totalSalesHN :", totalSalesHN);
 
     return (
         <Card loading={loading} style={{ marginTop: 12 }}>

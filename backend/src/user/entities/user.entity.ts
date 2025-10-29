@@ -1,3 +1,4 @@
+import { Booking } from 'src/booking/entities/booking.entity';
 import { Post } from 'src/posts/entities/post.entity';
 import {
     Column,
@@ -54,4 +55,7 @@ export class User {
 
     @OneToMany(() => Post, (post) => post.user)
     posts: Post[];
+
+    @OneToMany(() => Booking, (booking) => booking.user)
+    bookings: Booking[];
 }

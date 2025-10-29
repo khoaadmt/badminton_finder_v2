@@ -1,3 +1,4 @@
+import { Booking } from 'src/booking/entities/booking.entity';
 import { Court } from 'src/court/entities/court.entity';
 import { Post } from 'src/posts/entities/post.entity';
 import { Shift } from 'src/shift/entities/Shift.entity';
@@ -57,4 +58,7 @@ export class LocationEntity {
 
     @OneToMany(() => Post, (post) => post.location)
     posts: Post[];
+
+    @OneToMany(() => Booking, (booking) => booking.location)
+    bookings: Booking[];
 }

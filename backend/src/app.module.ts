@@ -8,6 +8,9 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { LocationModule } from './location/location.module';
 import { PostsModule } from './posts/posts.module';
+import { BookingModule } from './booking/booking.module';
+import { CourtModule } from './court/court.module';
+import { ShiftModule } from './shift/shift.module';
 
 @Module({
     imports: [
@@ -27,16 +30,15 @@ import { PostsModule } from './posts/posts.module';
             },
             inject: [ConfigService],
         }),
-        // Các module khác của project
         LocationModule,
         PostsModule,
         AuthModule,
         // UploadModule,
         UserModule,
         // PaymentModule,
-        // CourtModule,
-        // ShiftModule,
-        // BookingModule,
+        CourtModule,
+        ShiftModule,
+        BookingModule,
     ],
     providers: [],
 })

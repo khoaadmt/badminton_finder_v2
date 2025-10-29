@@ -1,5 +1,12 @@
+import { Booking } from 'src/booking/entities/booking.entity';
 import { LocationEntity } from 'src/location/entities/location.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Court {
@@ -11,4 +18,7 @@ export class Court {
 
     @ManyToOne(() => LocationEntity, (location) => location.courts)
     location: LocationEntity;
+
+    @OneToMany(() => Booking, (booking) => booking.court)
+    bookings: Booking[];
 }

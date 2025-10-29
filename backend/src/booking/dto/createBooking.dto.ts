@@ -12,7 +12,7 @@ export class CreateBookingDto {
     shiftId: number;
 
     @IsNotEmpty()
-    locationId: string;
+    locationId: number;
 
     @IsNotEmpty()
     date: string;

@@ -1,7 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
+import { Booking } from 'src/booking/entities/booking.entity';
 import { LocationEntity } from 'src/location/entities/location.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 @Entity()
 export class Shift {
     @PrimaryGeneratedColumn()
@@ -24,5 +31,7 @@ export class Shift {
 
     @ManyToOne(() => LocationEntity, (location) => location.shifts)
     location: LocationEntity;
+
+    @OneToMany(() => Booking, (booking) => booking.shift)
+    bookings: Booking[];
 }
-export const ShiftSchema = SchemaFactory.createForClass(Shift);
