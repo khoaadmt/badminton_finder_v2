@@ -28,12 +28,13 @@ export const EditLocationModal: React.FC<Prop> = (prop) => {
     const user = useSelector((state: RootState) => state.auth.login.currentUser);
 
     const onFinish = async (values: any) => {
+        console.log("values :", values);
         if (coordinates?.lat != null && coordinates?.lng != null) {
-            values.latitude = coordinates.lat;
-            values.longitude = coordinates.lng;
+            values.latitude = Number(coordinates.lat);
+            values.longitude = Number(coordinates.lng);
         } else {
-            values.latitude = data?.latitude;
-            values.longitude = data?.longitude;
+            values.latitude = Number(data?.latitude);
+            values.longitude = Number(data?.longitude);
         }
 
         values.address = address;
@@ -52,6 +53,7 @@ export const EditLocationModal: React.FC<Prop> = (prop) => {
                 .updateLocation(data.id, values, user?.accessToken)
                 .then(() => {
                     message.success("Cập nhật thông tin thành công");
+                    setIsModalOpen(false);
                 })
                 .catch((error) => {
                     message.error("Có lỗi khi updated thông tin sân");

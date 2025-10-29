@@ -1,5 +1,5 @@
 import { CaretDownOutlined, CaretUpOutlined, InfoCircleOutlined } from "@ant-design/icons";
-import { Badge, Card, Col, Progress, Tooltip, theme } from "antd";
+import { Badge, Card, Col, Progress, Tooltip, message, theme } from "antd";
 import { Content } from "antd/es/layout/layout";
 import React, { FC, useEffect, useState } from "react";
 import { Area, AreaChart, Bar, BarChart, ResponsiveContainer, Tooltip as RTooltip, XAxis } from "recharts";
@@ -106,20 +106,32 @@ export const Overview: FC<{ loading: boolean }> = ({ loading }) => {
         const toDay = dayjs().format("YYYY-MM-DD");
         const yesterday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
 
-        bookingService.getTransactionInDay(toDay, "all").then((response) => {
-            const totalSales = response.data.reduce((acc: number, trans: any) => {
-                return acc + trans.price;
-            }, 0);
-            setTotalSalesToDay(totalSales);
-        });
-        bookingService.getTransactionInDay(yesterday, "all").then((response) => {
-            const totalSales = response.data.reduce((acc: number, trans: any) => {
-                return acc + trans.price;
-            }, 0);
-            setTotalSalesYesterday(totalSales);
-        });
+        bookingService
+            .getTransactionInDay(toDay, "all")
+            .then((response) => {
+                const totalSales = response.data.reduce((acc: number, trans: any) => {
+                    return acc + trans.price;
+                }, 0);
+                setTotalSalesToDay(totalSales);
+            })
+            .catch((err) => {
+                console.log(err);
+                message.error("Có lỗi khi lấy dữ liệu giao dịch hôm nay từ server");
+            });
+        bookingService
+            .getTransactionInDay(yesterday, "all")
+            .then((response) => {
+                const totalSales = response.data.reduce((acc: number, trans: any) => {
+                    return acc + trans.price;
+                }, 0);
+                setTotalSalesYesterday(totalSales);
+            })
+            .catch((err) => {
+                console.log(err);
+                message.error("Có lỗi khi lấy dữ liệu giao dịch hôm qua từ server");
+            });
     }, []);
-    console.log("Total sales: ", totalSalesToDay);
+
     return (
         <Content className="dashboard-content">
             <div className="container-card grid grid-cols-1  gap-4">

@@ -1,6 +1,6 @@
 import { useEffect, useState, type FC } from "react";
 
-import { Badge, Card } from "antd";
+import { Badge, Card, message } from "antd";
 import dayjs from "dayjs";
 import { Brush, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import BookingService from "../../../services/booking/BookingService";
@@ -37,7 +37,6 @@ const TimeLine: FC<{ loading: boolean }> = ({ loading }) => {
     const [totalSalesHCM, setTotalSalesHCM] = useState<number[]>([]);
     const [data, setData] = useState<ChartLineData[] | undefined>([]);
 
-    // Lấy dữ liệu bán hàng cho Hà Nội và Hồ Chí Minh
     useEffect(() => {
         const fetchSales = async () => {
             try {
@@ -54,6 +53,7 @@ const TimeLine: FC<{ loading: boolean }> = ({ loading }) => {
                 const salesResultsHCM = await Promise.all(salesPromisesHCM);
                 setTotalSalesHCM(salesResultsHCM.map((sale) => sale.data));
             } catch (error) {
+                message.error("Có lỗi khi lấy dữ liệu từ server");
                 console.error("Lỗi khi lấy dữ liệu bán hàng:", error);
             }
         };

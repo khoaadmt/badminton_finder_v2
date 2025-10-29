@@ -69,17 +69,23 @@ export const OverviewLocationPage = () => {
             return;
         }
         console.log("record :", record);
-        locationService.deleteLocation(record._id, user?.accessToken).then(() => {
-            message.success("Xóa sân cầu thành công");
-            setReload((prev) => prev + 1);
-        });
+        locationService
+            .deleteLocation(record._id, user?.accessToken)
+            .then(() => {
+                message.success("Xóa sân cầu thành công");
+                setReload((prev) => prev + 1);
+            })
+            .catch((err) => {
+                console.log(err);
+                message.error(err.message);
+            });
     };
 
     useEffect(() => {
         locationService
             .getAllLocation()
             .then((res) => {
-                setLocations(res.data);
+                setLocations(res.data.locations);
             })
             .catch((err) => {
                 console.log("err :", err);

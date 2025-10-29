@@ -276,7 +276,7 @@ export class LocationService {
         try {
             const existingLocation =
                 await this.locationRepository.findById(locationId);
-            if (!location) {
+            if (!existingLocation) {
                 throw new HttpException(
                     'Location not found',
                     HttpStatus.NOT_FOUND,
@@ -284,7 +284,7 @@ export class LocationService {
             }
             await this.locationRepository.update(locationId, updateLocationDto);
             return {
-                message: 'Location deleted successfully',
+                message: 'Location update successfully',
             };
         } catch (error) {
             throw new HttpException(
