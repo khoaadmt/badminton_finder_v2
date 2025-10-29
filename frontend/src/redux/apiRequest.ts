@@ -62,7 +62,7 @@ export const updateUserInfo = async (dispatch: any, valuesUpdate: any, user: any
             }
         )
         .then((res: any) => {
-            const newUser = res.data.user;
+            const newUser = res.data.data.user;
             newUser.username = user.username;
             newUser.accessToken = user.accessToken;
             newUser.refreshToken = user.refreshToken;

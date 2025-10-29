@@ -1,25 +1,37 @@
-import BaseService from "../BaseService";
+import { message } from "antd";
+import { supabase } from "../../utils/supabaseClient";
+import { RcFile } from "antd/es/upload";
 
-const URL = "http://localhost:5000/api/upload";
-const configHeaders = {
-    headers: {
-        "Content-Type": "multipart/form-data",
-    },
-};
-class UpLoadService extends BaseService {
-    constructor() {
-        super(URL, configHeaders);
-    }
-    uploadAvatar(formData: FormData) {
-        return this.post("avatar", formData, configHeaders);
+class UpLoadService {
+    private bucketName = "image";
+
+    async uploadImages(files: RcFile[]): Promise<string[]> {
+        const uploadPromises = files.map(async (file) => {
+            try {
+                const fileName = `${Date.now()}_${file.name}`;
+                const filePath = `uploads/${fileName}`;
+
+                const { error } = await supabase.storage
+                    .from(this.bucketName)
+                    .upload(filePath, file, { cacheControl: "3600", upsert: false });
+
+                if (error) throw error;
+
+                return this.getUrl(filePath);
+            } catch (err) {
+                message.error("Có lỗi xảy ra khi upload ảnh");
+                return null;
+            }
+        });
+
+        const results = await Promise.all(uploadPromises);
+        return results.filter((url): url is string => url !== null);
     }
 
-    uploadLocationImage(formData: FormData) {
-        return this.post("location", formData, configHeaders);
-    }
-
-    uploadPostImage(formData: FormData) {
-        return this.post("post", formData, configHeaders);
+    getUrl(path: string): string {
+        const { data } = supabase.storage.from(this.bucketName).getPublicUrl(path);
+        return data.publicUrl;
     }
 }
-export default UpLoadService;
+
+export default new UpLoadService();

@@ -1,14 +1,14 @@
-import { Avatar, Button, Form, Space, Input, Row, Col, message, UploadFile, Upload, UploadProps } from "antd";
+import { Avatar, Button, Form, Space, Input, Row, Col, UploadFile } from "antd";
 import { SearchPageHeader } from "../SearchPage/header/SearchPageHeader";
 import { EditOutlined } from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PicturesWall } from "../Posts/PictureWall/PicturesWall";
 import { RootState } from "../../../interface";
 import { updateUserInfo } from "../../../redux/apiRequest";
-import UpLoadService from "../../../services/uploads/UploadService";
 import "./user-profile.css";
-import { Legend } from "recharts";
+import UploadService from "../../../services/uploads/UploadService";
+import { RcFile } from "antd/es/upload";
 
 export const UserProfile = () => {
     const user = useSelector((state: RootState) => state.auth.login.currentUser);
@@ -21,7 +21,6 @@ export const UserProfile = () => {
     const [isEditable, setIsEditable] = useState(initInputState);
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const dispatch = useDispatch();
-    const uploadService = new UpLoadService();
 
     const rules = {
         displayName: [
@@ -67,18 +66,16 @@ export const UserProfile = () => {
     };
 
     const handleFormFinish = async (values: any) => {
-        const formData = new FormData();
-        fileList.forEach((file) => {
-            formData.append("files", file.originFileObj as File);
-        });
+        console.log("values UI:", values);
+        const files: RcFile[] = fileList.map((f) => f.originFileObj).filter((f): f is RcFile => !!f);
 
-        const avaUrlResponse = await uploadService.uploadAvatar(formData);
-        if (avaUrlResponse.data.length > 0) {
-            values.avaUrl = avaUrlResponse.data[0].url;
-        }
+        const avaUrlResponse = await UploadService.uploadImages(files);
+
+        values.avaUrl = avaUrlResponse[0];
 
         updateUserInfo(dispatch, values, user);
         setIsEditable(initInputState);
+        setFileList([]);
     };
 
     useEffect(() => {
@@ -88,6 +85,7 @@ export const UserProfile = () => {
             setIsChangeAvatar(true);
         }
     }, [fileList]);
+
     return (
         <div className="user-profile">
             <SearchPageHeader defaultSelectedKeys="0" />
