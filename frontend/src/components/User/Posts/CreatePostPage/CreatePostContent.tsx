@@ -10,13 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interface";
 import LocationService from "../../../../services/location/LocationService";
 import PostService from "../../../../services/post/PostService";
-import UpLoadService from "../../../../services/uploads/UploadService";
 import { genderOptions, memberLevels } from "../../../../utils/Constant";
 import { notJustNumber } from "../../../Auth/validationSchema";
 import { CustomDynamicForm } from "../form/CustomDynamicForm";
 import { tagRender } from "../tagRender";
 import "./createpost.css";
 import { useNavigate } from "react-router-dom";
+import UploadService from "../../../../services/uploads/UploadService";
+import { RcFile } from "antd/es/upload";
 
 export const CreatePostContent: React.FC = () => {
     const [phones, setPhones] = useState([""]);
@@ -25,7 +26,6 @@ export const CreatePostContent: React.FC = () => {
     const user = useSelector((state: RootState) => state.auth.login.currentUser);
     const dispatch = useDispatch();
     const postService = new PostService();
-    const uploadService = new UpLoadService();
     const locationService = new LocationService();
     const [disablePriceInput, setDisablePriceInput] = useState(false);
     const navigate = useNavigate();
@@ -60,10 +60,7 @@ export const CreatePostContent: React.FC = () => {
             location_id: Yup.number().required("Required"),
         }),
         onSubmit: async (values) => {
-            const formData = new FormData();
-            fileList.forEach((file) => {
-                formData.append("files", file.originFileObj as File);
-            });
+            const files: RcFile[] = fileList.map((f) => f.originFileObj).filter((f): f is RcFile => !!f);
 
             try {
                 let resPostId;
@@ -78,9 +75,8 @@ export const CreatePostContent: React.FC = () => {
                 resPostId = await postService.createPost(createPostPayload, user?.accessToken);
                 const postId = resPostId.data.post;
 
-                if (Array.from(formData.entries()).length > 0) {
-                    formData.append("postId", String(postId));
-                    const res = await uploadService.uploadPostImage(formData);
+                if (files.length > 0) {
+                    const imgUrl = await UploadService.uploadImages(files);
                 }
                 message.success("Tin của bạn đã được tải lên !");
                 setTimeout(() => {

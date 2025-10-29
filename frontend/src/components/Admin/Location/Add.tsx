@@ -7,10 +7,10 @@ import LocationService from "../../../services/location/LocationService";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../interface";
 import dayjs, { Dayjs } from "dayjs";
-import UpLoadService from "./../../../services/uploads/UploadService";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
-import { Response } from "express";
+import UploadService from "../../../services/uploads/UploadService";
+import { RcFile } from "antd/es/upload";
 export const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
@@ -32,7 +32,6 @@ export const AddLocationPage = () => {
     const [coordinates, setCoordinates] = useState<Coordinates>(null);
     const [address, setAddress] = useState("");
     const locationService = new LocationService();
-    const upLoadService = new UpLoadService();
     const user = useSelector((state: RootState) => state.auth.login.currentUser);
     const navigate = useNavigate();
 
@@ -52,12 +51,9 @@ export const AddLocationPage = () => {
             end: dayjs(values.openHours[1]).format("HH:mm"),
         };
 
-        const formData = new FormData();
-        fileList.forEach((file) => {
-            formData.append("files", file.originFileObj as File);
-        });
-        const img = await upLoadService.uploadLocationImage(formData);
-        values.img = img?.data;
+        const files: RcFile[] = fileList.map((f) => f.originFileObj).filter((f): f is RcFile => !!f);
+        const imgurl = await UploadService.uploadImages(files);
+        values.img = imgurl[0];
 
         locationService
             .createLocation(values, user?.accessToken)

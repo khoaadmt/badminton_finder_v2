@@ -1,14 +1,15 @@
 import { Button, Form, Input, InputNumber, message, Modal, Space, TimePicker, UploadFile } from "antd";
-import React, { FC, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MyFormItem } from "../../common/InputFIeld/MyFormItem";
 import { PicturesWall } from "../../User/Posts/PictureWall/PicturesWall";
 import { AutoCompleteLocation } from "./AutoCompleteLocation";
 import { Coordinates, formItemLayout } from "./Add";
 import dayjs from "dayjs";
-import { Facility, Location, RootState } from "../../../interface";
+import { Facility, RootState } from "../../../interface";
 import LocationService from "../../../services/location/LocationService";
 import { useSelector } from "react-redux";
-import UpLoadService from "../../../services/uploads/UploadService";
+import UploadService from "../../../services/uploads/UploadService";
+import { RcFile } from "antd/es/upload";
 
 interface Prop {
     isModalOpen: boolean;
@@ -24,7 +25,6 @@ export const EditLocationModal: React.FC<Prop> = (prop) => {
     const [address, setAddress] = useState("");
     const [form] = Form.useForm();
     const locationService = new LocationService();
-    const upLoadService = new UpLoadService();
     const user = useSelector((state: RootState) => state.auth.login.currentUser);
 
     const onFinish = async (values: any) => {
@@ -42,16 +42,20 @@ export const EditLocationModal: React.FC<Prop> = (prop) => {
             end: dayjs(values.openHours[1]).format("HH:mm"),
         };
 
-        const formData = new FormData();
-        fileList.forEach((file) => {
-            formData.append("files", file.originFileObj as File);
-        });
-        const img = await upLoadService.uploadLocationImage(formData);
-        values.img = img?.data;
+        const files: RcFile[] = fileList.map((f) => f.originFileObj).filter((f): f is RcFile => !!f);
+
+        const imgUrl = await UploadService.uploadImages(files);
+
+        values.img = imgUrl;
         if (data?.id) {
-            locationService.updateLocation(data.id, values, user?.accessToken).then(() => {
-                message.success("Cập nhật thông tin thành công");
-            });
+            locationService
+                .updateLocation(data.id, values, user?.accessToken)
+                .then(() => {
+                    message.success("Cập nhật thông tin thành công");
+                })
+                .catch((error) => {
+                    message.error("Có lỗi khi updated thông tin sân");
+                });
         }
     };
 

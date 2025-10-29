@@ -66,7 +66,6 @@ export const UserProfile = () => {
     };
 
     const handleFormFinish = async (values: any) => {
-        console.log("values UI:", values);
         const files: RcFile[] = fileList.map((f) => f.originFileObj).filter((f): f is RcFile => !!f);
 
         const avaUrlResponse = await UploadService.uploadImages(files);
