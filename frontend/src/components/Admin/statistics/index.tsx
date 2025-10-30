@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout, { Content, Header } from "antd/es/layout/layout";
-import { Button, Select } from "antd";
+import { Button, message, Select } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import "./index.css";
 
@@ -91,7 +91,7 @@ export const StatisticsPage: React.FC = () => {
     const downloadCSV = () => {
         if (data) {
             const csv = convertToCSV(processData(data));
-            const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" }); // Đảm bảo mã hóa UTF-8
+            const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.setAttribute("href", url);
@@ -115,19 +115,34 @@ export const StatisticsPage: React.FC = () => {
         const date = dayjs();
         if (transactionTime === "day") {
             const day = date.format("YYYY-MM-DD");
-            bookingService.getTransactionInDay(day, locationSelected).then((res) => {
-                setData(res.data);
-            });
+            bookingService
+                .getTransactionInDay(day, locationSelected)
+                .then((res) => {
+                    setData(res.data);
+                })
+                .catch((err) => {
+                    message.error("Có lỗi khi lấy dữ liệu giao dịch từ server");
+                });
         }
         if (transactionTime === "month" && monthSelected != undefined) {
-            bookingService.getTransactionInMonth(monthSelected, locationSelected).then((res) => {
-                setData(res.data);
-            });
+            bookingService
+                .getTransactionInMonth(monthSelected, locationSelected)
+                .then((res) => {
+                    setData(res.data);
+                })
+                .catch((err) => {
+                    message.error("Có lỗi khi lấy dữ liệu giao dịch từ server");
+                });
         }
         if (transactionTime === "all") {
-            bookingService.getAllTransaction(locationSelected).then((res) => {
-                setData(res.data);
-            });
+            bookingService
+                .getAllTransaction(locationSelected)
+                .then((res) => {
+                    setData(res.data);
+                })
+                .catch((err) => {
+                    message.error("Có lỗi khi lấy dữ liệu giao dịch từ server");
+                });
         }
     }, [transactionTime, monthSelected, locationSelected]);
 
@@ -146,17 +161,21 @@ export const StatisticsPage: React.FC = () => {
         const date = dayjs();
         setMonthSelected(date.month() + 1);
         locationService.getAllLocation().then((res) => {
-            const locationOptions = res.data.map((data: any) => {
-                return {
-                    value: data._id,
-                    label: data.name,
-                };
-            });
-            locationOptions.unshift({
-                value: "all",
-                label: "Tất cả",
-            });
-            setLocationOptions(locationOptions);
+            if (res.data.locations) {
+                console.log("res.data.locations :", res.data.locations);
+                const locationOptions = res.data.locations.map((location: any) => {
+                    return {
+                        value: location.id,
+                        label: location.name,
+                    };
+                });
+
+                locationOptions.unshift({
+                    value: "all",
+                    label: "Tất cả",
+                });
+                setLocationOptions(locationOptions);
+            }
         });
     }, []);
 

@@ -80,14 +80,18 @@ const Field: FC<FieldProps> = ({ name, number }) => (
     </div>
 );
 
-const CustomTooltip: FC<any> = ({ active, payload, label }) =>
-    active && (
-        <div className="customTooltip">
-            <span className="customTooltip-title">
-                <Badge color={payload[0].fill} /> {label} : {payload[0].value}
-            </span>
-        </div>
-    );
+const CustomTooltip: FC<any> = ({ active, payload, label }) => {
+    if (active && payload && payload.length > 0) {
+        return (
+            <div className="customTooltip">
+                <span className="customTooltip-title">
+                    <Badge color={payload[0].fill} /> {label} : {payload[0].value}
+                </span>
+            </div>
+        );
+    }
+    return null;
+};
 
 export const Overview: FC<{ loading: boolean }> = ({ loading }) => {
     const bookingService = new BookingService();

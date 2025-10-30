@@ -35,7 +35,7 @@ export class BookingController {
     @Get(':month/total-sales')
     getTotalSalesInMonth(
         @Param('month') month: number,
-        @Query('locationId') locationId: string,
+        @Query('locationId') locationId: number,
         @Query('city') city: string,
     ) {
         return this.bookingService.getTotalSalesInMonth(

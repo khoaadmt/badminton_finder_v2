@@ -100,7 +100,7 @@ export class BookingService {
 
     async getTotalSalesInMonth(
         month: number,
-        locationId: string,
+        locationId: number,
         city: string,
     ) {
         const bookings = await this.bookingrepository.findBookingsSuccess();
@@ -108,9 +108,7 @@ export class BookingService {
         let totalSales = 0;
 
         let filteredBookings = locationId
-            ? bookings.filter(
-                  (booking) => booking.locationId.toString() === locationId,
-              )
+            ? bookings.filter((booking) => booking.locationId === locationId)
             : bookings;
 
         if (city) {
@@ -129,7 +127,13 @@ export class BookingService {
             }
         });
 
-        return totalSales;
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'success',
+            data: {
+                totalSales,
+            },
+        };
     }
 
     async getTransactionsInMonth(month: number, locationId: string) {
