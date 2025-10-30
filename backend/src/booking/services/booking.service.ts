@@ -148,7 +148,11 @@ export class BookingService {
             }
         });
 
-        return result;
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'success',
+            data: result,
+        };
     }
 
     async getTransactionsInDay(today: string, locationId: string) {

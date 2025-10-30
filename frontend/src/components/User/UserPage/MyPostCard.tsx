@@ -170,7 +170,7 @@ export const MyPostCard: React.FC<Props> = (props) => {
                             <div>
                                 {postDetail?.phones.map((phone) => {
                                     return (
-                                        <span>
+                                        <span key={phone}>
                                             <p className="pb-2 text-neutral-600 whitespace-pre-line   sm:block">
                                                 <Button
                                                     onClick={() => handleBtnZaloCick(phone)}

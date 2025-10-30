@@ -109,22 +109,26 @@ export const Overview: FC<{ loading: boolean }> = ({ loading }) => {
         bookingService
             .getTransactionInDay(toDay, "all")
             .then((response) => {
-                const totalSales = response.data.reduce((acc: number, trans: any) => {
-                    return acc + trans.price;
-                }, 0);
-                setTotalSalesToDay(totalSales);
+                if (response.data) {
+                    const totalSales = response.data.reduce((acc: number, trans: any) => {
+                        return acc + trans.price;
+                    }, 0);
+                    setTotalSalesToDay(totalSales);
+                }
             })
             .catch((err) => {
-                console.log(err);
                 message.error("Có lỗi khi lấy dữ liệu giao dịch hôm nay từ server");
             });
+
         bookingService
             .getTransactionInDay(yesterday, "all")
             .then((response) => {
-                const totalSales = response.data.reduce((acc: number, trans: any) => {
-                    return acc + trans.price;
-                }, 0);
-                setTotalSalesYesterday(totalSales);
+                if (response.data) {
+                    const totalSales = response.data.reduce((acc: number, trans: any) => {
+                        return acc + trans.price;
+                    }, 0);
+                    setTotalSalesYesterday(totalSales);
+                }
             })
             .catch((err) => {
                 console.log(err);

@@ -23,7 +23,12 @@ export const ReviewPostPage = () => {
     return (
         <div className="max-w-[884px] sm:px-3 mx-auto mb-5 sm:mt-5">
             {posts?.map((post) => (
-                <PostCard postDetail={post} status={"pending"} setChangeStatusPost={setChangeStatusPost} />
+                <PostCard
+                    key={post.id}
+                    postDetail={post}
+                    status={"pending"}
+                    setChangeStatusPost={setChangeStatusPost}
+                />
             ))}
         </div>
     );
