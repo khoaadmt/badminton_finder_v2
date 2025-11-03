@@ -20,9 +20,9 @@ import { RootState, Optional, BadmintonVenue } from "../../../../interface";
 import BookingService from "../../../../services/booking/BookingService";
 import LocationService from "../../../../services/location/LocationService";
 import { RiseOutlined } from "@ant-design/icons";
-const map_icon = require("../../../assets/images/map.png");
-const support_icon = require("../../../assets/images/support.png");
-const Badminton_yard = require("../../../assets/images/san-cau-long.png");
+const map_icon = require("../../../../assets/images/map.png");
+const support_icon = require("../../../../assets/images/support.png");
+const Badminton_yard = require("../../../../assets/images/san-cau-long.png");
 
 const createInitDate = () => {
   const timeStamp = dayjs(Date.now());

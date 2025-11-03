@@ -3,8 +3,8 @@ import React from "react";
 import { FieldTimeOutlined, ForwardFilled, InfoCircleFilled } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import { Post } from "../../../interface";
-import { Level_value } from "../../../utils/Constant";
+import { Post } from "../../../../interface";
+import { Level_value } from "../../../../utils/Constant";
 
 interface Props {
     post: Post;

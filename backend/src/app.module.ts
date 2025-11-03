@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import * as crypto from 'crypto';
-(globalThis as any).crypto = crypto;
+
+if (!globalThis.crypto) {
+    (globalThis as any).crypto = crypto;
+}
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -11,6 +14,8 @@ import { PostsModule } from './posts/posts.module';
 import { BookingModule } from './booking/booking.module';
 import { CourtModule } from './court/court.module';
 import { ShiftModule } from './shift/shift.module';
+
+console.log('DATABASE_URL:', process.env.DATABASE_URL);
 
 @Module({
     imports: [

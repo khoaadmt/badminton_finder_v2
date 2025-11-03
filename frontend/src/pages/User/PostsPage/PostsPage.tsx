@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { PaginationComponent } from "../../LocationsPage/components/Pagination";
+import { PaginationComponent } from "../LocationsPage/components/Pagination";
 import { useSearchParams } from "react-router-dom";
-import { Post_options } from "../header/PostOptions";
-import { PostCard } from "../../PostsPage/PostCard";
+import { Post_options } from "../SearchPage/header/PostOptions";
+import { PostCard } from "./components/PostCard";
 import { message } from "antd";
 import { useSelector } from "react-redux";
-import { Post, FilterOptions, RootState } from "../../../../interface";
-import PostService from "../../../../services/post/PostService";
-import { getLocation } from "../../../../utils/location";
+import { Post, FilterOptions, RootState } from "../../../interface";
+import PostService from "../../../services/post/PostService";
+import { getLocation } from "../../../utils/location";
 
-export const SessionsPage = () => {
+export const PostsPage = () => {
   const [latitude, setLat] = useState<number | null>(null);
   const [longitude, setLong] = useState<number | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();

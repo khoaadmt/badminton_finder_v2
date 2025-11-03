@@ -8,7 +8,7 @@ import {
   TimePicker,
   UploadFile,
 } from "antd";
-import { PicturesWall } from "../../User/PostsPage/PictureWall/PicturesWall";
+import { PicturesWall } from "../../User/PostsPage/components/PictureWall/PicturesWall";
 import { useState } from "react";
 import { MyFormItem } from "../../../components/common/InputFIeld/MyFormItem";
 import { AutoCompleteLocation } from "./AutoCompleteLocation";

@@ -3,7 +3,7 @@ import { SearchPageHeader } from "../SearchPage/header/SearchPageHeader";
 import { EditOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { PicturesWall } from "../PostsPage/PictureWall/PicturesWall";
+import { PicturesWall } from "../PostsPage/components/PictureWall/PicturesWall";
 import { RootState } from "../../../interface";
 import { updateUserInfo } from "../../../redux/apiRequest";
 import "./UserProfile.css";
