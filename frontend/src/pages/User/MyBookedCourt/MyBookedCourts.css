@@ -1,0 +1,73 @@
+.booked-courts-card {
+    max-width: 30%;
+    border-radius: 18px;
+    background-color: #ebebebb6;
+    margin: 0 0 32px 0;
+}
+.booked-courts-img {
+    padding: 0 12px;
+    height: 160px;
+}
+.card-header {
+    padding: 12px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+}
+.card-content {
+    padding: 18px 12px;
+}
+
+.card-content .input-left {
+    font-weight: 700;
+    background-color: #4f4f88d0;
+    color: white;
+    font-size: 12px;
+    border-radius: 8px 0 0 8px;
+}
+.card-content .input-right {
+    font-size: 12px;
+    border-radius: 0 8px 8px 0;
+    border: none;
+}
+.booked-court-title {
+    font-size: 24px;
+    font-weight: 500;
+    padding: 6px 0 6px 42px;
+    background-image: linear-gradient(to right, #93a5cf, #e4efe9, #f0f2f0);
+    color: white;
+}
+@media (max-width: 768px) {
+    .booked-courts-card {
+        max-width: 95%;
+    }
+    .booked-court-title {
+        font-size: 18px;
+    }
+    .card-header {
+        font-size: 18px;
+    }
+}
+.btn_cancel {
+    display: block;
+    margin: 0 auto;
+}
+.card-image-container {
+    position: relative;
+    width: 100%;
+}
+
+.booked-courts-img {
+    width: 100%;
+    height: auto;
+}
+
+.booked-court-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}

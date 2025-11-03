@@ -1,0 +1,40 @@
+.my-form-item label.ant-form-item-required::before {
+    content: "" !important;
+}
+.my-form-item label.ant-form-item-required::after {
+    display: inline-block;
+    margin-inline-end: 4px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    content: "*";
+}
+.btn-submit {
+    background-color: green;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    padding: 8px 18px;
+}
+.btn-cancel {
+    background-color: red;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    padding: 8px 18px;
+}
+.btn-cancel:hover {
+    background-color: red !important;
+    color: white !important;
+    border: none;
+}
+.btn-submit {
+    background-color: green !important;
+    color: white !important;
+    border: none;
+}
+.add-location-modal {
+    width: 50% !important;
+    height: auto;
+}
