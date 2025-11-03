@@ -192,11 +192,6 @@ export class PostsService {
 
         if (filter.distance != null) {
             postsWithDistance = await postsWithDistance.filter((post) => {
-                console.log(
-                    'first: ',
-                    post.distance.value,
-                    post.distance.value <= parseInt(filter.distance) * 1000,
-                );
                 return post.distance.value <= parseInt(filter.distance) * 1000;
             });
         }

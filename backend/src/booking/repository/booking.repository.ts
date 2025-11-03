@@ -38,13 +38,14 @@ export class BookingRepository {
             .leftJoinAndSelect('booking.location', 'location')
             .leftJoinAndSelect('booking.court', 'court')
             .leftJoinAndSelect('booking.shift', 'shift')
+            .leftJoin('booking.user', 'user')
             .addSelect([
                 'user.id',
                 'user.displayName',
                 'user.username',
                 'user.avaUrl',
             ])
-            .where('booking.username = :username', { userName })
+            .where('booking.username = :username', { username: userName })
             .getMany();
         return bookings;
     }
@@ -55,7 +56,7 @@ export class BookingRepository {
             .leftJoinAndSelect('booking.location', 'location')
             .leftJoinAndSelect('booking.court', 'court')
             .leftJoinAndSelect('booking.shift', 'shift')
-            .leftJoin('booking.user', 'user') // ✅ thêm join user
+            .leftJoin('booking.user', 'user')
             .addSelect([
                 'user.id',
                 'user.displayName',

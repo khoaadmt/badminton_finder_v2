@@ -33,7 +33,6 @@ import { ShiftModule } from './shift/shift.module';
         LocationModule,
         PostsModule,
         AuthModule,
-        // UploadModule,
         UserModule,
         // PaymentModule,
         CourtModule,

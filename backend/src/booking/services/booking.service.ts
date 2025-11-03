@@ -81,6 +81,7 @@ export class BookingService {
         const bookings =
             await this.bookingrepository.findBookingsByUsername(username);
 
+        console.log('bookings :', bookings);
         const now = new Date();
         const updatedBookings = bookings.map((booking) => {
             const bookingDate = new Date(

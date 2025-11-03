@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SearchPageHeader } from "../SearchPage/header/SearchPageHeader";
 import { useSelector } from "react-redux";
 import "./my-booked-courts.css";
-import { Button, Input, Modal, Space } from "antd";
+import { Button, Input, message, Modal, Space } from "antd";
 import { MyFooter } from "../../Footer/Footer";
 import { CarryOutOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { BookedCourts, RootState } from "../../../interface";
@@ -18,10 +18,15 @@ export const MyBookedCourts = () => {
 
     useEffect(() => {
         if (user) {
-            bookingService.getBookingsByUserName(user?.username).then((res) => {
-                console.log(res.data);
-                setBookedCourts(res.data);
-            });
+            bookingService
+                .getBookingsByUserName(user?.username)
+                .then((res) => {
+                    console.log(res.data);
+                    setBookedCourts(res.data);
+                })
+                .catch((err) => {
+                    message.error("Đã có lỗi xảy ra khi lấy dữ liệu từ server.");
+                });
         }
     }, [reload]);
     const { confirm } = Modal;
