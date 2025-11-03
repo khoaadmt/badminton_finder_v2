@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils/api/supabaseClient";
 import { RcFile } from "antd/es/upload";
 
 class UpLoadService {

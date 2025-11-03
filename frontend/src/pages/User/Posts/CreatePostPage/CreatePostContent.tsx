@@ -12,12 +12,12 @@ import LocationService from "../../../../services/location/LocationService";
 import PostService from "../../../../services/post/PostService";
 import { genderOptions, memberLevels } from "../../../../utils/Constant";
 import { notJustNumber } from "../../../Auth/validationSchema";
-import { CustomDynamicForm } from "../form/CustomDynamicForm";
-import { tagRender } from "../tagRender";
-import "./createpost.css";
+import { CustomDynamicForm } from "../Form/CustomDynamicForm";
+import "./CreatePostPage.css";
 import { useNavigate } from "react-router-dom";
 import UploadService from "../../../../services/uploads/UploadService";
 import { RcFile } from "antd/es/upload";
+import { TagRender } from "../TagRender";
 
 export const CreatePostContent: React.FC = () => {
     const [phones, setPhones] = useState([""]);
@@ -247,7 +247,7 @@ export const CreatePostContent: React.FC = () => {
                                 placeholder="Giới tính"
                                 className="input-post w-full"
                                 mode="multiple"
-                                tagRender={tagRender}
+                                tagRender={TagRender}
                                 style={{ border: "2px solid #e5e7eb", width: "100%" }}
                                 defaultValue={[1]}
                                 options={genderOptions}
@@ -372,7 +372,7 @@ export const CreatePostContent: React.FC = () => {
                             <button
                                 id="cancel-post"
                                 type="button"
-                                className="relative bg-primary text-white disabled:opacity-70 disabled:cursor-not-allowed rounded-lg hover:opacity-80 transition w-full bg-white border-black text-black text-md py-3 font-semibold border-2">
+                                className="relative bg-primary  disabled:opacity-70 disabled:cursor-not-allowed rounded-lg hover:opacity-80 transition w-full bg-white border-black text-black text-md py-3 font-semibold border-2">
                                 Hủy
                             </button>
                             <button

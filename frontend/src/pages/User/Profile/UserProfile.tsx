@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { PicturesWall } from "../Posts/PictureWall/PicturesWall";
 import { RootState } from "../../../interface";
 import { updateUserInfo } from "../../../redux/apiRequest";
-import "./user-profile.css";
+import "./UserProfile.css";
 import UploadService from "../../../services/uploads/UploadService";
 import { RcFile } from "antd/es/upload";
 

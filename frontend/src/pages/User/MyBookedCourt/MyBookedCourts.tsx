@@ -1,13 +1,12 @@
-import React from "react";
 import { useEffect, useState } from "react";
-import { SearchPageHeader } from "../SearchPage/header/SearchPageHeader";
 import { useSelector } from "react-redux";
-import "./my-booked-courts.css";
+import "./MyBookedCourts.css";
 import { Button, Input, message, Modal, Space } from "antd";
-import { MyFooter } from "../../Footer/Footer";
 import { CarryOutOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { BookedCourts, RootState } from "../../../interface";
 import BookingService from "../../../services/booking/BookingService";
+import { MyFooter } from "../../Admin/Layout/Footer";
+import { SearchPageHeader } from "../SearchPage/header/SearchPageHeader";
 const Badminton_yard = require("../../../assets/images/sau-cau.png");
 
 export const MyBookedCourts = () => {

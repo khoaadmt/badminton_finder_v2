@@ -1,10 +1,10 @@
 import React from "react";
-import { InputSearch } from "../../components/User/SearchPage/input_search/InputSearch";
+import { InputSearch } from "../User/SearchPage/input_search/InputSearch";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../interface";
 import { setSuccessState } from "../../redux/authSlice";
-import { createAxios } from "../../components/createInstance";
+import { createAxios } from "../../utils/api/createInstance";
 import "./HomePage.css";
 import { IMAGES } from "../../utils/Constant";
 import { url } from "inspector";

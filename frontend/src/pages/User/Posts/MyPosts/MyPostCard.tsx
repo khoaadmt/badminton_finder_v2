@@ -1,13 +1,13 @@
 import React from "react";
 import { Button, Card, Carousel, message, Popconfirm, Radio, Space } from "antd";
-import { memberLevels } from "../../../utils/Constant";
 import { CheckCircleOutlined, CloseCircleOutlined, DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import { Post, RootState } from "../../../interface";
-import PostService from "../../../services/post/PostService";
-import "./user-profile.css";
 import { useSelector } from "react-redux";
-const map_icon = require("../../../assets/images/map.png");
-const support_icon = require("../../../assets/images/support.png");
+import { Post, RootState } from "../../../../interface";
+import PostService from "../../../../services/post/PostService";
+import { memberLevels } from "../../../../utils/Constant";
+// import "./UserProfile.css";
+const map_icon = require("../../../../assets/images/map.png");
+const support_icon = require("../../../../assets/images/support.png");
 
 interface Props {
     postDetail: Post;

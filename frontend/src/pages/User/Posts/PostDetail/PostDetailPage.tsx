@@ -6,9 +6,10 @@ import { Button, Carousel, message } from "antd";
 import { Post } from "../../../../interface";
 import PostService from "../../../../services/post/PostService";
 import { memberLevels } from "../../../../utils/Constant";
-import "./postdetail.css";
+import "./PostDetail.css";
 const map_icon = require("../../../../assets/images/map.png");
 const support_icon = require("../../../../assets/images/support.png");
+
 export const PostDetailPage = () => {
     const postService = new PostService();
     const { postId } = useParams();

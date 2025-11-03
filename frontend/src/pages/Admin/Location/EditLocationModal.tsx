@@ -1,6 +1,6 @@
 import { Button, Form, Input, InputNumber, message, Modal, Space, TimePicker, UploadFile } from "antd";
 import React, { useEffect, useState } from "react";
-import { MyFormItem } from "../../common/InputFIeld/MyFormItem";
+import { MyFormItem } from "../../../components/common/InputFIeld/MyFormItem";
 import { PicturesWall } from "../../User/Posts/PictureWall/PicturesWall";
 import { AutoCompleteLocation } from "./AutoCompleteLocation";
 import { Coordinates, formItemLayout } from "./Add";

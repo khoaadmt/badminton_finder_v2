@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PaginationComponent } from "../pagination/Pagination";
+import { PaginationComponent } from "../Pagination/Pagination";
 import { useSearchParams } from "react-router-dom";
 import { Post_options } from "../header/PostOptions";
 import { PostCard } from "../../Posts/PostCard";

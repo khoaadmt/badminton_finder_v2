@@ -1,4 +1,4 @@
-import { BASE_URL } from "../../utils/api.config";
+import { BASE_URL } from "../../utils/api/apiConfig";
 import BaseService from "../BaseService";
 
 const configHeaders = "";

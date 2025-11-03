@@ -1,29 +1,29 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { NotFoundPage } from "./components/NotFoundPage/NotFoundPage";
-import PrivateRoute from "./components/PrivateRoute";
-import { SocialRedirect } from "./components/Auth/GoogleRedirect/SocialRedirect";
-import { LoginPage } from "./components/Auth/LoginPage/LoginPage";
+import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
+import { SocialRedirect } from "./pages/Auth/GoogleRedirect/SocialRedirect";
+import { LoginPage } from "./pages/Auth/LoginPage/LoginPage";
 import { HomePage } from "./pages/HomePage/HomePage";
-import { LocationDetail } from "./components/User/Location/LocationDetail";
-import { CreatePostPage } from "./components/User/Posts/CreatePostPage/CreatePostPage";
-import { PostDetailPage } from "./components/User/Posts/PostDetail/PostDetailPage";
-import { SearchPage } from "./components/User/SearchPage/SearchPage";
-import { FacilitiesPage } from "./components/User/SearchPage/facilities_page/FacilitiesPage";
-import { SessionsPage } from "./components/User/SearchPage/sessions_page/SessionsPage";
-import { MyBookedCourts } from "./components/User/UserPage/MyBookedCourts";
-import { MyPost } from "./components/User/UserPage/MyPost";
-import { UserProfile } from "./components/User/UserPage/UserProfile";
+import { LocationDetail } from "./pages/User/Location/LocationDetail";
+import { CreatePostPage } from "./pages/User/Posts/CreatePostPage/CreatePostPage";
+import { PostDetailPage } from "./pages/User/Posts/PostDetail/PostDetailPage";
+import { SearchPage } from "./pages/User/SearchPage/SearchPage";
+import { FacilitiesPage } from "./pages/User/SearchPage/FacilitiesPage/FacilitiesPage";
+import { SessionsPage } from "./pages/User/SearchPage/SessionsPage/SessionsPage";
+import { UserProfile } from "./pages/User/Profile/UserProfile";
 import "./App.css";
-import { LayoutPage } from "./components/Admin/Layout";
-import { Dashboard } from "./components/Admin/Dashboard";
-import { OverviewLocationPage } from "./components/Admin/Location/Overview";
-import { AddLocationPage } from "./components/Admin/Location/Add";
-import { ReviewPostPage } from "./components/Admin/Post/ReviewPostPage";
-import { RejectPostPage } from "./components/Admin/Post/RejectPostPage";
-import { CheckedPostPage } from "./components/Admin/Post/CheckedPostPage";
-import { StatisticsPage } from "./components/Admin/statistics";
+import { LayoutPage } from "./pages/Admin/Layout";
+import { Dashboard } from "./pages/Admin/Dashboard";
+import { OverviewLocationPage } from "./pages/Admin/Location/Overview";
+import { AddLocationPage } from "./pages/Admin/Location/Add";
+import { ReviewPostPage } from "./pages/Admin/Post/ReviewPostPage";
+import { RejectPostPage } from "./pages/Admin/Post/RejectPostPage";
+import { CheckedPostPage } from "./pages/Admin/Post/CheckedPostPage";
+import { StatisticsPage } from "./pages/Admin/statistics";
 import MainLayout from "./components/Layout/MainLayout";
+import { MyBookedCourts } from "./pages/User/MyBookedCourt/MyBookedCourts";
+import { MyPosts } from "./pages/User/Posts/MyPosts/MyPosts";
+import PrivateRoute from "./utils/routes/adminPrivateRoute";
 
 const App: React.FC = () => {
     return (
@@ -55,7 +55,7 @@ const App: React.FC = () => {
 
                     <Route path="user" element={<PrivateRoute />}>
                         <Route path="update-profile" element={<UserProfile />} />
-                        <Route path="my-post" element={<MyPost />} />
+                        <Route path="my-post" element={<MyPosts />} />
                         <Route path="my-booked-courts" element={<MyBookedCourts />} />
                     </Route>
                 </Route>

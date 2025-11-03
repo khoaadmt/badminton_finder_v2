@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useSearchParams } from "react-router-dom";
 import { FacilitiesCard } from "./FacilitiesCard";
-import { PaginationComponent } from "../pagination/Pagination";
+import { PaginationComponent } from "../Pagination/Pagination";
 import { Facility } from "../../../../interface";
 import LocationService from "../../../../services/location/LocationService";
 import { getLocation } from "../../../../utils/location";

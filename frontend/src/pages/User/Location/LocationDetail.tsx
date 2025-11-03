@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
 import "./location-detail.css";
 import { useSelector } from "react-redux";
-import { MyFooter } from "../../Footer/Footer";
+import { MyFooter } from "../../../components/Footer/Footer";
 import { Facility, RootState, Optional } from "../../../interface";
 import BookingService from "../../../services/booking/BookingService";
 import LocationService from "../../../services/location/LocationService";

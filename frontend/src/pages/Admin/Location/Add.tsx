@@ -1,7 +1,7 @@
 import { Button, Form, Input, InputNumber, message, Space, TimePicker, UploadFile } from "antd";
 import { PicturesWall } from "../../User/Posts/PictureWall/PicturesWall";
 import { useState } from "react";
-import { MyFormItem } from "../../common/InputFIeld/MyFormItem";
+import { MyFormItem } from "../../../components/common/InputFIeld/MyFormItem";
 import { AutoCompleteLocation } from "./AutoCompleteLocation";
 import LocationService from "../../../services/location/LocationService";
 import { useSelector } from "react-redux";

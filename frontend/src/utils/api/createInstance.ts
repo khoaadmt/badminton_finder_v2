@@ -1,6 +1,6 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import AuthService from "../services/auth/AuthService";
+import AuthService from "../../services/auth/AuthService";
 const authService = new AuthService();
 
 const refreshToken = async (): Promise<{ accessToken: string }> => {

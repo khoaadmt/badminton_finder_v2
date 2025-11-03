@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../interface";
 import { setSuccessState } from "../../redux/authSlice";
-import { createAxios } from "../createInstance";
+import { createAxios } from "../../utils/api/createInstance";
 
 const MyHeader: React.FC = () => {
     const user = useSelector((state: RootState) => state.auth.login.currentUser);

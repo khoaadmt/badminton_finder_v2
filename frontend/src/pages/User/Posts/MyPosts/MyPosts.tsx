@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import { SearchPageHeader } from "../SearchPage/header/SearchPageHeader";
-
 import { useSelector } from "react-redux";
-
-import { MyFooter } from "../../Footer/Footer";
 import { CarryOutOutlined } from "@ant-design/icons";
-import PostService from "../../../services/post/PostService";
-import { Facility, Post, RootState } from "../../../interface";
 import { MyPostCard } from "./MyPostCard";
+import { Post, RootState } from "../../../../interface";
+import PostService from "../../../../services/post/PostService";
+import { SearchPageHeader } from "../../SearchPage/header/SearchPageHeader";
 
-export const MyPost = () => {
+export const MyPosts = () => {
     const [posts, setPosts] = useState<Post[] | undefined>();
     const postService = new PostService();
     const user = useSelector((state: RootState) => state.auth.login.currentUser);

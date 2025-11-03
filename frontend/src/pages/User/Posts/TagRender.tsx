@@ -2,7 +2,7 @@ import { Tag } from "antd";
 import type { CustomTagProps } from "rc-select/lib/BaseSelect";
 import React from "react";
 
-export const tagRender = (props: CustomTagProps) => {
+export const TagRender = (props: CustomTagProps) => {
     const { label, value, closable, onClose } = props;
     let color;
     const onPreventMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {

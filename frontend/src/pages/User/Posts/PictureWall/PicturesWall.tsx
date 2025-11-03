@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { Image, Upload, Button, message } from "antd";
 import type { GetProp, UploadFile, UploadProps } from "antd";
-import "./picture-wall.css";
+import "./PictureWall.css";
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 

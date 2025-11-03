@@ -11,7 +11,7 @@ import {
 } from "./authSlice";
 import { message } from "antd";
 import { Token } from "../interface";
-import { createAxios } from "../components/createInstance";
+import { createAxios } from "../utils/api/createInstance";
 import AuthService from "../services/auth/AuthService";
 const authService = new AuthService();
 
