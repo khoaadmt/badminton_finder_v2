@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { PaginationComponent } from "../LocationsPage/components/Pagination";
 import { useSearchParams } from "react-router-dom";
-import { Post_options } from "../SearchPage/header/PostOptions";
 import { PostCard } from "./components/PostCard";
 import { message } from "antd";
 import { useSelector } from "react-redux";
 import { Post, FilterOptions, RootState } from "../../../interface";
 import PostService from "../../../services/post/PostService";
 import { getLocation } from "../../../utils/location";
+import { PostOptions } from "./components/PostOptions";
 
 export const PostsPage = () => {
   const [latitude, setLat] = useState<number | null>(null);
@@ -80,7 +80,7 @@ export const PostsPage = () => {
   return (
     <div className="sessions-content-page flex min-h-screen gap-4">
       <div className="relative w-full">
-        <Post_options setFilterOptions={setFilterOptions} />
+        <PostOptions setFilterOptions={setFilterOptions} />
         <div className="top-[calc(100vh - 192px)] relative z-[9] min-h-screen w-screen rounded-xl bg-white transition-all sm:static sm:min-h-full sm:w-full">
           <div className="py-[15px] pl-[42px]">
             <span className="text-lg font-semibold sm:text-xl">

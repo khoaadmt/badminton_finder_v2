@@ -5,7 +5,6 @@ import { SocialRedirect } from "./pages/Auth/GoogleRedirect/SocialRedirect";
 import { LoginPage } from "./pages/Auth/LoginPage/LoginPage";
 import { HomePage } from "./pages/HomePage/HomePage";
 import { PostDetailPage } from "./pages/User/PostsPage/PostDetail/PostDetailPage";
-import { SearchPage } from "./pages/User/SearchPage/SearchPage";
 import { UserProfile } from "./pages/User/Profile/UserProfile";
 import "./App.css";
 import { LayoutPage } from "./pages/Admin/Layout";
@@ -31,10 +30,6 @@ const App: React.FC = () => {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-
-          {/* <Route path="search" element={<SearchPage />}>
-            <Route path="sessions" element={<PostsPage />} />
-          </Route> */}
 
           <Route path="posts">
             <Route path="" element={<PostsPage />} />
