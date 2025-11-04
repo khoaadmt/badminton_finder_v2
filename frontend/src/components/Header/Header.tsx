@@ -39,6 +39,7 @@ const MyHeader: React.FC = () => {
     { key: "2", label: "Giao lưu", path: "/posts?location=Hà+Nội&page=1" },
     { key: "3", label: "Đặt sân", path: "/locations?location=Hà+Nội&page=1" },
     { key: "4", label: "Đăng tin", path: "/posts/create" },
+    { key: "5", label: "Admin page", path: "/admin" },
   ];
 
   const handleMenuClick = (e: any) => {

@@ -15,7 +15,7 @@ export const PostsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPosts, setTotalPosts] = useState(5);
-  const [data, setData] = useState<Post[] | null>();
+  const [posts, setPosts] = useState<Post[] | null>();
   const [filterOptions, setFilterOptions] = useState<FilterOptions | null>(
     null,
   );
@@ -59,7 +59,7 @@ export const PostsPage = () => {
             if (!res.data) {
               message.info("không có bài viết nào !");
             } else {
-              setData(res.data.rows);
+              setPosts(res.data.rows);
 
               setTotalPosts(res.data.totalPosts);
             }
@@ -84,14 +84,14 @@ export const PostsPage = () => {
         <div className="top-[calc(100vh - 192px)] relative z-[9] min-h-screen w-screen rounded-xl bg-white transition-all sm:static sm:min-h-full sm:w-full">
           <div className="py-[15px] pl-[42px]">
             <span className="text-lg font-semibold sm:text-xl">
-              {data
+              {posts
                 ? `Tìm thấy ${totalPosts} bài viết`
                 : "Không tìm thấy sân đấu nào"}
             </span>
           </div>
           <div className="grid grid-cols-1 gap-2 px-[40px] md:grid-cols-2">
-            {data &&
-              data?.map((post) => {
+            {posts &&
+              posts?.map((post) => {
                 return <PostCard key={post.id} post={post} />;
               })}
           </div>

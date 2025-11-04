@@ -14,7 +14,7 @@ export const LocationCard: React.FC<Props> = (props) => {
     color: "transparent",
   };
   return (
-    <Link to={`/location/${badmintonVenue.id}`}>
+    <Link to={`/locations/${badmintonVenue.id}`}>
       <div className="flex rounded-xl p-2 shadow-[rgba(0,0,0,0.1)_0px_2px_20px_0px]">
         <div className="relative mr-3 min-h-[100px] min-w-[120px] flex-shrink-0 overflow-hidden rounded-lg sm:mr-4 sm:min-h-[166px] sm:min-w-[200px]">
           <img

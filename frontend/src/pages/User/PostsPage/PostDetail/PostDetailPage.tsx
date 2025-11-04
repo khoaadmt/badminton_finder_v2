@@ -16,9 +16,14 @@ export const PostDetailPage = () => {
 
   useEffect(() => {
     if (postId) {
-      postService.getPostById(postId).then((res) => {
-        setPostDetail(res.data[0]);
-      });
+      postService
+        .getPostById(postId)
+        .then((res) => {
+          setPostDetail(res.data.post);
+        })
+        .catch((err) => {
+          message.error("Có lỗi khi lấy dữ liệu bài viết.");
+        });
     }
   }, []);
 

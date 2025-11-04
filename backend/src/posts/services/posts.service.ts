@@ -58,9 +58,13 @@ export class PostsService {
         });
 
         return {
-            rows: postsWithDistance,
-            totalPosts: posts.length,
-            page: pageNumber,
+            StatusCode: HttpStatus.OK,
+            message: 'success',
+            data: {
+                rows: postsWithDistance,
+                totalPosts: posts.length,
+                page: pageNumber,
+            },
         };
     }
 
@@ -69,7 +73,13 @@ export class PostsService {
         if (!post) {
             throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
         }
-        return post;
+        return {
+            StatusCode: HttpStatus.OK,
+            message: 'success',
+            data: {
+                post,
+            },
+        };
     }
 
     async getPostByUserName(userName: string) {
@@ -204,9 +214,13 @@ export class PostsService {
         let skip = (pageNumber - 1) * this.pageLimit;
         const result = postsWithDistance.slice(skip, skip + this.pageLimit);
         return {
-            rows: result,
-            totalPosts: postsWithDistance.length,
-            page: pageNumber,
+            StatusCode: HttpStatus.OK,
+            message: 'success',
+            data: {
+                rows: result,
+                totalPosts: postsWithDistance.length,
+                page: pageNumber,
+            },
         };
     }
 

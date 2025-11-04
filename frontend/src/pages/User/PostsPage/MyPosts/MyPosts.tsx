@@ -18,8 +18,6 @@ export const MyPosts = () => {
     }
   }, []);
 
-  console.log("posts :", posts);
-
   return (
     <div className="bg-gray-100">
       <div className="booked-court-title">

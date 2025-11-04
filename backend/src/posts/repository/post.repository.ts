@@ -81,7 +81,6 @@ export class PostRepository {
             .where('user.username = :username', { username })
             .getMany();
 
-        console.log('posts :', posts);
         return posts;
     }
 
