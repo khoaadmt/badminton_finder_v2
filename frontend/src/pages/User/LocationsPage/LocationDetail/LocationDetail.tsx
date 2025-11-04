@@ -14,7 +14,6 @@ import { useParams } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
 import "./LocationDetail.css";
 import { useSelector } from "react-redux";
-import { MyFooter } from "../../../../components/Footer/Footer";
 import { RootState, Optional, BadmintonVenue } from "../../../../interface";
 import BookingService from "../../../../services/booking/BookingService";
 import LocationService from "../../../../services/location/LocationService";
@@ -400,7 +399,7 @@ export const LocationDetail: React.FC = () => {
           </div>
         </div>
       </div>
-      <MyFooter></MyFooter>
+
       <Modal
         visible={isModalVisible}
         footer={false}
