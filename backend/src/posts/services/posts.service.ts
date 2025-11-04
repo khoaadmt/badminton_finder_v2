@@ -41,15 +41,20 @@ export class PostsService {
                 post.location.latitude,
                 post.location.longitude,
             );
-            const distance =
-                await this.locationService.realDistanceBetween2Points(
-                    latitude,
-                    longitude,
-                    post.location.latitude,
-                    post.location.longitude,
-                );
 
-            return { ...post, distance };
+            try {
+                const distance =
+                    await this.locationService.realDistanceBetween2Points(
+                        latitude,
+                        longitude,
+                        post.location.latitude,
+                        post.location.longitude,
+                    );
+
+                return { ...post, distance };
+            } catch (err) {
+                console.log('err in realDistanceBetween2Points :', err);
+            }
         });
 
         return {

@@ -346,6 +346,7 @@ export class LocationService {
         const url = `https://rsapi.goong.io/Direction?origin=${origin}&destination=${destination}&vehicle=${vehicle}&api_key=${apiKey}`;
 
         const response = await axios.get(url);
+
         const result = response.data.routes[0].legs[0].distance;
         return result;
     }
