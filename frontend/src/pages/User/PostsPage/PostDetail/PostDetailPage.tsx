@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { SearchPageHeader } from "../../SearchPage/header/SearchPageHeader";
 import { Button, Carousel, message } from "antd";
 
 import { Post } from "../../../../interface";
@@ -53,8 +52,6 @@ export const PostDetailPage = () => {
   };
   return (
     <div>
-      <SearchPageHeader defaultSelectedKeys="" />
-
       <div className="mx-auto mb-5 max-w-[884px] sm:mt-5 sm:px-3">
         <div className="grid grid-cols-1 md:grid-cols-6 md:gap-6">
           <div className="col-span-4 flex flex-col space-y-8">

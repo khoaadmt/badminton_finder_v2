@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { SearchPageHeader } from "../../SearchPage/header/SearchPageHeader";
 import {
   Button,
   Calendar,
@@ -232,7 +231,6 @@ export const LocationDetail: React.FC = () => {
 
   return (
     <div>
-      <SearchPageHeader defaultSelectedKeys="" />
       <div className="mx-auto mb-5 max-w-[90%] sm:mt-5">
         <div className="grid grid-cols-1 md:grid-cols-8 md:gap-4">
           <div className="col-span-3 flex flex-col">

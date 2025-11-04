@@ -4,7 +4,6 @@ import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { SocialRedirect } from "./pages/Auth/GoogleRedirect/SocialRedirect";
 import { LoginPage } from "./pages/Auth/LoginPage/LoginPage";
 import { HomePage } from "./pages/HomePage/HomePage";
-import { CreatePostPage } from "./pages/User/PostsPage/CreatePostPage/CreatePostPage";
 import { PostDetailPage } from "./pages/User/PostsPage/PostDetail/PostDetailPage";
 import { SearchPage } from "./pages/User/SearchPage/SearchPage";
 import { UserProfile } from "./pages/User/Profile/UserProfile";
@@ -24,6 +23,7 @@ import PrivateRoute from "./utils/routes/adminPrivateRoute";
 import { LocationsPage } from "./pages/User/LocationsPage/LocationsPage";
 import { LocationDetail } from "./pages/User/LocationsPage/LocationDetail/LocationDetail";
 import { PostsPage } from "./pages/User/PostsPage/PostsPage";
+import { CreatePostPage } from "./pages/User/PostsPage/CreatePostPage/CreatePostPage";
 
 const App: React.FC = () => {
   return (
@@ -32,9 +32,9 @@ const App: React.FC = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
 
-          <Route path="search" element={<SearchPage />}>
+          {/* <Route path="search" element={<SearchPage />}>
             <Route path="sessions" element={<PostsPage />} />
-          </Route>
+          </Route> */}
 
           <Route path="posts">
             <Route path="" element={<PostsPage />} />
@@ -50,16 +50,15 @@ const App: React.FC = () => {
             <Route path=":locationId" element={<LocationDetail />} />
           </Route>
 
-          <Route path="login" element={<LoginPage />} />
-          <Route path="auth">
-            <Route path="social/redirect" element={<SocialRedirect />} />
-          </Route>
-
           <Route path="user" element={<PrivateRoute />}>
             <Route path="update-profile" element={<UserProfile />} />
             <Route path="my-post" element={<MyPosts />} />
             <Route path="my-booked-courts" element={<MyBookedCourts />} />
           </Route>
+        </Route>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="auth">
+          <Route path="social/redirect" element={<SocialRedirect />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
