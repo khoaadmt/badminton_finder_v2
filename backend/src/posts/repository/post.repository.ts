@@ -79,6 +79,7 @@ export class PostRepository {
                 'user.avaUrl',
             ])
             .where('user.username = :username', { username })
+            .orderBy('post.updatedAt', 'DESC')
             .getMany();
 
         return posts;
