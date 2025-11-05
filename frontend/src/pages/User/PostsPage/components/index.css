@@ -1,17 +1,10 @@
-@media (max-width: 768px) {
-  .option-button-container {
-    margin: 0 16px;
-  }
-}
 .menu-search-page-header {
   background-color: white;
   color: black !important;
   font-size: 18px;
   border: none;
 }
-.menu-search-page-header .ant-menu-item {
-  padding: 0 22px;
-}
+
 .menu-search-page-header .ant-menu-item span {
   color: black;
   font-weight: 500;
@@ -25,11 +18,15 @@
 }
 .custom-datepicker .ant-picker-input input::placeholder {
   color: #000000;
-  font-weight: 600;
-  font-family: "Sora", sans-serif;
+  font-weight: 500;
 }
 .custom-timepicker .ant-picker-input input::placeholder {
   color: #000000;
-  font-weight: 600;
-  font-family: "Sora", sans-serif;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .custom-timepicker.custom-datepicker {
+    font-weight: 800 !important;
+  }
 }

@@ -82,8 +82,8 @@ export const PostsPage = () => {
       <div className="relative w-full">
         <PostOptions setFilterOptions={setFilterOptions} />
         <div className="top-[calc(100vh - 192px)] relative z-[9] min-h-screen w-screen rounded-xl bg-white transition-all sm:static sm:min-h-full sm:w-full">
-          <div className="py-[15px] pl-[42px]">
-            <span className="text-lg font-semibold sm:text-xl">
+          <div className="py-2 md:py-4">
+            <span className="text-[16px] font-semibold">
               {posts
                 ? `Tìm thấy ${totalPosts} bài viết`
                 : "Không tìm thấy bài viết nào"}

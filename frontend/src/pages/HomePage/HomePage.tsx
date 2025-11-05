@@ -29,8 +29,6 @@ export const HomePage: React.FC = () => {
   //         console.log(data);
   //     });
   // });
-
-  console.log(IMAGES.background_image_home);
   return (
     <>
       <div

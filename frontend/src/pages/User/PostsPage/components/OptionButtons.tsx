@@ -54,8 +54,8 @@ export const OptionButtons: React.FC<Props> = (props) => {
       trigger={["click"]}
     >
       <div>
-        <button className="rounded-full border border-[#dfdfdf] px-[14px] py-[5px] transition hover:border-[#232323] sm:px-[17px] sm:py-[12px] xl:px-[24px]">
-          <div className="text-nowrap text-sm font-semibold">
+        <button className="rounded-full border border-[#dfdfdf] px-3 py-1 transition hover:border-[#232323] lg:px-4 lg:py-2">
+          <div className="text-nowrap text-sm font-[500]">
             <span className="">{optionValue}</span>
           </div>
         </button>

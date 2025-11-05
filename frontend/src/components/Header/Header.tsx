@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Menu, message, Dropdown } from "antd";
+import { Menu, message, Dropdown, Button, Drawer, MenuProps } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RootState } from "../../interface";
 import {
   UserOutlined,
@@ -14,6 +9,8 @@ import {
   FormOutlined,
   CarryOutOutlined,
   MenuOutlined,
+  HomeOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import { logOutSuccess } from "../../redux/authSlice";
 
@@ -25,7 +22,7 @@ const MyHeader: React.FC = () => {
 
   const [isHomePage, setIsHomePage] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState(["1"]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false); // 👉 drawer state
 
   const pathToKey: Record<string, string> = {
     "/": "1",
@@ -39,31 +36,7 @@ const MyHeader: React.FC = () => {
     { key: "2", label: "Giao lưu", path: "/posts?location=Hà+Nội&page=1" },
     { key: "3", label: "Đặt sân", path: "/locations?location=Hà+Nội&page=1" },
     { key: "4", label: "Đăng tin", path: "/posts/create" },
-    { key: "5", label: "Admin page", path: "/admin" },
   ];
-
-  const handleMenuClick = (e: any) => {
-    const item = menuItems.find((m) => m.key === e.key);
-    if (!item) return;
-
-    if (e.key === "3" && !user) {
-      message.warning("Bạn cần đăng nhập để đặt sân.");
-      return setTimeout(() => navigate("/login"), 1200);
-    }
-
-    if (e.key === "4" && !user) {
-      message.warning("Bạn cần đăng nhập để đăng tin.");
-      return setTimeout(() => navigate("/login"), 1200);
-    }
-
-    navigate(item.path);
-  };
-
-  useEffect(() => {
-    const key = pathToKey[location.pathname] || "1";
-    setSelectedKeys([key]);
-    setIsHomePage(location.pathname === "/");
-  }, [location.pathname]);
 
   const profileMenuItems = [
     {
@@ -87,10 +60,21 @@ const MyHeader: React.FC = () => {
     { key: "4", label: "Đăng xuất", icon: <LogoutOutlined /> },
   ];
 
+  const handleMenuClick = (e: any) => {
+    const item = menuItems.find((m) => m.key === e.key);
+    if (!item) return;
+
+    if ((e.key === "3" || e.key === "4") && !user) {
+      message.warning("Bạn cần đăng nhập để thực hiện chức năng này.");
+      return setTimeout(() => navigate("/login"), 1000);
+    }
+
+    navigate(item.path);
+  };
+
   const handleProfileClick = (e: any) => {
     const item = profileMenuItems.find((i) => i.key === e.key);
     if (!item) return;
-
     if (e.key === "4") {
       dispatch(logOutSuccess());
       message.success("Đã đăng xuất.");
@@ -100,7 +84,82 @@ const MyHeader: React.FC = () => {
     }
   };
 
-  const loginMenu = [{ key: "login", label: "Login" }];
+  const showDrawer = () => setOpen(true);
+  const onClose = () => setOpen(false);
+
+  // 👉 Các mục trong Drawer mobile
+  const mobileItems = [
+    {
+      key: "1",
+      label: "Đăng tin",
+      icon: <EditOutlined />,
+      path: "/posts/create",
+    },
+    {
+      key: "2",
+      label: "Đặt sân",
+      icon: <CarryOutOutlined />,
+      path: "/locations?location=Hà+Nội&page=1",
+    },
+    { type: "divider" },
+    ...profileMenuItems,
+  ];
+
+  const mobileMenuData = [
+    {
+      key: "1",
+      label: "Đăng tin",
+      icon: <EditOutlined />,
+      path: "/posts/create",
+    },
+    {
+      key: "2",
+      label: "Đặt sân",
+      icon: <CarryOutOutlined />,
+      path: "/locations?location=Hà+Nội&page=1",
+    },
+    { type: "divider" },
+    {
+      key: "3",
+      label: "Trang cá nhân",
+      icon: <UserOutlined />,
+      path: "/user/update-profile",
+    },
+    {
+      key: "4",
+      label: "Bài viết của tôi",
+      icon: <FormOutlined />,
+      path: "/user/my-post",
+    },
+    {
+      key: "5",
+      label: "Sân đã đặt",
+      icon: <CarryOutOutlined />,
+      path: "/user/my-booked-courts",
+    },
+    { key: "6", label: "Đăng xuất", icon: <LogoutOutlined /> },
+  ];
+
+  const onMobileMenuClick = (e: any) => {
+    const item = mobileMenuData.find((m) => m.key === e.key);
+
+    if (!item) return;
+    if (item.key === "6") {
+      dispatch(logOutSuccess());
+      message.success("Đã đăng xuất.");
+      navigate("/");
+      return;
+    }
+
+    if (item.path) navigate(item.path);
+    onClose();
+  };
+
+  useEffect(() => {
+    const key = pathToKey[location.pathname] || "1";
+    setSelectedKeys([key]);
+    setIsHomePage(location.pathname === "/");
+  }, [location.pathname]);
 
   return (
     <>
@@ -115,9 +174,9 @@ const MyHeader: React.FC = () => {
             alignItems: "center",
             justifyContent: "space-between",
             backgroundColor: "rgba(255, 255, 255, 0)",
-            padding: "0 24px",
           }}
         >
+          {" "}
           <Menu
             className="menu-header-left-home-page"
             theme="dark"
@@ -125,8 +184,7 @@ const MyHeader: React.FC = () => {
             selectedKeys={selectedKeys}
             items={menuItems}
             onClick={handleMenuClick}
-          />
-
+          />{" "}
           {!user ? (
             <Menu
               className="menu-header-right-home-page"
@@ -137,118 +195,83 @@ const MyHeader: React.FC = () => {
             />
           ) : (
             <Dropdown
-              menu={{
-                items: [
-                  { key: "profile", label: "Thông tin cá nhân" },
-                  { key: "logout", label: "Đăng xuất" },
-                ],
-                onClick: (e) => {
-                  if (e.key === "logout") {
-                    localStorage.clear();
-                    message.success("Đã đăng xuất.");
-                    navigate("/login");
-                  }
-                },
-              }}
+              menu={{ items: profileMenuItems, onClick: handleProfileClick }}
+              className="mr-4 lg:mr-8"
             >
+              {" "}
               <div
-                style={{
-                  color: "white",
-                  cursor: "pointer",
-                  fontWeight: 500,
-                }}
+                style={{ color: "white", cursor: "pointer", fontWeight: 500 }}
               >
-                {user.displayName || user.username}
-              </div>
+                {" "}
+                {user.displayName || user.username}{" "}
+              </div>{" "}
             </Dropdown>
-          )}
+          )}{" "}
         </div>
       ) : (
-        <header className="sticky top-0 z-10 bg-white pt-2 shadow-[rgba(0,0,0,0.1)_0px_10px_20px_-8px]">
-          <nav className="sticky top-0 z-10 w-full bg-white py-3 sm:py-4">
-            <div className="mx-auto max-w-[2520px] px-[15px] sm:px-2 md:px-5 xl:px-6">
-              <div className="flex flex-row items-center justify-between gap-2 sm:gap-3 md:gap-6">
-                <div className="flex-[4] sm:flex">
+        <header className="sticky top-0 z-10 bg-white shadow-md">
+          <nav className="flex items-center justify-between px-4 py-2">
+            <div className="hidden md:flex">
+              <Menu
+                mode="horizontal"
+                selectedKeys={selectedKeys}
+                items={menuItems}
+                onClick={handleMenuClick}
+              />
+            </div>
+
+            <div className="flex items-center gap-3 md:hidden">
+              <Menu
+                mode="horizontal"
+                selectedKeys={selectedKeys}
+                items={menuItems.slice(0, 3)}
+                onClick={handleMenuClick}
+              />
+              <div>
+                <Button
+                  type="text"
+                  icon={<MenuOutlined style={{ fontSize: 24 }} />}
+                  onClick={showDrawer}
+                />
+                <Drawer
+                  title="Menu"
+                  placement="left"
+                  closable
+                  onClose={onClose}
+                  open={open}
+                >
                   <Menu
-                    className="menu-search-page-header w-full"
-                    mode="horizontal"
-                    selectedKeys={selectedKeys}
-                    items={menuItems}
-                    onClick={handleMenuClick}
-                    style={{ color: "black" }}
+                    mode="inline"
+                    onClick={onMobileMenuClick}
+                    items={mobileItems as MenuProps["items"]}
                   />
-                </div>
-
-                <div className="flex items-center sm:hidden">
-                  <button
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="cursor-pointer rounded-full border border-neutral-200 p-2 transition hover:shadow-md"
-                  >
-                    <MenuOutlined className="text-xl" />
-                  </button>
-                </div>
-
-                <div className="flex items-center justify-end gap-2 sm:gap-4">
-                  <div className="relative flex flex-shrink-0 justify-end">
-                    <div className="flex flex-row items-center gap-3">
-                      {user ? (
-                        <Dropdown
-                          menu={{
-                            items: profileMenuItems,
-                            onClick: handleProfileClick,
-                          }}
-                          placement="bottom"
-                          trigger={["click"]}
-                        >
-                          <button className="flex cursor-pointer flex-row items-center gap-2 rounded-full border border-neutral-200 p-1 transition hover:shadow-md sm:p-2 md:py-2 md:pl-4 md:pr-3">
-                            <div className="hidden truncate whitespace-nowrap font-semibold lg:block">
-                              {user ? (
-                                user.displayName
-                              ) : (
-                                <Link to="/login">Login</Link>
-                              )}
-                            </div>
-                            <div className="flex-shrink-0">
-                              {user && (
-                                <img
-                                  alt="Avatar"
-                                  loading="lazy"
-                                  width="30"
-                                  height="30"
-                                  decoding="async"
-                                  data-nimg="1"
-                                  className="aspect-square rounded-full object-cover"
-                                  src={user.avaUrl}
-                                  style={{ color: "transparent" }}
-                                />
-                              )}
-                            </div>
-                          </button>
-                        </Dropdown>
-                      ) : (
-                        <button className="flex cursor-pointer flex-row items-center gap-2 rounded-full border border-neutral-200 p-1 transition hover:shadow-md sm:p-2 md:py-2 md:pl-4 md:pr-3">
-                          <div className="hidden truncate whitespace-nowrap font-semibold lg:block">
-                            <Link to="/login">Login</Link>
-                          </div>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
+                </Drawer>
               </div>
+            </div>
 
-              {/* Menu dropdown cho màn hình nhỏ */}
-              {isMenuOpen && (
-                <div className="absolute left-0 top-16 z-50 rounded-lg bg-white p-4 shadow-lg sm:hidden">
-                  <Menu
-                    className="menu-search-page-header"
-                    mode="vertical"
-                    selectedKeys={selectedKeys}
-                    items={menuItems}
-                    onClick={handleMenuClick}
-                    style={{ color: "black" }}
-                  />
-                </div>
+            {/* Right section (desktop only) */}
+            <div className="hidden items-center md:flex">
+              {user ? (
+                <Dropdown
+                  menu={{
+                    items: profileMenuItems,
+                    onClick: handleProfileClick,
+                  }}
+                  trigger={["click"]}
+                >
+                  <button className="flex items-center gap-2 rounded-full border px-3 py-1 hover:shadow-md">
+                    <span>{user.displayName}</span>
+                    <img
+                      src={user.avaUrl}
+                      alt="avatar"
+                      className="h-8 w-8 rounded-full object-cover"
+                    />
+                  </button>
+                </Dropdown>
+              ) : (
+                <Button type="primary" onClick={() => navigate("/login")}>
+                  Login
+                </Button>
               )}
             </div>
           </nav>

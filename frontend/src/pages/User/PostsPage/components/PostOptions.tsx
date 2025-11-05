@@ -59,16 +59,16 @@ export const PostOptions: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className="option-button-container flex overflow-x-scroll pb-4 pt-4 font-normal sm:px-5 sm:pt-4 lg:mx-[36px] lg:overflow-visible xl:mx-[48px]">
-      <div className="flex gap-2 sm:gap-[15px]">
+    <div className="option-button-container flex overflow-x-scroll pb-2 md:pb-4 lg:overflow-visible">
+      <div className="flex flex-wrap items-center justify-start gap-2 sm:gap-4">
         <div>
           <button
             onClick={() => handleSortBtnClick("sortBy", "upcoming")}
             className={`${
               isActive ? "btn-active" : "hover:border-[#232323]"
-            } rounded-full border border-[#dfdfdf] px-[14px] py-[5px] transition sm:px-[17px] sm:py-[12px] xl:px-[24px]`}
+            } rounded-full border border-[#dfdfdf] px-3 py-1 transition lg:px-4 lg:py-2`}
           >
-            <div className="text-nowrap text-sm font-semibold">
+            <div className="text-nowrap text-sm font-[500] md:font-semibold">
               <span className="">Sắp diễn ra</span>
             </div>
           </button>
@@ -85,21 +85,21 @@ export const PostOptions: React.FC<Props> = (props) => {
         />
 
         <DatePicker
-          className="custom-datepicker sm:px-[17px] sm:py-[11px] xl:px-[8px]"
-          style={{ width: "120px", borderRadius: "25px" }}
+          className="custom-datepicker w-20 px-3 lg:w-24 lg:px-4 lg:py-2"
+          style={{ borderRadius: "25px" }}
           format={{
             format: "DD-MM-YYYY",
           }}
-          placeholder="Ngày"
+          placeholder={"Ngày"}
           disabledDate={disabledDate}
           onChange={HandleDatePickerOnChange}
         />
 
         <TimePicker
-          className="custom-timepicker lg:py-[11px]"
+          className="custom-timepicker w-20 px-3 lg:px-4 lg:py-2"
           onChange={handleChangeTime}
           minuteStep={15}
-          style={{ width: "100px", borderRadius: "25px" }}
+          style={{ borderRadius: "25px" }}
           placeholder="Giờ"
           format={"HH:mm"}
         />
@@ -120,7 +120,7 @@ export const PostOptions: React.FC<Props> = (props) => {
           setFilterOptions={setFilterOptions}
         />
         <button className="mx-2 pr-8 sm:pr-0" onClick={handleDeleFilter}>
-          <span className="whitespace-nowrap text-sm font-semibold underline">
+          <span className="whitespace-nowrap text-sm font-[500] underline">
             Xóa lọc
           </span>
         </button>
