@@ -82,9 +82,7 @@ export const LocationsPage: React.FC = () => {
               </svg>
             </button>
           </div>
-          <div className="relative -top-1 w-full pb-[15px] text-center sm:hidden">
-            <span className="text-sm">Tìm thêm hoạt động</span>
-          </div>
+
           <div className="py-[15px] pl-[42px]">
             <span className="text-lg font-semibold sm:text-xl">
               {data

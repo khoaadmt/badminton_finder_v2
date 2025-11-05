@@ -13,6 +13,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { logOutSuccess } from "../../redux/authSlice";
+import "./Header.css";
 
 const MyHeader: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.login.currentUser);
@@ -22,7 +23,7 @@ const MyHeader: React.FC = () => {
 
   const [isHomePage, setIsHomePage] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState(["1"]);
-  const [open, setOpen] = useState(false); // 👉 drawer state
+  const [open, setOpen] = useState(false);
 
   const pathToKey: Record<string, string> = {
     "/": "1",
@@ -87,7 +88,6 @@ const MyHeader: React.FC = () => {
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
 
-  // 👉 Các mục trong Drawer mobile
   const mobileItems = [
     {
       key: "1",
@@ -161,6 +161,15 @@ const MyHeader: React.FC = () => {
     setIsHomePage(location.pathname === "/");
   }, [location.pathname]);
 
+  const loginMenu = [{ key: "login", label: "Login" }];
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <>
       {isHomePage ? (
@@ -176,7 +185,6 @@ const MyHeader: React.FC = () => {
             backgroundColor: "rgba(255, 255, 255, 0)",
           }}
         >
-          {" "}
           <Menu
             className="menu-header-left-home-page"
             theme="dark"
@@ -184,7 +192,7 @@ const MyHeader: React.FC = () => {
             selectedKeys={selectedKeys}
             items={menuItems}
             onClick={handleMenuClick}
-          />{" "}
+          />
           {!user ? (
             <Menu
               className="menu-header-right-home-page"
@@ -198,83 +206,84 @@ const MyHeader: React.FC = () => {
               menu={{ items: profileMenuItems, onClick: handleProfileClick }}
               className="mr-4 lg:mr-8"
             >
-              {" "}
               <div
                 style={{ color: "white", cursor: "pointer", fontWeight: 500 }}
               >
-                {" "}
-                {user.displayName || user.username}{" "}
-              </div>{" "}
+                {user.displayName || user.username}
+              </div>
             </Dropdown>
-          )}{" "}
+          )}
         </div>
       ) : (
         <header className="sticky top-0 z-10 bg-white shadow-md">
-          <nav className="flex items-center justify-between px-4 py-2">
-            <div className="hidden md:flex">
-              <Menu
-                mode="horizontal"
-                selectedKeys={selectedKeys}
-                items={menuItems}
-                onClick={handleMenuClick}
-              />
-            </div>
-
-            <div className="flex items-center gap-3 md:hidden">
-              <Menu
-                mode="horizontal"
-                selectedKeys={selectedKeys}
-                items={menuItems.slice(0, 3)}
-                onClick={handleMenuClick}
-              />
-              <div>
-                <Button
-                  type="text"
-                  icon={<MenuOutlined style={{ fontSize: 24 }} />}
-                  onClick={showDrawer}
+          <div className="flex items-center justify-between px-4 py-2">
+            {isMobile ? (
+              <div className="flex w-[100%] items-center justify-between gap-3">
+                <Menu
+                  mode="horizontal"
+                  selectedKeys={selectedKeys}
+                  items={menuItems.slice(0, 3)}
+                  onClick={handleMenuClick}
                 />
-                <Drawer
-                  title="Menu"
-                  placement="left"
-                  closable
-                  onClose={onClose}
-                  open={open}
-                >
-                  <Menu
-                    mode="inline"
-                    onClick={onMobileMenuClick}
-                    items={mobileItems as MenuProps["items"]}
+                <div>
+                  <Button
+                    type="text"
+                    icon={<MenuOutlined style={{ fontSize: 24 }} />}
+                    onClick={showDrawer}
                   />
-                </Drawer>
-              </div>
-            </div>
-
-            {/* Right section (desktop only) */}
-            <div className="hidden items-center md:flex">
-              {user ? (
-                <Dropdown
-                  menu={{
-                    items: profileMenuItems,
-                    onClick: handleProfileClick,
-                  }}
-                  trigger={["click"]}
-                >
-                  <button className="flex items-center gap-2 rounded-full border px-3 py-1 hover:shadow-md">
-                    <span>{user.displayName}</span>
-                    <img
-                      src={user.avaUrl}
-                      alt="avatar"
-                      className="h-8 w-8 rounded-full object-cover"
+                  <Drawer
+                    title="Menu"
+                    placement="right"
+                    closable
+                    onClose={onClose}
+                    open={open}
+                  >
+                    <Menu
+                      mode="inline"
+                      onClick={onMobileMenuClick}
+                      items={mobileItems as MenuProps["items"]}
                     />
-                  </button>
-                </Dropdown>
-              ) : (
-                <Button type="primary" onClick={() => navigate("/login")}>
-                  Login
-                </Button>
-              )}
-            </div>
-          </nav>
+                  </Drawer>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div>
+                  <Menu
+                    key={isMobile ? "mobile" : "desktop"}
+                    mode="horizontal"
+                    selectedKeys={selectedKeys}
+                    items={menuItems}
+                    onClick={handleMenuClick}
+                  />
+                </div>
+                <div className="flex items-center">
+                  {user ? (
+                    <Dropdown
+                      menu={{
+                        items: profileMenuItems,
+                        onClick: handleProfileClick,
+                      }}
+                      trigger={["click"]}
+                    >
+                      <button className="flex items-center gap-2 rounded-full border px-3 py-1 hover:shadow-md">
+                        <span>{user.displayName}</span>
+                        <img
+                          src={user.avaUrl}
+                          alt="avatar"
+                          className="h-8 w-8 rounded-full object-cover"
+                        />
+                      </button>
+                    </Dropdown>
+                  ) : (
+                    <Button type="primary" onClick={() => navigate("/login")}>
+                      Login
+                    </Button>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
         </header>
       )}
     </>

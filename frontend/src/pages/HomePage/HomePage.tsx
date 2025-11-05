@@ -7,7 +7,6 @@ import { setSuccessState } from "../../redux/authSlice";
 import { createAxios } from "../../utils/api/createInstance";
 import "./HomePage.css";
 import { IMAGES } from "../../utils/Constant";
-import { url } from "inspector";
 
 export const HomePage: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.login.currentUser);
