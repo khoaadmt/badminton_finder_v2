@@ -46,8 +46,17 @@ export const PostCard: React.FC<Props> = (props) => {
   };
 
   const handleChangeStatusPost = (status: string) => {
-    postService.updateStatus(postDetail.id, status);
-    setChangeStatusPost((prev) => prev + 1);
+    try {
+      postService.updateStatus(postDetail.id, status);
+      if (status == "checked") {
+        message.info("Đã duyệt bài viết.");
+      } else {
+        message.info("Đã từ chối duyệt bài viết.");
+      }
+      setChangeStatusPost((prev) => prev + 1);
+    } catch (err) {
+      message.error("Có lỗi xảy ra với chức năng này");
+    }
   };
 
   return (
