@@ -40,6 +40,7 @@ export class PostRepository {
             ])
             .where('post.startTime > :currentTimestamp', { currentTimestamp })
             .andWhere('post.status = :status', { status })
+            .orderBy('post.updatedAt', 'DESC')
             .getMany();
 
         return {

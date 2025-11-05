@@ -86,7 +86,7 @@ export const PostsPage = () => {
             <span className="text-lg font-semibold sm:text-xl">
               {posts
                 ? `Tìm thấy ${totalPosts} bài viết`
-                : "Không tìm thấy sân đấu nào"}
+                : "Không tìm thấy bài viết nào"}
             </span>
           </div>
           <div className="grid grid-cols-1 gap-2 px-[40px] md:grid-cols-2">
