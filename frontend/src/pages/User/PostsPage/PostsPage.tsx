@@ -89,7 +89,7 @@ export const PostsPage = () => {
                 : "Không tìm thấy bài viết nào"}
             </span>
           </div>
-          <div className="grid grid-cols-1 gap-2 px-[40px] md:grid-cols-2">
+          <div className="ml-2 mr-6 grid grid-cols-1 gap-2 md:mx-10 lg:grid-cols-2">
             {posts &&
               posts?.map((post) => {
                 return <PostCard key={post.id} post={post} />;

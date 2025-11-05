@@ -230,8 +230,8 @@ export const LocationDetail: React.FC = () => {
 
   return (
     <div>
-      <div className="mx-auto mb-5 max-w-[90%] sm:mt-5">
-        <div className="grid grid-cols-1 md:grid-cols-8 md:gap-4">
+      <div className="mb-5 sm:mt-5 lg:mx-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 lg:grid-cols-8">
           <div className="col-span-3 flex flex-col">
             <div className=" ">
               <Carousel
@@ -295,7 +295,7 @@ export const LocationDetail: React.FC = () => {
             <hr className="mx-3 sm:mx-0" />
           </div>
           <div className="col-span-5 flex flex-col">
-            <div className="grid-cols-8 gap-2 sm:grid">
+            <div className="grid-cols-8 gap-4 sm:grid">
               <div className="col-span-5">
                 <div className="flex">
                   Giá thuê:
