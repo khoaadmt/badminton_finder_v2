@@ -4,6 +4,7 @@ import { CarryOutOutlined } from "@ant-design/icons";
 import { MyPostCard } from "./MyPostCard";
 import { Post, RootState } from "../../../../interface";
 import PostService from "../../../../services/post/PostService";
+import { message } from "antd";
 
 export const MyPosts = () => {
   const [posts, setPosts] = useState<Post[] | undefined>();
@@ -12,11 +13,20 @@ export const MyPosts = () => {
 
   useEffect(() => {
     if (user) {
-      postService.getPostByUserName(user?.username).then((res) => {
-        setPosts(res.data.posts);
-      });
+      postService
+        .getPostByUserName(user?.username)
+        .then((res) => {
+          setPosts(res.data.posts);
+        })
+        .catch((err) => {
+          message.error("Có lỗi xảy ra khi lấy dữ liệu từ server.");
+        });
     }
   }, []);
+
+  const handleDeletePost = (deletedPostId: number) => {
+    setPosts((prev) => prev?.filter((p) => p.id !== deletedPostId));
+  };
 
   return (
     <div className="bg-gray-100">
@@ -26,7 +36,7 @@ export const MyPosts = () => {
 
       <div className="mx-auto mb-5 max-w-[884px] sm:mt-5 sm:px-3">
         {posts?.map((post) => {
-          return <MyPostCard postDetail={post} />;
+          return <MyPostCard postDetail={post} onDelete={handleDeletePost} />;
         })}
       </div>
     </div>

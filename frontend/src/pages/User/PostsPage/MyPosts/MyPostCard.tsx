@@ -24,9 +24,9 @@ const support_icon = require("../../../../assets/images/support.png");
 
 interface Props {
   postDetail: Post;
+  onDelete?: (postId: number) => void;
 }
-export const MyPostCard: React.FC<Props> = (props) => {
-  const { postDetail } = props;
+export const MyPostCard: React.FC<Props> = ({ postDetail, onDelete }) => {
   const postService = new PostService();
   const user = useSelector((state: RootState) => state.auth.login.currentUser);
   const getLabel = (value: number | undefined) => {
@@ -41,6 +41,7 @@ export const MyPostCard: React.FC<Props> = (props) => {
       message.info("Người dùng này không có sđt");
     }
   };
+
   const handleBtnFacebookCick = (facebookId: string | undefined) => {
     if (facebookId) {
       window.open(`https://www.facebook.com/${facebookId}`, "_blank");
@@ -48,25 +49,27 @@ export const MyPostCard: React.FC<Props> = (props) => {
       message.info("Người dùng này không có Facebook");
     }
   };
+
   const handleBtnFindAddressClick = () => {
     window.open(
       `https://www.google.com/maps/search/?api=1&query=${postDetail?.location.latitude},${postDetail?.location.longitude}`,
       "_blank",
     );
   };
+
   const handleConcat = (str1: number | undefined, str2: number | undefined) => {
     return " " + str1 + "🍀 - " + str2 + "🍀";
   };
 
-  const confirm = (post: Post) => {
-    if (!post) {
-      console.error("Record is undefined");
-      return;
-    }
-
-    postService.delete(post.id.toString(), user?.accessToken).then(() => {
+  const confirm = async (post: Post) => {
+    try {
+      await postService.delete(post.id.toString(), user?.accessToken);
       message.success("Xóa bài viết thành công");
-    });
+
+      onDelete?.(post.id);
+    } catch (err) {
+      message.error("Có lỗi khi thực hiện chức năng này. 304");
+    }
   };
 
   return (
