@@ -30,6 +30,7 @@ const MyHeader: React.FC = () => {
     "/posts": "2",
     "/locations": "3",
     "/posts/create": "4",
+    "/admin": "5",
   };
 
   const menuItems = [
@@ -37,28 +38,29 @@ const MyHeader: React.FC = () => {
     { key: "2", label: "Giao lưu", path: "/posts?location=Hà+Nội&page=1" },
     { key: "3", label: "Đặt sân", path: "/locations?location=Hà+Nội&page=1" },
     { key: "4", label: "Đăng tin", path: "/posts/create" },
+    { key: "5", label: "Admin", path: "/admin" },
   ];
 
   const profileMenuItems = [
     {
-      key: "1",
+      key: "p1",
       label: "Trang cá nhân",
       icon: <UserOutlined />,
       path: "/user/update-profile",
     },
     {
-      key: "2",
+      key: "p2",
       label: "Bài viết của tôi",
       icon: <FormOutlined />,
       path: "/user/my-post",
     },
     {
-      key: "3",
+      key: "p3",
       label: "Sân đã đặt",
       icon: <CarryOutOutlined />,
       path: "/user/my-booked-courts",
     },
-    { key: "4", label: "Đăng xuất", icon: <LogoutOutlined /> },
+    { key: "p4", label: "Đăng xuất", icon: <LogoutOutlined /> },
   ];
 
   const handleMenuClick = (e: any) => {
@@ -68,6 +70,11 @@ const MyHeader: React.FC = () => {
     if ((e.key === "3" || e.key === "4") && !user) {
       message.warning("Bạn cần đăng nhập để thực hiện chức năng này.");
       return setTimeout(() => navigate("/login"), 1000);
+    }
+
+    if (e.key === "5" && user?.role !== "admin") {
+      message.warning("Chỉ có admin mới truy cập được trang này.");
+      return;
     }
 
     navigate(item.path);
@@ -89,6 +96,17 @@ const MyHeader: React.FC = () => {
   const onClose = () => setOpen(false);
 
   const mobileItems = [
+    ...(user?.role === "admin"
+      ? [
+          {
+            key: "admin",
+            label: "Admin Page",
+            icon: <HomeOutlined />,
+            path: "/admin",
+          },
+          { type: "divider" },
+        ]
+      : []),
     {
       key: "1",
       label: "Đăng tin",
@@ -141,10 +159,13 @@ const MyHeader: React.FC = () => {
   ];
 
   const onMobileMenuClick = (e: any) => {
-    const item = mobileMenuData.find((m) => m.key === e.key);
+    const item = mobileItems.find(
+      (m) => "key" in m && m.key === e.key, // ✅ chỉ tìm item có key
+    ) as { key: string; path?: string };
 
     if (!item) return;
-    if (item.key === "6") {
+
+    if (item.key === "p4") {
       dispatch(logOutSuccess());
       message.success("Đã đăng xuất.");
       navigate("/");
@@ -248,8 +269,9 @@ const MyHeader: React.FC = () => {
               </div>
             ) : (
               <>
-                <div>
+                <div className="flex-1 overflow-visible">
                   <Menu
+                    className="w-auto"
                     key={isMobile ? "mobile" : "desktop"}
                     mode="horizontal"
                     selectedKeys={selectedKeys}
