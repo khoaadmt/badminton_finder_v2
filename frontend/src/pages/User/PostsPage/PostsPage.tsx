@@ -92,7 +92,9 @@ export const PostsPage = () => {
           <div className="ml-2 mr-6 grid grid-cols-1 gap-2 md:mx-10 lg:grid-cols-2">
             {posts &&
               posts?.map((post) => {
-                return <PostCard key={post.id} post={post} />;
+                if (post) {
+                  return <PostCard key={post.id} post={post} />;
+                }
               })}
           </div>
 

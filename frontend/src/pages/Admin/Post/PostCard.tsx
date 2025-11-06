@@ -45,9 +45,9 @@ export const PostCard: React.FC<Props> = (props) => {
     return " " + str1 + "🍀 - " + str2 + "🍀";
   };
 
-  const handleChangeStatusPost = (status: string) => {
+  const handleChangeStatusPost = async (status: string) => {
     try {
-      postService.updateStatus(postDetail.id, status);
+      await postService.updateStatus(postDetail.id, status);
       if (status == "checked") {
         message.info("Đã duyệt bài viết.");
       } else {

@@ -14,8 +14,7 @@ import { PostsModule } from './posts/posts.module';
 import { BookingModule } from './booking/booking.module';
 import { CourtModule } from './court/court.module';
 import { ShiftModule } from './shift/shift.module';
-
-console.log('DATABASE_URL:', process.env.DATABASE_URL);
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
     imports: [
@@ -39,7 +38,7 @@ console.log('DATABASE_URL:', process.env.DATABASE_URL);
         PostsModule,
         AuthModule,
         UserModule,
-        // PaymentModule,
+        PaymentModule,
         CourtModule,
         ShiftModule,
         BookingModule,

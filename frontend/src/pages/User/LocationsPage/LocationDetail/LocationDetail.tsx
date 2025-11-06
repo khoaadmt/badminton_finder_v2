@@ -81,9 +81,6 @@ export const LocationDetail: React.FC = () => {
 
   useEffect(() => {
     if (locationDetail && options[shiftSelected]) {
-      {
-        console.log("options[shiftSelected] :", options[shiftSelected].index);
-      }
       const params = {
         params: {
           locationId: locationDetail.id,
@@ -156,12 +153,12 @@ export const LocationDetail: React.FC = () => {
 
   const handleBooking = (courtId: number) => {
     const shiftId = locationDetail?.shifts[options[shiftSelected]?.index].id;
-    const userName = user?.username;
+    const username = user?.username;
 
     let data = {
       locationId,
       shiftId,
-      userName,
+      username,
       courtId,
       date: dateSelected,
     };
@@ -169,9 +166,11 @@ export const LocationDetail: React.FC = () => {
     bookingService
       .createBooking(data)
       .then((resUrl) => {
-        setPaymentUrl(resUrl.data);
+        console.log("resUrl :", resUrl);
+        setPaymentUrl(resUrl.data.url);
       })
       .catch((err) => {
+        message.error("Đã có lỗi khi thực hiện chức năng này.");
         if (err.response && err.response.status === 409) {
           message.error("Rất tiếc, sân này vừa được người khác đặt rồi !");
           setTimeout(() => {

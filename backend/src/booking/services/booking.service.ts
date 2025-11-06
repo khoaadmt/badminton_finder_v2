@@ -10,6 +10,7 @@ import { BookingRepository } from '../repository/booking.repository';
 import { ShiftService } from 'src/shift/services/shift.service';
 import { PaymentService } from 'src/payment/payment.service';
 import { CreateBookingDto } from '../dto/createBooking.dto';
+import { Booking } from './../entities/booking.entity';
 
 @Injectable()
 export class BookingService {
@@ -21,36 +22,52 @@ export class BookingService {
     ) {}
 
     async createBooking(createBookingDto: CreateBookingDto) {
-        const isBooked = await this.bookingrepository.findBooking(
-            createBookingDto.locationId,
-            createBookingDto.courtId,
-            createBookingDto.shiftId,
-            createBookingDto.date,
-        );
-
-        if (isBooked) {
-            throw new HttpException(
-                'Sân vừa có người đặt rồi!',
-                HttpStatus.CONFLICT,
+        try {
+            const isBooked = await this.bookingrepository.findBooking(
+                createBookingDto.locationId,
+                createBookingDto.courtId,
+                createBookingDto.shiftId,
+                createBookingDto.date,
             );
+
+            if (isBooked) {
+                throw new HttpException(
+                    'Sân vừa có người đặt rồi!',
+                    HttpStatus.CONFLICT,
+                );
+            }
+            const shift = await this.shiftService.getShiftById(
+                createBookingDto.shiftId,
+            );
+            const price = shift.price;
+
+            const data = {
+                price,
+                username: createBookingDto.username,
+                courtId: createBookingDto.courtId,
+                shiftId: createBookingDto.shiftId,
+                locationId: createBookingDto.locationId,
+                date: new Date(createBookingDto.date),
+            };
+
+            const booking = await this.bookingrepository.createBooking(data);
+
+            const resZaloPayment = await this.paymentService.createZaloPayment(
+                price,
+                booking.id.toString(),
+            );
+            console.log('resZaloPayment :', resZaloPayment);
+            return {
+                statusCode: HttpStatus.OK,
+                message: 'success',
+                data: {
+                    url: resZaloPayment.order_url,
+                },
+            };
+        } catch (err) {
+            console.error('Error in createBooking:', err);
+            throw err; // để bubble lên controller
         }
-        const shift = await this.shiftService.getShiftById(
-            createBookingDto.shiftId,
-        );
-        const price = shift.price;
-
-        const data = {
-            ...createBookingDto,
-
-            price,
-        };
-        const booking = await this.bookingrepository.createBooking(data);
-
-        const resZaloPayment = await this.paymentService.createZaloPayment(
-            price,
-            booking[0].id.toString(),
-        );
-        return resZaloPayment.order_url;
     }
 
     async updateStatus(bookingId: number, status: string) {

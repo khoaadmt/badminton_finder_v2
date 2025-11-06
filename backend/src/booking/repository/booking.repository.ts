@@ -12,9 +12,10 @@ export class BookingRepository {
         private bookingRepo: Repository<Booking>,
     ) {}
 
-    async createBooking(data: any) {
+    async createBooking(data: Partial<Booking>): Promise<Booking> {
         const newBooking = this.bookingRepo.create(data);
-        return this.bookingRepo.save(newBooking);
+        await this.bookingRepo.save(newBooking);
+        return newBooking;
     }
 
     async update(bookingUpdate: Booking) {

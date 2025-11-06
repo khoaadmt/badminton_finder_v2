@@ -1,10 +1,10 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { BookingService } from 'src/booking/services/booking.service';
-const axios = require('axios').default; // npm install axios
-const CryptoJS = require('crypto-js'); // npm install crypto-js
-const moment = require('moment'); // npm install moment
-// APP INFO
+const axios = require('axios').default;
+const CryptoJS = require('crypto-js');
+const moment = require('moment');
+
 const config = {
     app_id: '2553',
     key1: 'PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL',
@@ -21,21 +21,27 @@ export class PaymentService {
     async createZaloPayment(price: number, bookingId: string) {
         const embed_data = { bookingId: bookingId };
 
-        const items = [{}];
+        const items = [
+            {
+                itemid: 'court-booking',
+                itemname: 'Finder badminton booking',
+                itemprice: price,
+                itemquantity: 1,
+            },
+        ];
         const transID = Math.floor(Math.random() * 1000000);
         const order = {
             app_id: config.app_id,
-            app_trans_id: `${moment().format('YYMMDD')}_${transID}`, // translation missing: vi.docs.shared.sample_code.comments.app_trans_id
+            app_trans_id: `${moment().format('YYMMDD')}_${transID}`,
             app_user: 'user123',
-            app_time: Date.now(), // miliseconds
+            app_time: Date.now(),
             item: JSON.stringify(items),
             embed_data: JSON.stringify(embed_data),
             amount: price,
             description: `Finder badminton - Payment for the order #${transID}`,
             bank_code: '',
             mac: '',
-            callback_url:
-                'https://115d-42-119-153-26.ngrok-free.app/api/payment/zalopayCallback',
+            callback_url: `${process.env.SERVER_URL}/api/payment/zalopayCallback`,
         };
 
         // appid|app_trans_id|appuser|amount|apptime|embeddata|item
@@ -56,9 +62,14 @@ export class PaymentService {
         order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
 
         try {
-            const res = await axios.post(config.endpoint, null, {
-                params: order,
+            const qs = require('qs');
+            const res = await axios.post(config.endpoint, qs.stringify(order), {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
             });
+
+            console.log('res :', res);
             return res.data;
         } catch (err) {
             console.log(err);
