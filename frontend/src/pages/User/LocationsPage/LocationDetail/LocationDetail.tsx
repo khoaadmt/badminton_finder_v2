@@ -295,7 +295,6 @@ export const LocationDetail: React.FC = () => {
             </div>
           </div>
 
-          {/* ==== Cột phải: Đặt sân ==== */}
           <div className="col-span-5 flex flex-col space-y-4">
             <div className="flex items-center text-lg font-medium text-gray-700">
               Giá thuê:&nbsp;
@@ -307,9 +306,7 @@ export const LocationDetail: React.FC = () => {
               </p>
             </div>
 
-            {/* ==== Danh sách sân + Lịch & Ca (ngang hàng) ==== */}
             <div className="flex flex-col gap-4 lg:flex-row">
-              {/* --- Danh sách sân (bên trái) --- */}
               <div className="flex-1 rounded-lg bg-gray-100 p-3">
                 <Flex
                   className="rounded-lg bg-gray-100 p-2"
@@ -352,7 +349,6 @@ export const LocationDetail: React.FC = () => {
                 </Flex>
               </div>
 
-              {/* --- Lịch & ca (bên phải) --- */}
               <div className="flex w-full flex-col lg:w-1/3">
                 <div className="calendar" style={wrapperStyle}>
                   <Calendar
@@ -399,13 +395,14 @@ export const LocationDetail: React.FC = () => {
         footer={false}
         onOk={handleOk}
         onCancel={handleCancel}
-        width="80%"
-        style={{ top: 20 }}
+        className="!w-4/5 md:!w-3/5 xl:!w-2/5"
+        style={{ top: 80 }}
       >
         <iframe
+          className="h-[70vh]"
           src={paymentUrl}
           title="Popup Content"
-          style={{ width: "100%", height: "450px", border: "none" }}
+          style={{ width: "100%", border: "none" }}
         ></iframe>
       </Modal>
     </div>
