@@ -33,9 +33,7 @@ const App: React.FC = () => {
 
           <Route path="posts">
             <Route path="" element={<PostsPage />} />
-            <Route path="create" element={<PrivateRoute />}>
-              <Route path="" element={<CreatePostPage />} />
-            </Route>
+            <Route path="create" element={<CreatePostPage />} />
 
             <Route path=":postId" element={<PostDetailPage />} />
           </Route>
@@ -59,19 +57,21 @@ const App: React.FC = () => {
         <Route path="*" element={<NotFoundPage />} />
 
         <Route path="admin" element={<LayoutPage />}>
-          <Route path="" element={<Navigate to="dashboard" />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="location">
-            <Route path="" element={<Navigate to="overview" />} />
-            <Route path="overview" element={<OverviewLocationPage />} />
-            <Route path="add" element={<AddLocationPage />} />
+          <Route path="" element={<PrivateRoute />}>
+            <Route path="" element={<Navigate to="dashboard" />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="location">
+              <Route path="" element={<Navigate to="overview" />} />
+              <Route path="overview" element={<OverviewLocationPage />} />
+              <Route path="add" element={<AddLocationPage />} />
+            </Route>
+            <Route path="post">
+              <Route path="review" element={<ReviewPostPage />} />
+              <Route path="checked" element={<CheckedPostPage />} />
+              <Route path="reject" element={<RejectPostPage />} />
+            </Route>
+            <Route path="statistics" element={<StatisticsPage />} />
           </Route>
-          <Route path="post">
-            <Route path="review" element={<ReviewPostPage />} />
-            <Route path="checked" element={<CheckedPostPage />} />
-            <Route path="reject" element={<RejectPostPage />} />
-          </Route>
-          <Route path="statistics" element={<StatisticsPage />} />
         </Route>
       </Routes>
     </div>

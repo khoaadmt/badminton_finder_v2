@@ -77,6 +77,7 @@ const MyHeader: React.FC = () => {
       return;
     }
 
+    console.log("item.path :", item.path);
     navigate(item.path);
   };
 
@@ -159,9 +160,10 @@ const MyHeader: React.FC = () => {
   ];
 
   const onMobileMenuClick = (e: any) => {
-    const item = mobileItems.find(
-      (m) => "key" in m && m.key === e.key, // ✅ chỉ tìm item có key
-    ) as { key: string; path?: string };
+    const item = mobileItems.find((m) => "key" in m && m.key === e.key) as {
+      key: string;
+      path?: string;
+    };
 
     if (!item) return;
 

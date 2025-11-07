@@ -43,6 +43,9 @@ export const CreatePostPage: React.FC = () => {
   const [locationOptions, setLocationOptions] = useState<LocationOption[]>([]);
   const [disablePriceInput, setDisablePriceInput] = useState(false);
 
+  console.log("User in CreatePostPage:", user);
+  console.log("AccessToken:", user?.accessToken);
+
   const createPostForm = useFormik({
     enableReinitialize: true,
     initialValues: {
