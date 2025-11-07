@@ -360,6 +360,7 @@ const MyHeader: React.FC = () => {
                       mode="inline"
                       onClick={onMobileMenuClick}
                       items={mobileItems as MenuProps["items"]}
+                      overflowedIndicator={null}
                     />
                   </Drawer>
                 </div>
