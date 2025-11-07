@@ -111,9 +111,9 @@ export const LocationDetail: React.FC = () => {
     setDisableBtttons([]);
     setDateSelected(value.format("YYYY-MM-DD"));
   };
-  const disabledDate = (current: Dayjs) => {
-    const minDate = dayjs(dateSelected).startOf("day");
-    return current.isBefore(minDate, "day");
+  const disabledDate = (current: any) => {
+    const today = new Date();
+    return current && current < today.setHours(0, 0, 0, 0);
   };
 
   const convertTimeToNumber = (timeStr: string) => {
@@ -190,7 +190,6 @@ export const LocationDetail: React.FC = () => {
     setShiftSelected(0);
     if (locationDetail?.shifts) {
       const date = new Date(Date.now());
-
       let hoursNow = date.getHours();
       if (date.getMinutes() > 30) {
         hoursNow += 0.5;
@@ -216,14 +215,6 @@ export const LocationDetail: React.FC = () => {
           };
         });
 
-      if (optionsTmp.length === 0 && dateNow === dateSelected) {
-        message.info(
-          "Tất cả các ca hôm nay đã kết thúc, hệ thống đã chuyển sang ngày mai.",
-        );
-        const nextDate = dayjs(date).add(1, "day").format("YYYY-MM-D");
-        setDateSelected(nextDate);
-        return;
-      }
       if (optionsTmp.length === 0) {
         setDisableBtttons((prev) => {
           return [...prev, activeButtonName];
@@ -364,7 +355,6 @@ export const LocationDetail: React.FC = () => {
                     fullscreen={false}
                     onChange={HandleDateOnChange}
                     disabledDate={disabledDate}
-                    value={dayjs(dateSelected)}
                   />
                 </div>
 

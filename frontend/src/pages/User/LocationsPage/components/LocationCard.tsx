@@ -6,6 +6,7 @@ interface Props {
 }
 export const LocationCard: React.FC<Props> = (props) => {
   const { badmintonVenue } = props;
+  console.log("badmintonVenue :", badmintonVenue);
   const imageStyle: React.CSSProperties = {
     position: "absolute",
     height: "100%",

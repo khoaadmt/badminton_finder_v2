@@ -266,7 +266,13 @@ export class LocationService {
                 return { ...location, distance };
             },
         );
-        return locationsWithDistance;
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'success',
+            data: locationsWithDistance,
+        };
+
+        locationsWithDistance;
     }
 
     async updateLocation(
