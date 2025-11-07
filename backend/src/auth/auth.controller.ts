@@ -1,4 +1,13 @@
-import { Body, Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    HttpStatus,
+    Post,
+    Req,
+    Res,
+    UseGuards,
+} from '@nestjs/common';
 import { RegisterUserDto } from './dto/register-user.dto';
 
 import { LoginUserDto } from './dto/login.dto';
@@ -53,6 +62,7 @@ export class AuthController {
     @UseGuards(AuthGuard('google'))
     async GoogleRedirect(@Req() req, @Res() res) {
         const token = await this.authService.loginWithGoogle(req.user);
+        console.log('call redirect frontend');
         res.redirect(
             `http://localhost:3000/auth/social/redirect?accessToken=${token.accessToken}&refresh_token=${token.refreshToken}`,
         );

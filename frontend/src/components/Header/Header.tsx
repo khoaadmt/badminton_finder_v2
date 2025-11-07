@@ -83,7 +83,7 @@ const MyHeader: React.FC = () => {
   const handleProfileClick = (e: any) => {
     const item = profileMenuItems.find((i) => i.key === e.key);
     if (!item) return;
-    if (e.key === "4") {
+    if (e.key === "p4") {
       dispatch(logOutSuccess());
       message.success("Đã đăng xuất.");
       navigate("/");

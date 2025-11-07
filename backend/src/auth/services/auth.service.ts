@@ -1,6 +1,4 @@
 import { HttpException, HttpStatus, Injectable, Res } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from '../dto/register-user.dto';
@@ -33,11 +31,13 @@ export class AuthService {
 
         const user = await this.userRepository.findUserByGoogleType(username);
         if (!user) {
+            console.log('create new user:');
             const newUser = await this.userRepository.createUserByGoogleType(
                 username,
                 displayName,
                 avaUrl,
             );
+            console.log('created new user:', newUser);
             payload.user_id = newUser.id;
         } else {
             payload.facebookId = user.facebookId;
