@@ -64,7 +64,7 @@ export const AddLocationPage = () => {
       .map((f) => f.originFileObj)
       .filter((f): f is RcFile => !!f);
     const imgurl = await UploadService.uploadImages(files);
-    values.img = imgurl[0];
+    values.img = imgurl;
 
     locationService
       .createLocation(values, user?.accessToken)

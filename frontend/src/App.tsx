@@ -24,6 +24,7 @@ import { LocationDetail } from "./pages/User/LocationsPage/LocationDetail/Locati
 import { PostsPage } from "./pages/User/PostsPage/PostsPage";
 import { CreatePostPage } from "./pages/User/PostsPage/CreatePostPage/CreatePostPage";
 
+console.log(process.env);
 const App: React.FC = () => {
   return (
     <div className="App">

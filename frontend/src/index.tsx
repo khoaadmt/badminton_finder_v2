@@ -11,8 +11,6 @@ import { IntlProvider } from "react-intl";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );
-console.log("Initial store state:", store.getState());
-
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>

@@ -101,6 +101,7 @@ export class LocationService {
         try {
             const existingLocation =
                 await this.locationRepository.createLocation(createLocationDto);
+            console.log('existingLocation :', existingLocation);
 
             await this.createShifts(
                 existingLocation.openHours.start,
