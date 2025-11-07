@@ -11,6 +11,7 @@ import {
   MenuOutlined,
   HomeOutlined,
   EditOutlined,
+  BookOutlined,
 } from "@ant-design/icons";
 import { logOutSuccess } from "../../redux/authSlice";
 import "./Header.css";
@@ -108,20 +109,57 @@ const MyHeader: React.FC = () => {
           { type: "divider" },
         ]
       : []),
+
     {
-      key: "1",
-      label: "Đăng tin",
-      icon: <EditOutlined />,
-      path: "/posts/create",
+      key: "giaoLuu",
+      label: "Giao lưu",
+      icon: <FormOutlined />,
+      path: "/posts?location=Hà+Nội&page=1",
     },
     {
-      key: "2",
+      key: "datSan",
       label: "Đặt sân",
       icon: <CarryOutOutlined />,
       path: "/locations?location=Hà+Nội&page=1",
     },
+    {
+      key: "dangTin",
+      label: "Đăng tin",
+      icon: <EditOutlined />,
+      path: "/posts/create",
+    },
     { type: "divider" },
-    ...profileMenuItems,
+
+    ...(user
+      ? [
+          {
+            key: "p1",
+            label: "Trang cá nhân",
+            icon: <UserOutlined />,
+            path: "/user/update-profile",
+          },
+          {
+            key: "p2",
+            label: "Bài viết của tôi",
+            icon: <FormOutlined />,
+            path: "/user/my-post",
+          },
+          {
+            key: "p3",
+            label: "Sân đã đặt",
+            icon: <CarryOutOutlined />,
+            path: "/user/my-booked-courts",
+          },
+          { key: "p4", label: "Đăng xuất", icon: <LogoutOutlined /> },
+        ]
+      : [
+          {
+            key: "login",
+            label: "Đăng nhập",
+            icon: <UserOutlined />,
+            path: "/login",
+          },
+        ]),
   ];
 
   const mobileMenuData = [
@@ -164,17 +202,25 @@ const MyHeader: React.FC = () => {
       key: string;
       path?: string;
     };
-
     if (!item) return;
 
     if (item.key === "p4") {
       dispatch(logOutSuccess());
       message.success("Đã đăng xuất.");
       navigate("/");
+      onClose();
       return;
     }
 
-    if (item.path) navigate(item.path);
+    if (item.key === "login") {
+      navigate("/login");
+      onClose();
+      return;
+    }
+
+    if (item.path) {
+      navigate(item.path);
+    }
     onClose();
   };
 
@@ -186,6 +232,7 @@ const MyHeader: React.FC = () => {
 
   const loginMenu = [{ key: "login", label: "Login" }];
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  console.log("isMobile :", isMobile);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -206,35 +253,83 @@ const MyHeader: React.FC = () => {
             alignItems: "center",
             justifyContent: "space-between",
             backgroundColor: "rgba(255, 255, 255, 0)",
+            padding: "8px 16px",
           }}
         >
-          <Menu
-            className="menu-header-left-home-page"
-            theme="dark"
-            mode="horizontal"
-            selectedKeys={selectedKeys}
-            items={menuItems}
-            onClick={handleMenuClick}
-          />
-          {!user ? (
-            <Menu
-              className="menu-header-right-home-page"
-              theme="dark"
-              mode="horizontal"
-              items={loginMenu}
-              onClick={() => navigate("/login")}
-            />
-          ) : (
-            <Dropdown
-              menu={{ items: profileMenuItems, onClick: handleProfileClick }}
-              className="mr-4 lg:mr-8"
-            >
+          {isMobile ? (
+            <>
               <div
-                style={{ color: "white", cursor: "pointer", fontWeight: 500 }}
+                style={{
+                  fontSize: 18,
+                  fontWeight: 600,
+                  color: "white",
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/")}
               >
-                {user.displayName || user.username}
+                Finder
               </div>
-            </Dropdown>
+
+              <Button
+                type="text"
+                icon={<MenuOutlined style={{ fontSize: 24, color: "white" }} />}
+                onClick={showDrawer}
+              />
+
+              <Drawer
+                title={user ? user.displayName || "Tài khoản" : "Menu"}
+                placement="right"
+                onClose={onClose}
+                open={open}
+                bodyStyle={{ padding: 0 }}
+              >
+                <Menu
+                  mode="inline"
+                  items={mobileItems as MenuProps["items"]}
+                  onClick={onMobileMenuClick}
+                />
+              </Drawer>
+            </>
+          ) : (
+            <>
+              <Menu
+                className="menu-header-left-home-page"
+                theme="dark"
+                mode="horizontal"
+                selectedKeys={selectedKeys}
+                items={menuItems}
+                onClick={handleMenuClick}
+                style={{ backgroundColor: "transparent", flex: 1 }}
+              />
+              {!user ? (
+                <Menu
+                  className="menu-header-right-home-page"
+                  theme="dark"
+                  mode="horizontal"
+                  items={loginMenu}
+                  onClick={() => navigate("/login")}
+                  style={{ backgroundColor: "transparent" }}
+                />
+              ) : (
+                <Dropdown
+                  menu={{
+                    items: profileMenuItems,
+                    onClick: handleProfileClick,
+                  }}
+                  className="mr-4 lg:mr-8"
+                >
+                  <div
+                    style={{
+                      color: "white",
+                      cursor: "pointer",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {user.displayName || user.username}
+                  </div>
+                </Dropdown>
+              )}
+            </>
           )}
         </div>
       ) : (
