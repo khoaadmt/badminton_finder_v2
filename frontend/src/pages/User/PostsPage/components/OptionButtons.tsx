@@ -31,7 +31,6 @@ export const OptionButtons: React.FC<Props> = (props) => {
         } as FilterOptions;
       });
     } else {
-      console.log("change price: false");
       setFilterOptions((prev) => {
         return {
           ...prev,

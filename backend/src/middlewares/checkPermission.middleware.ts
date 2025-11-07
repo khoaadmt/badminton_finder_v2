@@ -26,14 +26,11 @@ export class CheckPermissionMiddleware implements NestMiddleware {
                 secret: process.env.ACCESS_TOKEN_SECRET,
             });
 
-            console.log('decoded :', decoded);
-
             const user = await this.userRepo.findOne({
                 where: {
                     id: decoded.user_id,
                 },
             });
-            console.log('This user access :', user);
 
             if (!user) {
                 return res.status(403).json({

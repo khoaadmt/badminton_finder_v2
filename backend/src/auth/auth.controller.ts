@@ -62,7 +62,6 @@ export class AuthController {
     @UseGuards(AuthGuard('google'))
     async GoogleRedirect(@Req() req, @Res() res) {
         const token = await this.authService.loginWithGoogle(req.user);
-        console.log('call redirect frontend');
         res.redirect(
             `http://localhost:3000/auth/social/redirect?accessToken=${token.accessToken}&refresh_token=${token.refreshToken}`,
         );

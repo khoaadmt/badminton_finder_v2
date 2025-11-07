@@ -69,7 +69,6 @@ export const OverviewLocationPage = () => {
       console.error("Record is undefined");
       return;
     }
-    console.log("record :", record);
     locationService
       .deleteLocation(record._id, user?.accessToken)
       .then(() => {

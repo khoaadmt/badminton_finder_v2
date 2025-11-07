@@ -31,13 +31,11 @@ export class AuthService {
 
         const user = await this.userRepository.findUserByGoogleType(username);
         if (!user) {
-            console.log('create new user:');
             const newUser = await this.userRepository.createUserByGoogleType(
                 username,
                 displayName,
                 avaUrl,
             );
-            console.log('created new user:', newUser);
             payload.user_id = newUser.id;
         } else {
             payload.facebookId = user.facebookId;

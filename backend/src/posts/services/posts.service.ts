@@ -237,7 +237,6 @@ export class PostsService {
                 user: { id: createPostDto.user_id },
             };
 
-            console.log('newCreatePostDto :', newCreatePostDto);
             const newPost =
                 await this.postRepository.createPost(newCreatePostDto);
 

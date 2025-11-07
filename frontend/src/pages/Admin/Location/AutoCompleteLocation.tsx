@@ -28,11 +28,6 @@ export const AutoCompleteLocation: React.FC<Props> = ({
   const [options, setOptions] = useState<Options[]>([]);
   const [inputValue, setInputValue] = useState("");
 
-  console.log(
-    "process.env.REACT_APP_API_KEY_GOONG_MAP :",
-    process.env.REACT_APP_API_KEY_GOONG_MAP,
-  );
-
   useEffect(() => {
     if (!inputValue) return;
 

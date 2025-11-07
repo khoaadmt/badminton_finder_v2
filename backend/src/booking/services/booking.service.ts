@@ -56,7 +56,6 @@ export class BookingService {
                 price,
                 booking.id.toString(),
             );
-            console.log('resZaloPayment :', resZaloPayment);
             return {
                 statusCode: HttpStatus.OK,
                 message: 'success',
@@ -65,7 +64,6 @@ export class BookingService {
                 },
             };
         } catch (err) {
-            console.error('Error in createBooking:', err);
             throw err; // để bubble lên controller
         }
     }
@@ -98,7 +96,6 @@ export class BookingService {
         const bookings =
             await this.bookingrepository.findBookingsByUsername(username);
 
-        console.log('bookings :', bookings);
         const now = new Date();
         const updatedBookings = bookings.map((booking) => {
             const bookingDate = new Date(

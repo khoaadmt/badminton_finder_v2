@@ -69,7 +69,6 @@ export class PaymentService {
                 },
             });
 
-            console.log('res :', res);
             return res.data;
         } catch (err) {
             console.log(err);
@@ -90,7 +89,6 @@ export class PaymentService {
 
             // kiểm tra callback hợp lệ (đến từ ZaloPay server)
             if (reqMac != mac) {
-                console.log('mac not equal');
                 result.return_code = -1;
                 result.return_message = 'mac not equal';
             } else {

@@ -19,7 +19,6 @@ export const MyBookedCourts = () => {
       bookingService
         .getBookingsByUserName(user?.username)
         .then((res) => {
-          console.log(res.data);
           setBookedCourts(res.data);
         })
         .catch((err) => {

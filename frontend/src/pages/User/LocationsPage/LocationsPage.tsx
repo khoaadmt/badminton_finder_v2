@@ -40,7 +40,6 @@ export const LocationsPage: React.FC = () => {
         getData(resolve.latitude, resolve.longitude).then((res) => {
           if (res.data) {
             setData(res.data);
-            console.log(res);
           }
         });
       })

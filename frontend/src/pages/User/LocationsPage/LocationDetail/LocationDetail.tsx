@@ -166,7 +166,6 @@ export const LocationDetail: React.FC = () => {
     bookingService
       .createBooking(data)
       .then((resUrl) => {
-        console.log("resUrl :", resUrl);
         setPaymentUrl(resUrl.data.url);
       })
       .catch((err) => {

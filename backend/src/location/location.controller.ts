@@ -82,7 +82,6 @@ export class LocationController {
 
     @Delete(':locationId')
     deleteLocation(@Param('locationId') locationId: number) {
-        console.log(locationId);
         return this.locationService.deleteLocation(locationId);
     }
 }

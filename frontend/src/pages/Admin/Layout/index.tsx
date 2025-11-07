@@ -51,7 +51,6 @@ export const LayoutPage = () => {
   const navigate = useNavigate();
   const handleMenuOnChange = (e: any) => {
     const key = e.key;
-    console.log("key :", typeof key);
     switch (key) {
       case "1":
         navigate("dashboard");

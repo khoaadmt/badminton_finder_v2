@@ -164,7 +164,6 @@ export const StatisticsPage: React.FC = () => {
     setMonthSelected(date.month() + 1);
     locationService.getAllLocation().then((res) => {
       if (res.data.locations) {
-        console.log("res.data.locations :", res.data.locations);
         const locationOptions = res.data.locations.map((location: any) => {
           return {
             value: location.id,
