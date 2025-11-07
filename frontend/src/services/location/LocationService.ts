@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../interface";
 import BaseService from "../BaseService";
 import { BASE_URL } from "../../utils/api/apiConfig";
 
