@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Layout, { Content, Header } from "antd/es/layout/layout";
+import Layout, { Content } from "antd/es/layout/layout";
 import { Button, message, Select } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import "./index.css";
 
 import BookingService from "../../../services/booking/BookingService";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { BadmintonVenue, BookedCourts } from "../../../interface";
 import LocationService from "../../../services/location/LocationService";
 import { MyBarChart } from "./BarChart";

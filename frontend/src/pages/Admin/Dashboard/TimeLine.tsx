@@ -1,7 +1,5 @@
 import { useEffect, useState, type FC } from "react";
-
 import { Badge, Card, message } from "antd";
-import dayjs from "dayjs";
 import {
   Brush,
   CartesianGrid,

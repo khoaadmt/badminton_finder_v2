@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { passwordSchema, usernameSchema } from "../validationSchema";
@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../interface";
 import { DoubleLeftOutlined } from "@ant-design/icons";
 import "./login-page.css";
-import axios from "axios";
 var facebook_logo = require("../../../assets/images/facebook-logo.png");
 var google_logo = require("../../../assets/images/google-logo.png");
 
