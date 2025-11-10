@@ -120,7 +120,14 @@ export const StatisticsPage: React.FC = () => {
       bookingService
         .getTransactionInDay(day, locationSelected)
         .then((res) => {
-          setData(res.data);
+          const converted = res.data.map((item: any) => ({
+            ...item,
+            createdAt: dayjs(item.createdAt)
+              .add(7, "hour")
+              .format("YYYY-MM-DD"),
+            date: dayjs(item.date).add(7, "hour").format("YYYY-MM-DD"),
+          }));
+          setData(converted);
         })
         .catch((err) => {
           message.error("Có lỗi khi lấy dữ liệu giao dịch từ server");
@@ -130,7 +137,14 @@ export const StatisticsPage: React.FC = () => {
       bookingService
         .getTransactionInMonth(monthSelected, locationSelected)
         .then((res) => {
-          setData(res.data);
+          const converted = res.data.map((item: any) => ({
+            ...item,
+            createdAt: dayjs(item.createdAt)
+              .add(7, "hour")
+              .format("YYYY-MM-DD"),
+            date: dayjs(item.date).add(7, "hour").format("YYYY-MM-DD"),
+          }));
+          setData(converted);
         })
         .catch((err) => {
           message.error("Có lỗi khi lấy dữ liệu giao dịch từ server");

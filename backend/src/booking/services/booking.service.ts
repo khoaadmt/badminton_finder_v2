@@ -145,9 +145,7 @@ export class BookingService {
         return {
             statusCode: HttpStatus.OK,
             message: 'success',
-            data: {
-                totalSales,
-            },
+            data: totalSales,
         };
     }
 
@@ -181,11 +179,14 @@ export class BookingService {
                 return booking.locationId.toString() === locationId;
             });
         }
-        const result = bookings.filter(
-            (booking) => booking.createdAt == new Date(today),
-        );
+        const result = bookings.filter((booking) => {
+            const createdAt = new Date(booking.createdAt);
+            createdAt.setHours(createdAt.getHours() + 7);
+            const createdDate = createdAt.toISOString().slice(0, 10);
+            return createdDate === today;
+        });
 
-        return result;
+        return { data: result };
     }
 
     async getAllTransactions(locationId: string) {
@@ -195,6 +196,10 @@ export class BookingService {
                 return booking.locationId.toString() === locationId;
             });
         }
-        return bookings;
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'success',
+            data: bookings,
+        };
     }
 }
