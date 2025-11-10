@@ -35,13 +35,6 @@ export class PostsService {
         const result = posts.slice(skip, skip + this.pageLimit);
 
         const postsWithDistance = await Bluebird.map(result, async (post) => {
-            console.log(
-                latitude,
-                longitude,
-                post.location.latitude,
-                post.location.longitude,
-            );
-
             try {
                 const distance =
                     await this.locationService.realDistanceBetween2Points(

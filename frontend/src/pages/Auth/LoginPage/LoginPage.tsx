@@ -67,10 +67,19 @@ export const LoginPage = () => {
   };
 
   const HandleLoginWithFacebook = () => {
+    console.log(
+      "url:",
+      `${process.env.REACT_APP_SERVER_URL}/api/auth/facebook/login`,
+    );
     window.location.href = `${process.env.REACT_APP_SERVER_URL}/api/auth/facebook/login`;
   };
+
   const HandleLoginWithGoogle = () => {
     window.location.href = `${process.env.REACT_APP_SERVER_URL}/api/auth/google/login`;
+    console.log(
+      "url: ",
+      `${process.env.REACT_APP_SERVER_URL}/api/auth/google/login`,
+    );
   };
   const handleBtnHomeClick = () => {
     navigate("/");
