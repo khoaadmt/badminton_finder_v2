@@ -59,7 +59,7 @@ export interface Post {
   priceMax: number;
   agreement: boolean;
   user: userInfor;
-  location: Location;
+  location: BadmintonVenue;
   status: string;
   distance: {
     text: string;
@@ -68,7 +68,7 @@ export interface Post {
 }
 
 export interface ResponseLocation {
-  location: Location;
+  location: BadmintonVenue;
   distance: {
     text: string;
     value: number;
@@ -124,7 +124,7 @@ export interface BookedCourts {
   court: {
     courtNumber: number;
   };
-  location: Location;
+  location: BadmintonVenue;
   shift: Shift;
   username: string;
   date: string;

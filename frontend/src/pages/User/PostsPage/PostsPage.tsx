@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import { PaginationComponent } from "../../LocationsPage/components/Pagination";
+import { PaginationComponent } from "../LocationsPage/components/Pagination";
 import { useSearchParams } from "react-router-dom";
-import { Post_options } from "../header/PostOptions";
-import { PostCard } from "../../PostsPage/PostCard";
+import { PostCard } from "./components/PostCard";
 import { message } from "antd";
 import { useSelector } from "react-redux";
-import { Post, FilterOptions, RootState } from "../../../../interface";
-import PostService from "../../../../services/post/PostService";
-import { getLocation } from "../../../../utils/location";
+import { Post, FilterOptions, RootState } from "../../../interface";
+import PostService from "../../../services/post/PostService";
+import { getLocation } from "../../../utils/location";
+import { PostOptions } from "./components/PostOptions";
 
-export const SessionsPage = () => {
+export const PostsPage = () => {
   const [latitude, setLat] = useState<number | null>(null);
   const [longitude, setLong] = useState<number | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPosts, setTotalPosts] = useState(5);
-  const [data, setData] = useState<Post[] | null>();
+  const [posts, setPosts] = useState<Post[] | null>();
   const [filterOptions, setFilterOptions] = useState<FilterOptions | null>(
     null,
   );
@@ -59,7 +59,7 @@ export const SessionsPage = () => {
             if (!res.data) {
               message.info("không có bài viết nào !");
             } else {
-              setData(res.data.rows);
+              setPosts(res.data.rows);
 
               setTotalPosts(res.data.totalPosts);
             }
@@ -80,19 +80,21 @@ export const SessionsPage = () => {
   return (
     <div className="sessions-content-page flex min-h-screen gap-4">
       <div className="relative w-full">
-        <Post_options setFilterOptions={setFilterOptions} />
+        <PostOptions setFilterOptions={setFilterOptions} />
         <div className="top-[calc(100vh - 192px)] relative z-[9] min-h-screen w-screen rounded-xl bg-white transition-all sm:static sm:min-h-full sm:w-full">
-          <div className="py-[15px] pl-[42px]">
-            <span className="text-lg font-semibold sm:text-xl">
-              {data
+          <div className="py-2 md:py-4">
+            <span className="text-[16px] font-semibold">
+              {posts
                 ? `Tìm thấy ${totalPosts} bài viết`
-                : "Không tìm thấy sân đấu nào"}
+                : "Không tìm thấy bài viết nào"}
             </span>
           </div>
-          <div className="grid grid-cols-1 gap-2 px-[40px] md:grid-cols-2">
-            {data &&
-              data?.map((post) => {
-                return <PostCard key={post.id} post={post} />;
+          <div className="ml-2 mr-6 grid grid-cols-1 gap-2 md:mx-10 lg:grid-cols-2">
+            {posts &&
+              posts?.map((post) => {
+                if (post) {
+                  return <PostCard key={post.id} post={post} />;
+                }
               })}
           </div>
 

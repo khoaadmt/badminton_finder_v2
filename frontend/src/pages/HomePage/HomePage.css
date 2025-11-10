@@ -1,95 +1,92 @@
-@media (max-width: 768px) {
-    .menu-header-left-home-page {
-        font-size: 14px !important;
-    }
-    .menu-header-left-home-page .ant-menu-item {
-        padding: 0 12px;
-    }
-    /* .title-container {
-        margin-top: -50px !important;
-    } */
-    .title-home-page {
-        font-size: 42px !important;
-    }
-    .description-home-page {
-        font-size: 18px !important;
-        margin-bottom: -10px;
-    }
-}
-
 .home-page-content {
-    width: 100vw;
-    height: 100vh;
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .menu-header-left-home-page {
-    min-width: 150;
-    flex: 1;
-    background-color: transparent;
-    color: white !important;
-    font-size: 20px;
-    font-weight: 400;
+  min-width: 150;
+  flex: 1;
+  background-color: transparent;
+  color: white !important;
+  font-size: 20px;
+  font-weight: 400;
 }
 .menu-header-right-home-page {
-    display: flex;
-    flex-direction: row-reverse;
-    min-width: 150;
-    flex: 1;
-    background-color: transparent;
-    color: white !important;
-    font-size: 20px !important;
-    font-weight: 400;
+  display: flex;
+  flex-direction: row-reverse;
+  min-width: 150;
+  flex: 1;
+  background-color: transparent;
+  color: white !important;
+  font-size: 20px !important;
+  font-weight: 400;
 }
 .menu-header-right-home-page .ant-menu-item-selected {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 .menu-header-right-home-page .ant-menu-item span {
-    padding: 8px 18px;
-    border: solid 1px #fff;
-    border-radius: 8px;
+  padding: 8px 18px;
+  border: solid 1px #fff;
+  border-radius: 8px;
 }
 .menu-header-left-home-page .ant-menu-item-selected {
-    background-color: transparent !important;
-    border-bottom: solid 1px #fff;
+  background-color: transparent !important;
+  border-bottom: solid 1px #fff;
 }
 
 .menu-header-left-home-page .ant-menu-item:hover {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .input-search-home-page {
-    margin-top: -40px;
+  margin-top: -40px;
 }
 
 .input-search-home-page .input-search-content {
-    background-color: rgba(255, 255, 255, 0.932);
+  background-color: rgba(255, 255, 255, 0.932);
 }
 .input-search-home-page .search-location-input {
-    background-color: rgb(255 255 255 / 0%);
+  background-color: rgb(255 255 255 / 0%);
 }
 .title-container {
-    margin-top: -150px;
-    padding-bottom: 80px;
+  margin-top: -150px;
+  padding-bottom: 80px;
 }
 .title-home-page {
-    font-size: 55px;
-    font-family: "Kanit", sans-serif;
-    font-weight: 600;
-    color: #fff;
-    text-align: center;
-    letter-spacing: 2px;
+  font-size: 55px;
+  font-family: "Kanit", sans-serif;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 2px;
 }
 .description-home-page {
-    margin-top: -8px;
-    font-size: 20px;
-    font-family: "Kanit", sans-serif;
-    font-weight: 100;
-    color: #fff;
-    text-align: center;
+  margin-top: -8px;
+  font-size: 20px;
+  font-family: "Kanit", sans-serif;
+  font-weight: 100;
+  color: #fff;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .menu-header-left-home-page {
+    font-size: 14px !important;
+  }
+  .menu-header-left-home-page .ant-menu-item {
+    padding: 0 8px;
+  }
+  .title-home-page {
+    font-size: 42px !important;
+  }
+  .description-home-page {
+    font-size: 18px !important;
+    margin-bottom: -10px;
+  }
 }

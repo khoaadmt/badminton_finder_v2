@@ -40,6 +40,7 @@ export class PostRepository {
             ])
             .where('post.startTime > :currentTimestamp', { currentTimestamp })
             .andWhere('post.status = :status', { status })
+            .orderBy('post.updatedAt', 'DESC')
             .getMany();
 
         return {
@@ -79,9 +80,9 @@ export class PostRepository {
                 'user.avaUrl',
             ])
             .where('user.username = :username', { username })
+            .orderBy('post.updatedAt', 'DESC')
             .getMany();
 
-        console.log('posts :', posts);
         return posts;
     }
 

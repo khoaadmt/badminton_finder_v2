@@ -10,6 +10,7 @@ import { BookingRepository } from '../repository/booking.repository';
 import { ShiftService } from 'src/shift/services/shift.service';
 import { PaymentService } from 'src/payment/payment.service';
 import { CreateBookingDto } from '../dto/createBooking.dto';
+import { Booking } from './../entities/booking.entity';
 
 @Injectable()
 export class BookingService {
@@ -21,36 +22,50 @@ export class BookingService {
     ) {}
 
     async createBooking(createBookingDto: CreateBookingDto) {
-        const isBooked = await this.bookingrepository.findBooking(
-            createBookingDto.locationId,
-            createBookingDto.courtId,
-            createBookingDto.shiftId,
-            createBookingDto.date,
-        );
-
-        if (isBooked) {
-            throw new HttpException(
-                'Sân vừa có người đặt rồi!',
-                HttpStatus.CONFLICT,
+        try {
+            const isBooked = await this.bookingrepository.findBooking(
+                createBookingDto.locationId,
+                createBookingDto.courtId,
+                createBookingDto.shiftId,
+                createBookingDto.date,
             );
+
+            if (isBooked) {
+                throw new HttpException(
+                    'Sân vừa có người đặt rồi!',
+                    HttpStatus.CONFLICT,
+                );
+            }
+            const shift = await this.shiftService.getShiftById(
+                createBookingDto.shiftId,
+            );
+            const price = shift.price;
+
+            const data = {
+                price,
+                username: createBookingDto.username,
+                courtId: createBookingDto.courtId,
+                shiftId: createBookingDto.shiftId,
+                locationId: createBookingDto.locationId,
+                date: new Date(createBookingDto.date),
+            };
+
+            const booking = await this.bookingrepository.createBooking(data);
+
+            const resZaloPayment = await this.paymentService.createZaloPayment(
+                price,
+                booking.id.toString(),
+            );
+            return {
+                statusCode: HttpStatus.OK,
+                message: 'success',
+                data: {
+                    url: resZaloPayment.order_url,
+                },
+            };
+        } catch (err) {
+            throw err; // để bubble lên controller
         }
-        const shift = await this.shiftService.getShiftById(
-            createBookingDto.shiftId,
-        );
-        const price = shift.price;
-
-        const data = {
-            ...createBookingDto,
-
-            price,
-        };
-        const booking = await this.bookingrepository.createBooking(data);
-
-        const resZaloPayment = await this.paymentService.createZaloPayment(
-            price,
-            booking[0].id.toString(),
-        );
-        return resZaloPayment.order_url;
     }
 
     async updateStatus(bookingId: number, status: string) {
@@ -81,7 +96,6 @@ export class BookingService {
         const bookings =
             await this.bookingrepository.findBookingsByUsername(username);
 
-        console.log('bookings :', bookings);
         const now = new Date();
         const updatedBookings = bookings.map((booking) => {
             const bookingDate = new Date(
@@ -131,9 +145,7 @@ export class BookingService {
         return {
             statusCode: HttpStatus.OK,
             message: 'success',
-            data: {
-                totalSales,
-            },
+            data: totalSales,
         };
     }
 
@@ -167,11 +179,14 @@ export class BookingService {
                 return booking.locationId.toString() === locationId;
             });
         }
-        const result = bookings.filter(
-            (booking) => booking.createdAt == new Date(today),
-        );
+        const result = bookings.filter((booking) => {
+            const createdAt = new Date(booking.createdAt);
+            createdAt.setHours(createdAt.getHours() + 7);
+            const createdDate = createdAt.toISOString().slice(0, 10);
+            return createdDate === today;
+        });
 
-        return result;
+        return { data: result };
     }
 
     async getAllTransactions(locationId: string) {
@@ -181,6 +196,10 @@ export class BookingService {
                 return booking.locationId.toString() === locationId;
             });
         }
-        return bookings;
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'success',
+            data: bookings,
+        };
     }
 }

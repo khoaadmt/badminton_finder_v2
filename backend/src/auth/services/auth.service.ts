@@ -1,6 +1,4 @@
 import { HttpException, HttpStatus, Injectable, Res } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from '../dto/register-user.dto';

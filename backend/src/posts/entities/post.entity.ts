@@ -35,7 +35,7 @@ export class Post {
     @Column('text', {
         array: true,
         default: [
-            'http://localhost:5000/api/uploads/post/default-post-images.jpg',
+            'https://jskadysbdihpzhmaaccv.supabase.co/storage/v1/object/public/image/default_posts.jpg',
         ],
     })
     images: string[];

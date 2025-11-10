@@ -11,11 +11,11 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { MyFormItem } from "../../../components/common/InputFIeld/MyFormItem";
-import { PicturesWall } from "../../User/PostsPage/PictureWall/PicturesWall";
+import { PicturesWall } from "../../User/PostsPage/components/PictureWall/PicturesWall";
 import { AutoCompleteLocation } from "./AutoCompleteLocation";
 import { Coordinates, formItemLayout } from "./Add";
 import dayjs from "dayjs";
-import { Facility, RootState } from "../../../interface";
+import { BadmintonVenue, RootState } from "../../../interface";
 import LocationService from "../../../services/location/LocationService";
 import { useSelector } from "react-redux";
 import UploadService from "../../../services/uploads/UploadService";
@@ -24,7 +24,7 @@ import { RcFile } from "antd/es/upload";
 interface Prop {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  data: Facility | undefined;
+  data: BadmintonVenue | undefined;
 }
 
 export const EditLocationModal: React.FC<Prop> = (prop) => {

@@ -41,21 +41,30 @@ export class PostsService {
                 post.location.latitude,
                 post.location.longitude,
             );
-            const distance =
-                await this.locationService.realDistanceBetween2Points(
-                    latitude,
-                    longitude,
-                    post.location.latitude,
-                    post.location.longitude,
-                );
 
-            return { ...post, distance };
+            try {
+                const distance =
+                    await this.locationService.realDistanceBetween2Points(
+                        latitude,
+                        longitude,
+                        post.location.latitude,
+                        post.location.longitude,
+                    );
+
+                return { ...post, distance };
+            } catch (err) {
+                console.log('err in realDistanceBetween2Points :', err);
+            }
         });
 
         return {
-            rows: postsWithDistance,
-            totalPosts: posts.length,
-            page: pageNumber,
+            StatusCode: HttpStatus.OK,
+            message: 'success',
+            data: {
+                rows: postsWithDistance,
+                totalPosts: posts.length,
+                page: pageNumber,
+            },
         };
     }
 
@@ -64,7 +73,13 @@ export class PostsService {
         if (!post) {
             throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
         }
-        return post;
+        return {
+            StatusCode: HttpStatus.OK,
+            message: 'success',
+            data: {
+                post,
+            },
+        };
     }
 
     async getPostByUserName(userName: string) {
@@ -199,9 +214,13 @@ export class PostsService {
         let skip = (pageNumber - 1) * this.pageLimit;
         const result = postsWithDistance.slice(skip, skip + this.pageLimit);
         return {
-            rows: result,
-            totalPosts: postsWithDistance.length,
-            page: pageNumber,
+            StatusCode: HttpStatus.OK,
+            message: 'success',
+            data: {
+                rows: result,
+                totalPosts: postsWithDistance.length,
+                page: pageNumber,
+            },
         };
     }
 
@@ -218,7 +237,6 @@ export class PostsService {
                 user: { id: createPostDto.user_id },
             };
 
-            console.log('newCreatePostDto :', newCreatePostDto);
             const newPost =
                 await this.postRepository.createPost(newCreatePostDto);
 

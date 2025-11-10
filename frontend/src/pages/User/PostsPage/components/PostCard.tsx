@@ -1,11 +1,21 @@
 import React from "react";
+
+import {
+  FieldTimeOutlined,
+  ForwardFilled,
+  InfoCircleFilled,
+} from "@ant-design/icons";
+import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import { BadmintonVenue } from "../../../../interface";
+import { Post } from "../../../../interface";
+import { Level_value } from "../../../../utils/Constant";
+
 interface Props {
-  badmintonVenue: BadmintonVenue;
+  post: Post;
 }
-export const LocationCard: React.FC<Props> = (props) => {
-  const { badmintonVenue } = props;
+export const PostCard: React.FC<Props> = (props) => {
+  const { post } = props;
+
   const imageStyle: React.CSSProperties = {
     position: "absolute",
     height: "100%",
@@ -13,10 +23,16 @@ export const LocationCard: React.FC<Props> = (props) => {
     inset: "0px",
     color: "transparent",
   };
+
+  const dateTimeConvert = new Date(post.startTime);
+  const date = dayjs(dateTimeConvert).format("DD-MM-YYYY");
+  const startTime = dayjs(dateTimeConvert).format("HH:mm");
+  const endTime = dayjs(dateTimeConvert).add(2, "hour").format("HH:mm");
+
   return (
-    <Link to={`/locations/${badmintonVenue.id}`}>
+    <Link to={`/posts/${post.id}`}>
       <div className="flex rounded-xl p-2 shadow-[rgba(0,0,0,0.1)_0px_2px_20px_0px]">
-        <div className="relative mr-3 min-h-[100px] min-w-[120px] flex-shrink-0 overflow-hidden rounded-lg sm:mr-4 sm:min-h-[166px] sm:min-w-[200px]">
+        <div className="relative mr-3 min-h-[150px] min-w-[120px] flex-shrink-0 overflow-hidden rounded-lg sm:mr-4 sm:min-h-[166px] sm:min-w-[200px]">
           <img
             alt="Listing"
             loading="lazy"
@@ -24,25 +40,27 @@ export const LocationCard: React.FC<Props> = (props) => {
             data-nimg="fill"
             className="h-full w-full object-cover"
             sizes="100vw"
-            src={badmintonVenue.img[0]}
+            src={post.images[0]}
             style={imageStyle}
           />
           <div className="bg-primary absolute right-[6px] top-[6px] rounded-full px-[8px] pb-[5px] pt-[2px] leading-[10px] text-white sm:px-[12px] sm:py-1 sm:leading-[14px]">
             <span className="text-[10px] font-semibold sm:text-sm">
-              {badmintonVenue.priceMin} - {badmintonVenue.priceMax}
+              {post.agreement
+                ? "Thỏa thuận"
+                : `${post.priceMin} - ${post.priceMax}`}
             </span>
           </div>
         </div>
         <div className="text-black-ish-100 w-full truncate whitespace-nowrap text-xs sm:py-2 sm:text-sm">
           <div className="flex justify-between sm:mb-1 sm:mt-[2px]">
             <span className="text-[10px] sm:text-sm">
-              Cách bạn ~ {badmintonVenue.distance.text}
+              Cách bạn ~ {post.distance.text}
             </span>
             <div className="mr-2 flex items-center gap-2"></div>
           </div>
           <div className="sm:mb-1">
             <h3 className="text-black-ish-200 truncate text-base font-bold sm:text-xl">
-              {badmintonVenue.name}
+              {post.title}
             </h3>
           </div>
           <div className="flex items-start gap-2 pl-1 sm:mb-1">
@@ -74,7 +92,17 @@ export const LocationCard: React.FC<Props> = (props) => {
               ></circle>
             </svg>
             <span className="line-clamp-2 text-wrap sm:truncate sm:text-nowrap">
-              {badmintonVenue.address}
+              {post.location.address}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 pl-1 sm:mb-1">
+            <FieldTimeOutlined
+              className="stroke-primary"
+              style={{ fontSize: "18px", marginLeft: "2px" }}
+            />
+            <span>
+              {" "}
+              Khung giờ: {startTime} - {endTime}
             </span>
           </div>
           <div className="flex items-center gap-2 pl-1 sm:mb-1">
@@ -121,28 +149,16 @@ export const LocationCard: React.FC<Props> = (props) => {
                 d="M464 160H48"
               ></path>
             </svg>
-            <span>
-              {" "}
-              giờ mở: {badmintonVenue.openHours?.start.toString()} -{" "}
-              {badmintonVenue.openHours?.end.toString()}
-            </span>
+            <span className="">Ngày: {date}</span>
           </div>
-
-          <div className="flex items-start gap-2 pl-1 sm:mb-1">
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              // strokeWidth="0"
-              viewBox="0 0 512 512"
-              className="stroke-primary flex-shrink-0"
-              height="24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M120.8 55L87.58 199h18.52l29.1-126h18.2l-20.6 126h18.3l10.1-62H247v62h18v-62h85.8l10.1 62h18.3L358.6 73h18.2l29.1 126h18.5L391.2 55H120.8zm50.9 18h168.6l7.6 46H164.1l7.6-46zM73 217v30h366v-30H73zm-.64 48L20.69 489H491.3l-51.7-224h-18.5l47.6 206h-45L390 265h-18.3l14.2 87H265v-87h-18v87H126.1l14.2-87H122L88.35 471H43.31l47.56-206H72.36zm50.74 105h265.8l16.5 101H106.6l16.5-101z"></path>
-            </svg>
-            <span className="line-clamp-2 text-wrap sm:truncate sm:text-nowrap">
-              {badmintonVenue.numberOfCourts}
+          <div className="flex items-center gap-2 pl-1 sm:mb-1">
+            <InfoCircleFilled
+              style={{ fontSize: "16px", marginLeft: "2px" }}
+              className="stroke-primary"
+            />
+            <span>
+              Trình độ: {Level_value[post.levelMemberMin - 1].label} đến
+              {Level_value[post.levelMemberMax - 1].label}
             </span>
           </div>
         </div>

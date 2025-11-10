@@ -245,14 +245,14 @@ export class LocationService {
         );
 
         //fake data
-        const distance = { text: '9.86 km', value: '9860' };
-        return {
-            statusCode: HttpStatus.OK,
-            message: 'success',
-            data: locations.map((locations) => {
-                return { ...locations, distance };
-            }),
-        };
+        // const distance = { text: '9.86 km', value: '9860' };
+        // return {
+        //     statusCode: HttpStatus.OK,
+        //     message: 'success',
+        //     data: locations.map((locations) => {
+        //         return { ...locations, distance };
+        //     }),
+        // };
 
         const locationsWithDistance = await Bluebird.map(
             locations,
@@ -266,7 +266,13 @@ export class LocationService {
                 return { ...location, distance };
             },
         );
-        return locationsWithDistance;
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'success',
+            data: locationsWithDistance,
+        };
+
+        locationsWithDistance;
     }
 
     async updateLocation(
@@ -346,6 +352,7 @@ export class LocationService {
         const url = `https://rsapi.goong.io/Direction?origin=${origin}&destination=${destination}&vehicle=${vehicle}&api_key=${apiKey}`;
 
         const response = await axios.get(url);
+
         const result = response.data.routes[0].legs[0].distance;
         return result;
     }

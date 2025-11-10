@@ -8,7 +8,7 @@ import {
   TimePicker,
   UploadFile,
 } from "antd";
-import { PicturesWall } from "../../User/PostsPage/PictureWall/PicturesWall";
+import { PicturesWall } from "../../User/PostsPage/components/PictureWall/PicturesWall";
 import { useState } from "react";
 import { MyFormItem } from "../../../components/common/InputFIeld/MyFormItem";
 import { AutoCompleteLocation } from "./AutoCompleteLocation";
@@ -64,7 +64,7 @@ export const AddLocationPage = () => {
       .map((f) => f.originFileObj)
       .filter((f): f is RcFile => !!f);
     const imgurl = await UploadService.uploadImages(files);
-    values.img = imgurl[0];
+    values.img = imgurl;
 
     locationService
       .createLocation(values, user?.accessToken)

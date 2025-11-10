@@ -40,7 +40,6 @@ export const LocationsPage: React.FC = () => {
         getData(resolve.latitude, resolve.longitude).then((res) => {
           if (res.data) {
             setData(res.data);
-            console.log(res);
           }
         });
       })
@@ -82,9 +81,7 @@ export const LocationsPage: React.FC = () => {
               </svg>
             </button>
           </div>
-          <div className="relative -top-1 w-full pb-[15px] text-center sm:hidden">
-            <span className="text-sm">Tìm thêm hoạt động</span>
-          </div>
+
           <div className="py-[15px] pl-[42px]">
             <span className="text-lg font-semibold sm:text-xl">
               {data
@@ -92,7 +89,7 @@ export const LocationsPage: React.FC = () => {
                 : "Không tìm thấy sân đấu nào"}
             </span>
           </div>
-          <div className="grid grid-cols-1 gap-2 px-[40px] md:grid-cols-2">
+          <div className="ml-2 mr-6 grid grid-cols-1 gap-2 md:mx-10 lg:grid-cols-2">
             {data?.map((location) => {
               return (
                 <LocationCard key={location.name} badmintonVenue={location} />

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { SearchPageHeader } from "../../SearchPage/header/SearchPageHeader";
 import {
   Button,
   Calendar,
@@ -15,14 +14,13 @@ import { useParams } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
 import "./LocationDetail.css";
 import { useSelector } from "react-redux";
-import { MyFooter } from "../../../../components/Footer/Footer";
 import { RootState, Optional, BadmintonVenue } from "../../../../interface";
 import BookingService from "../../../../services/booking/BookingService";
 import LocationService from "../../../../services/location/LocationService";
 import { RiseOutlined } from "@ant-design/icons";
-const map_icon = require("../../../assets/images/map.png");
-const support_icon = require("../../../assets/images/support.png");
-const Badminton_yard = require("../../../assets/images/san-cau-long.png");
+const map_icon = require("../../../../assets/images/map.png");
+const support_icon = require("../../../../assets/images/support.png");
+const Badminton_yard = require("../../../../assets/images/san-cau-long.png");
 
 const createInitDate = () => {
   const timeStamp = dayjs(Date.now());
@@ -83,9 +81,6 @@ export const LocationDetail: React.FC = () => {
 
   useEffect(() => {
     if (locationDetail && options[shiftSelected]) {
-      {
-        console.log("options[shiftSelected] :", options[shiftSelected].index);
-      }
       const params = {
         params: {
           locationId: locationDetail.id,
@@ -158,12 +153,12 @@ export const LocationDetail: React.FC = () => {
 
   const handleBooking = (courtId: number) => {
     const shiftId = locationDetail?.shifts[options[shiftSelected]?.index].id;
-    const userName = user?.username;
+    const username = user?.username;
 
     let data = {
       locationId,
       shiftId,
-      userName,
+      username,
       courtId,
       date: dateSelected,
     };
@@ -171,9 +166,10 @@ export const LocationDetail: React.FC = () => {
     bookingService
       .createBooking(data)
       .then((resUrl) => {
-        setPaymentUrl(resUrl.data);
+        setPaymentUrl(resUrl.data.url);
       })
       .catch((err) => {
+        message.error("Đã có lỗi khi thực hiện chức năng này.");
         if (err.response && err.response.status === 409) {
           message.error("Rất tiếc, sân này vừa được người khác đặt rồi !");
           setTimeout(() => {
@@ -232,127 +228,127 @@ export const LocationDetail: React.FC = () => {
 
   return (
     <div>
-      <SearchPageHeader defaultSelectedKeys="" />
-      <div className="mx-auto mb-5 max-w-[90%] sm:mt-5">
-        <div className="grid grid-cols-1 md:grid-cols-8 md:gap-4">
-          <div className="col-span-3 flex flex-col">
-            <div className=" ">
-              <Carousel
-                className="h[400px] slide-image w-[400px] bg-gray-500"
-                arrows
-                infinite={false}
-              >
-                {locationDetail &&
-                  locationDetail.img?.map((imgUrl) => {
-                    return (
-                      <div key={imgUrl}>
-                        <img
-                          alt="Description image"
-                          loading="lazy"
-                          src={imgUrl}
-                        />
-                      </div>
-                    );
-                  })}
-              </Carousel>
-            </div>
+      <div className="px-4 py-5 lg:px-8">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-8">
+          <div className="col-span-3 flex flex-col space-y-4">
+            <Carousel
+              className="w-full rounded-lg bg-gray-200"
+              arrows
+              infinite={false}
+            >
+              {locationDetail?.img?.map((imgUrl) => (
+                <div key={imgUrl} className="flex items-center justify-center">
+                  <img
+                    alt="Description image"
+                    loading="lazy"
+                    src={imgUrl}
+                    className="h-auto w-full rounded-lg object-cover"
+                  />
+                </div>
+              ))}
+            </Carousel>
 
-            <div className="!mt-6 space-y-2 px-3 text-sm sm:px-0 sm:text-base">
-              <div className="w-full pb-2">
-                <h2 className="text-black-ish-200 text-2xl font-bold leading-none sm:leading-normal">
-                  {locationDetail?.name}
-                </h2>
-              </div>
-              <address className="flex items-start gap-2 sm:pl-1">
-                <img className="ml-1 h-[16px] w-[16px]" src={map_icon} alt="" />
-                <span className="text-black-ish-100 flex">
-                  Địa chỉ:
-                  {locationDetail?.address}
+            <div className="space-y-2 px-1 text-sm sm:text-base">
+              <h2 className="text-2xl font-bold text-gray-800">
+                {locationDetail?.name}
+              </h2>
+
+              <address className="flex items-start not-italic text-gray-600">
+                <div className="flex flex-shrink-0 items-center gap-1">
+                  <img
+                    src={map_icon}
+                    alt="Địa chỉ"
+                    className="h-4 w-4 flex-shrink-0"
+                  />
+                  <strong>Địa chỉ:</strong>
+                </div>
+
+                <span className="break-words">
+                  {locationDetail?.address}{" "}
                   <Button
-                    className="px-2"
-                    onClick={handleBtnFindAddressClick}
+                    size="small"
+                    type="link"
                     danger
+                    className="flex-shrink-0"
+                    onClick={handleBtnFindAddressClick}
                   >
                     Tìm đường <RiseOutlined />
                   </Button>
                 </span>
               </address>
-              <div className="flex items-center gap-2 sm:pl-1">
-                <span className="text-black-ish-100 truncate">
-                  🏟️ Sân cầu: {locationDetail?.name}
-                </span>
-              </div>
+
+              <p className="text-gray-600">
+                🏟️ Sân cầu: {locationDetail?.name}
+              </p>
             </div>
 
-            <hr className="mx-3 sm:mx-0" />
-            <div className="px-3 sm:px-0">
-              <div className="flex w-full items-center justify-center overflow-hidden rounded-xl" />
+            <hr />
+
+            <div className="space-y-2 px-1">
+              <h3 className="text-lg font-semibold text-gray-800">
+                Mô tả thêm
+              </h3>
+              <p className="whitespace-pre-line text-gray-600">
+                {locationDetail?.description || locationDetail?.name}
+              </p>
             </div>
-            <div className="flex flex-row items-center gap-2 px-3 text-xl font-semibold sm:px-0">
-              Mô tả thêm
-            </div>
-            <div className="text-black-ish-100 !mt-4 whitespace-pre-line px-3 text-sm sm:px-0 sm:text-base">
-              {locationDetail?.name}
-            </div>
-            <hr className="mx-3 sm:mx-0" />
-            <hr className="mx-3 sm:mx-0" />
           </div>
-          <div className="col-span-5 flex flex-col">
-            <div className="grid-cols-8 gap-2 sm:grid">
-              <div className="col-span-5">
-                <div className="flex">
-                  Giá thuê:
-                  <p className="shift-price">
-                    {locationDetail &&
-                      locationDetail?.shifts[
-                        options[shiftSelected]?.index
-                      ]?.price.toLocaleString("vi-VN")}
-                  </p>
-                </div>
+
+          <div className="col-span-5 flex flex-col space-y-4">
+            <div className="flex items-center text-lg font-medium text-gray-700">
+              Giá thuê:&nbsp;
+              <p className="font-semibold text-green-700">
+                {locationDetail?.shifts?.[
+                  options[shiftSelected]?.index
+                ]?.price?.toLocaleString("vi-VN")}
+                ₫
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-4 lg:flex-row">
+              <div className="flex-1 rounded-lg bg-gray-100 p-3">
                 <Flex
-                  className="bg-gray-100 p-1"
-                  justify={"space-between"}
+                  className="rounded-lg bg-gray-100 p-2"
+                  justify="space-between"
                   wrap="wrap"
+                  gap="middle"
                 >
-                  {locationDetail?.courts &&
-                    locationDetail.courts.map((court) => {
-                      let isDisable = "";
-                      if (bookedCourts) {
-                        if (bookedCourts.indexOf(court.id) != -1)
-                          isDisable = "disabled";
-                      }
-                      return (
-                        <div
-                          key={court.id}
-                          className={`badminton-yard-container ${isDisable}`}
+                  {locationDetail?.courts?.map((court) => {
+                    const isDisabled = bookedCourts?.includes(court.id);
+                    return (
+                      <div
+                        key={court.id}
+                        className={`badminton-yard-container ${
+                          isDisabled ? "pointer-events-none opacity-50" : ""
+                        }`}
+                      >
+                        <img
+                          src={Badminton_yard}
+                          alt=""
+                          className={`badminton-yard-img mb-3 ${
+                            imgBlur === court.courtNumber ? "blur" : ""
+                          }`}
+                        />
+                        <p className="badminton-yard-number text-center">
+                          Sân {court.courtNumber}
+                        </p>
+                        <Button
+                          onMouseEnter={() =>
+                            handleMouseEndter(court.courtNumber)
+                          }
+                          onMouseLeave={handleMouseLeave}
+                          onClick={() => handleBooking(court.id)}
+                          className="btn-book-court mt-2 w-full"
                         >
-                          <img
-                            className={`badminton-yard-img mb-4 ${
-                              imgBlur == court.courtNumber ? "blur" : ""
-                            }`}
-                            src={Badminton_yard}
-                            alt=""
-                          />
-                          <p className="badminton-yard-number">
-                            Sân {court.courtNumber}
-                          </p>
-                          <Button
-                            onMouseEnter={() =>
-                              handleMouseEndter(court.courtNumber)
-                            }
-                            onMouseLeave={handleMouseLeave}
-                            onClick={() => handleBooking(court.id)}
-                            className="btn-book-court"
-                          >
-                            Đặt sân
-                          </Button>
-                        </div>
-                      );
-                    })}
+                          Đặt sân
+                        </Button>
+                      </div>
+                    );
+                  })}
                 </Flex>
               </div>
 
-              <div className="col-span-3 flex flex-col">
+              <div className="flex w-full flex-col lg:w-1/3">
                 <div className="calendar" style={wrapperStyle}>
                   <Calendar
                     fullscreen={false}
@@ -360,61 +356,52 @@ export const LocationDetail: React.FC = () => {
                     disabledDate={disabledDate}
                   />
                 </div>
+
                 <Select
-                  className="mt-1"
+                  className="mt-3 w-full"
                   value={options && options[shiftSelected]}
                   onChange={handleOnChangeShift}
-                  style={{ width: "100% " }}
                   options={options}
                 />
+
                 <Flex
-                  justify={"space-between"}
-                  align={"center"}
-                  className="group-btn mt-2"
+                  justify="space-between"
+                  align="center"
+                  className="group-btn mt-3 flex-wrap gap-2"
                 >
-                  <Button
-                    className={`btn-shift ${activeButtonName === 0 ? "active-button" : ""} ${
-                      disableBtttons.indexOf(0) !== -1 ? "btn-disabled" : ""
-                    }`}
-                    onClick={() => handleClick(0)}
-                  >
-                    Sáng
-                  </Button>
-                  <Button
-                    className={`btn-shift ${activeButtonName === 1 ? "active-button" : ""}${
-                      disableBtttons.indexOf(1) !== -1 ? "btn-disabled" : ""
-                    }`}
-                    onClick={() => handleClick(1)}
-                  >
-                    Chiều
-                  </Button>
-                  <Button
-                    className={`btn-shift ${activeButtonName === 2 ? "active-button" : ""}${
-                      disableBtttons.indexOf(2) !== -1 ? "btn-disabled" : ""
-                    }`}
-                    onClick={() => handleClick(2)}
-                  >
-                    Tối
-                  </Button>
+                  {["Sáng", "Chiều", "Tối"].map((label, index) => (
+                    <Button
+                      key={label}
+                      className={`btn-shift ${
+                        activeButtonName === index ? "active-button" : ""
+                      } ${
+                        disableBtttons.includes(index) ? "btn-disabled" : ""
+                      }`}
+                      onClick={() => handleClick(index)}
+                    >
+                      {label}
+                    </Button>
+                  ))}
                 </Flex>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <MyFooter></MyFooter>
+
       <Modal
-        visible={isModalVisible}
+        open={isModalVisible}
         footer={false}
         onOk={handleOk}
         onCancel={handleCancel}
-        width="80%"
-        style={{ top: 20 }}
+        className="!w-4/5 md:!w-3/5 xl:!w-2/5"
+        style={{ top: 80 }}
       >
         <iframe
+          className="h-[70vh]"
           src={paymentUrl}
           title="Popup Content"
-          style={{ width: "100%", height: "450px", border: "none" }}
+          style={{ width: "100%", border: "none" }}
         ></iframe>
       </Modal>
     </div>

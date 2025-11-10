@@ -1,9 +1,8 @@
 import { Avatar, Button, Form, Space, Input, Row, Col, UploadFile } from "antd";
-import { SearchPageHeader } from "../SearchPage/header/SearchPageHeader";
 import { EditOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { PicturesWall } from "../PostsPage/PictureWall/PicturesWall";
+import { PicturesWall } from "../PostsPage/components/PictureWall/PicturesWall";
 import { RootState } from "../../../interface";
 import { updateUserInfo } from "../../../redux/apiRequest";
 import "./UserProfile.css";
@@ -89,7 +88,6 @@ export const UserProfile = () => {
 
   return (
     <div className="user-profile">
-      <SearchPageHeader defaultSelectedKeys="0" />
       <div className="user-profile-content">
         <div className="overlap-group">
           <div className="image-wrapper"></div>

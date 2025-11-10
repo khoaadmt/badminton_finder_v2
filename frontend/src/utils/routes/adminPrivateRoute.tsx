@@ -1,15 +1,17 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import { RootState } from "../../interface";
+import { message } from "antd";
 
 const PrivateRoute = () => {
-    const user = useSelector((state: RootState) => state.auth.login.currentUser);
+  const user = useSelector((state: RootState) => state.auth.login.currentUser);
 
-    if (!user || user.role !== "admin") {
-        return <Navigate to="/login" replace />;
-    }
+  if (!user || user.role !== "admin") {
+    message.warning("Chỉ có admin mới truy cập được trang này! ");
+    return <Navigate to="/login" replace />;
+  }
 
-    return <Outlet />;
+  return <Outlet />;
 };
 
 export default PrivateRoute;

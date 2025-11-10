@@ -28,9 +28,10 @@ export class CheckPermissionMiddleware implements NestMiddleware {
 
             const user = await this.userRepo.findOne({
                 where: {
-                    id: decoded.userId,
+                    id: decoded.user_id,
                 },
             });
+
             if (!user) {
                 return res.status(403).json({
                     message: 'Token lỗi',

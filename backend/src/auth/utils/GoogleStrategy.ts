@@ -5,21 +5,22 @@ require('dotenv').config();
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy) {
-  constructor() {
-    super({
-      clientID: process.env.CLIENT_ID_GG,
-      clientSecret: process.env.CLIENT_SECRET_GG,
-      callbackURL: 'http://localhost:5000/api/auth/google/redirect',
-      scope: ['email', 'profile'],
-    });
-  }
+    constructor() {
+        super({
+            clientID: process.env.CLIENT_ID_GG,
+            clientSecret: process.env.CLIENT_SECRET_GG,
+            callbackURL: `${process.env.SERVER_URL}/api/auth/google/redirect`,
+            // callbackURL: `http://localhost:5000/api/auth/google/redirect`,
+            scope: ['email', 'profile'],
+        });
+    }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: Profile,
-    done: VerifyCallback,
-  ) {
-    done(null, profile);
-  }
+    async validate(
+        accessToken: string,
+        refreshToken: string,
+        profile: Profile,
+        done: VerifyCallback,
+    ) {
+        done(null, profile);
+    }
 }

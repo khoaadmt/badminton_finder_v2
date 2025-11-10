@@ -39,24 +39,28 @@ export class UserRepository {
     }
 
     async createUserByFacebookType(username: string, displayName: string) {
-        return await this.userRepo.create({
+        const newUser = await this.userRepo.create({
             type: 'FACEBOOK',
             username: username,
             displayName: displayName,
             facebookId: username,
         });
+        this.userRepo.save(newUser);
+        return newUser;
     }
     async createUserByGoogleType(
         username: string,
         displayName: string,
         avaUrl: string,
     ) {
-        return await this.userRepo.create({
+        const newUser = await this.userRepo.create({
             type: 'GOOGLE',
             username: username,
             displayName: displayName,
             avaUrl: avaUrl,
         });
+        this.userRepo.save(newUser);
+        return newUser;
     }
     async createUser(user: any) {
         const newUser = this.userRepo.create(user);
