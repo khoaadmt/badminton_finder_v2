@@ -3,18 +3,10 @@ import {
   CaretUpOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
-import { Badge, Card, Col, Progress, Tooltip, message, theme } from "antd";
+import { Card, Tooltip, message } from "antd";
 import { Content } from "antd/es/layout/layout";
 import React, { FC, useEffect, useState } from "react";
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  Tooltip as RTooltip,
-  XAxis,
-} from "recharts";
+
 import dayjs from "dayjs";
 import BookingService from "../../../services/booking/BookingService";
 import numeral from "numeral";
@@ -96,31 +88,10 @@ const Field: FC<FieldProps> = ({ name, number }) => (
   </div>
 );
 
-const CustomTooltip: FC<any> = ({ active, payload, label }) => {
-  if (active && payload && payload.length > 0) {
-    return (
-      <div className="customTooltip">
-        <span className="customTooltip-title">
-          <Badge color={payload[0].fill} /> {label} : {payload[0].value}
-        </span>
-      </div>
-    );
-  }
-  return null;
-};
-
 export const Overview: FC<{ loading: boolean }> = ({ loading }) => {
   const bookingService = new BookingService();
   const [totalSalesToDay, setTotalSalesToDay] = useState();
   const [totalSalesYesterday, setTotalSalesYesterday] = useState();
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
-  const data = new Array(14).fill(null).map((_, index) => ({
-    name: dayjs().add(index, "day").format("YYYY-MM-DD"),
-    number: Math.floor(Math.random() * 8 + 1),
-  }));
 
   useEffect(() => {
     const toDay = dayjs().format("YYYY-MM-DD");
@@ -180,33 +151,6 @@ export const Overview: FC<{ loading: boolean }> = ({ loading }) => {
             />
           }
         />
-        {/* <ColCard
-          loading={loading}
-          metaName={"visits"}
-          metaCount="8846"
-          body={
-            <ResponsiveContainer>
-              <AreaChart data={data}>
-                <XAxis dataKey="name" hide />
-                <RTooltip content={<CustomTooltip />} />
-                <Area
-                  strokeOpacity={0}
-                  type="monotone"
-                  dataKey="number"
-                  fill="#8E65D3"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          }
-          footer={<Field name={"dailySales"} number="1234" />}
-        /> */}
-        {/* <ColCard
-                    loading={loading}
-                    metaName={"operationalEffect"}
-                    metaCount="8846"
-                    body={<Progress strokeColor="#58BFC1" percent={85} />}
-                    footer={<Trend style={{ position: "inherit" }} wow="12%" dod="12%" />}
-                /> */}
       </div>
     </Content>
   );
