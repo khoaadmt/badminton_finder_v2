@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { passwordSchema, usernameSchema } from "../validationSchema";
@@ -21,9 +21,10 @@ export const LoginPage = () => {
   );
 
   const singInForm = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      username: "",
-      password: "",
+      username: "khoaadmt",
+      password: "khoaAa@123",
     },
     validationSchema: Yup.object({
       username: usernameSchema,
@@ -55,6 +56,11 @@ export const LoginPage = () => {
       await registerUser(values, dispatch, navigate);
     },
   });
+
+  // useEffect(() => {
+  //   singInForm.setFieldValue("username", "khoaadmt123");
+  //   singInForm.setFieldValue("password", "khoaAa@123");
+  // }, []);
 
   const changeForm = (e: any) => {
     e.preventDefault();
