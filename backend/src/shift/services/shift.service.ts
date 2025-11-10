@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateShiftDto } from '../dto/createShift.dto';
 import { ShiftRepository } from '../repository/Shift.repository';
-import { Types } from 'mongoose';
 
 @Injectable()
 export class ShiftService {

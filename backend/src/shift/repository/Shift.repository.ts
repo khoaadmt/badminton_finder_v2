@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Model, Types } from 'mongoose';
 import { Shift } from '../entities/Shift.entity';
 import { CreateShiftDto } from '../dto/createShift.dto';
 import { InjectRepository } from '@nestjs/typeorm';
