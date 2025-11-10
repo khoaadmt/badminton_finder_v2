@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 
 import { AuthController } from './auth.controller';
-import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from './utils/GoogleStrategy';
 import { FacebookStrategy } from './utils/FaceBookStrategy';

@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { Court } from '../entities/court.entity';
 import { CreateCourtDto } from '../dto/createCourt.dto';
 import { InjectRepository } from '@nestjs/typeorm';
