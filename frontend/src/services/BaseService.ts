@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
-import { useSelector } from "react-redux";
-import { RootState } from "../interface";
+import { showLoading, hideLoading } from "../redux/loadingSlice";
+import { store } from "../redux/store";
 
 class BaseService {
   private readonly baseUrl: string;
@@ -13,33 +13,45 @@ class BaseService {
       timeout: 100000,
       withCredentials: true,
     });
+
     this.baseUrl = baseUrl;
     this.configHeaders = configHeaders;
 
+    this.http.interceptors.request.use((config) => {
+      (config as any).delayTimer = setTimeout(() => {
+        store.dispatch(showLoading("Máy chủ đang khởi động, vui lòng chờ..."));
+      }, 3000);
+      return config;
+    });
+
     this.http.interceptors.response.use(
-      (response: AxiosResponse) => response.data,
+      (response: AxiosResponse) => {
+        const config = response.config as any;
+        if (config?.delayTimer) clearTimeout(config.delayTimer);
+        store.dispatch(hideLoading());
+        return response.data;
+      },
       (error: AxiosError) => {
+        const config = error.config as any;
+        if (config?.delayTimer) clearTimeout(config.delayTimer);
+        store.dispatch(hideLoading());
+
         const { response } = error;
-        const config = error.config;
         if (response) {
           const originalUrl = config?.url || "";
 
           switch (response.status) {
             case 401:
-              if (originalUrl.includes("login")) {
-                return Promise.reject(error);
-              }
+              if (originalUrl.includes("login")) return Promise.reject(error);
 
               localStorage.clear();
               window.location.href = "/login";
               return;
-            // case 403:
-            //     window.location.href = "/error403";
-            //     return;
             default:
               return Promise.reject(error);
           }
         }
+
         return Promise.reject(error);
       },
     );
@@ -50,11 +62,7 @@ class BaseService {
       "Content-Type": "application/json",
       ...this.configHeaders,
     };
-
-    if (token) {
-      headers.Authorization = `${token}`;
-    }
-
+    if (token) headers.Authorization = `${token}`;
     return { headers };
   }
 
