@@ -1,5 +1,3 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
 import { Booking } from 'src/booking/entities/booking.entity';
 import { LocationEntity } from 'src/location/entities/location.entity';
 import {

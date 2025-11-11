@@ -1,5 +1,4 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { ObjectId, Types } from 'mongoose';
 import { LocationEntity } from 'src/location/entities/location.entity';
 
 export class CreateShiftDto {

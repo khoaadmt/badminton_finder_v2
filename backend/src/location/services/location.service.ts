@@ -5,9 +5,7 @@ import * as Bluebird from 'bluebird';
 import axios, { HttpStatusCode } from 'axios';
 import { CreateLocationDto } from '../Dto/createLocation.dto';
 import { CourtService } from 'src/court/services/court.service';
-import { Types } from 'mongoose';
 import { ShiftService } from 'src/shift/services/shift.service';
-import dayjs from 'dayjs';
 import { LocationEntity } from '../entities/location.entity';
 // import { Location } from './../../../../fontend/src/interface';
 

@@ -23,10 +23,12 @@ import { LocationsPage } from "./pages/User/LocationsPage/LocationsPage";
 import { LocationDetail } from "./pages/User/LocationsPage/LocationDetail/LocationDetail";
 import { PostsPage } from "./pages/User/PostsPage/PostsPage";
 import { CreatePostPage } from "./pages/User/PostsPage/CreatePostPage/CreatePostPage";
+import ServerWakeupOverlay from "./components/Layout/ServerWakeupOverlay";
 
 const App: React.FC = () => {
   return (
     <div className="App">
+      <ServerWakeupOverlay />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />

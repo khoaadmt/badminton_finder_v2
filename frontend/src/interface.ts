@@ -96,8 +96,13 @@ export interface AuthState {
   };
   mgs: string;
 }
+export interface LoadingState {
+  show: boolean;
+  message?: string;
+}
 export interface RootState {
   auth: AuthState;
+  loading: LoadingState;
 }
 export interface Token {
   accessToken: string;

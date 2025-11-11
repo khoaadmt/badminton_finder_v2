@@ -1,5 +1,3 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
 import { Court } from 'src/court/entities/court.entity';
 import { LocationEntity } from 'src/location/entities/location.entity';
 import { Shift } from 'src/shift/entities/Shift.entity';

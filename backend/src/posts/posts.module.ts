@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { PostsController } from './posts.controller';
 
-import { MongooseModule } from '@nestjs/mongoose';
 import { PostsService } from './services/posts.service';
 import { PostRepository } from './repository/post.repository';
 import { VerifyTokenMiddleware } from 'src/middlewares/logging.middleware';
