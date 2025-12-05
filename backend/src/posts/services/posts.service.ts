@@ -23,12 +23,7 @@ export class PostsService {
         private readonly locationService: LocationService,
     ) {}
 
-    async getAllPosts(
-        pageNumber: number,
-        city: string,
-        latitude: number,
-        longitude: number,
-    ) {
+    async getAllPosts(pageNumber: number, city: string, latitude: number, longitude: number) {
         const posts = await this.postRepository.findAllPost(city);
 
         let skip = (pageNumber - 1) * this.pageLimit;
@@ -36,13 +31,12 @@ export class PostsService {
 
         const postsWithDistance = await Bluebird.map(result, async (post) => {
             try {
-                const distance =
-                    await this.locationService.realDistanceBetween2Points(
-                        latitude,
-                        longitude,
-                        post.location.latitude,
-                        post.location.longitude,
-                    );
+                const distance = await this.locationService.realDistanceBetween2Points(
+                    latitude,
+                    longitude,
+                    post.location.latitude,
+                    post.location.longitude,
+                );
 
                 return { ...post, distance };
             } catch (err) {
@@ -102,10 +96,7 @@ export class PostsService {
 
             return { message: 'Update status success' };
         } catch (err) {
-            throw new HttpException(
-                'Update status failed',
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new HttpException('Update status failed', HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -118,10 +109,7 @@ export class PostsService {
             await this.postRepository.delete(postId);
             return { message: 'Delete post success' };
         } catch (err) {
-            throw new HttpException(
-                'Delete post failed',
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new HttpException('Delete post failed', HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -132,13 +120,10 @@ export class PostsService {
 
     filteredPosts = (posts, filter: FilterOptions) => {
         const filteredPosts = posts.filter((post) => {
-            const level =
-                filter?.level != null ? parseInt(filter.level, 10) : null;
+            const level = filter?.level != null ? parseInt(filter.level, 10) : null;
 
             const agreement =
-                filter?.agreement != null
-                    ? this.converBoolean(filter.agreement)
-                    : null;
+                filter?.agreement != null ? this.converBoolean(filter.agreement) : null;
             let price = null;
 
             const dateConvert = dayjs(post.startTime, 'YYYY-MM-DD HH:mm');
@@ -146,18 +131,13 @@ export class PostsService {
             const startTime = dateConvert.format('HH:mm');
 
             if (!agreement) {
-                price =
-                    filter?.price != null ? parseInt(filter.price, 10) : null;
+                price = filter?.price != null ? parseInt(filter.price, 10) : null;
             }
 
             return (
-                (level == null ||
-                    (post.levelMemberMin <= level &&
-                        post.levelMemberMax >= level)) &&
-                (price == null ||
-                    (post.priceMin <= price && post.priceMax >= price)) &&
-                (filter?.memberCount == null ||
-                    post.memberCount == filter.memberCount) &&
+                (level == null || (post.levelMemberMin <= level && post.levelMemberMax >= level)) &&
+                (price == null || (post.priceMin <= price && post.priceMax >= price)) &&
+                (filter?.memberCount == null || post.memberCount == filter.memberCount) &&
                 (filter?.gender == null || post.gender == filter.gender) &&
                 (filter?.date == null || filter.date == startDate) &&
                 (filter?.time == null || filter.time == startTime) &&
@@ -184,19 +164,15 @@ export class PostsService {
 
         const filteredPosts = this.filteredPosts(posts, filter);
 
-        let postsWithDistance = await Bluebird.map(
-            filteredPosts,
-            async (post) => {
-                const distance =
-                    await this.locationService.realDistanceBetween2Points(
-                        latitude,
-                        longitude,
-                        post.location.latitude,
-                        post.location.longitude,
-                    );
-                return { ...post, distance };
-            },
-        );
+        let postsWithDistance = await Bluebird.map(filteredPosts, async (post) => {
+            const distance = await this.locationService.realDistanceBetween2Points(
+                latitude,
+                longitude,
+                post.location.latitude,
+                post.location.longitude,
+            );
+            return { ...post, distance };
+        });
 
         if (filter.distance != null) {
             postsWithDistance = await postsWithDistance.filter((post) => {
@@ -219,9 +195,7 @@ export class PostsService {
 
     async createPost(createPostDto: CreatePostDto) {
         try {
-            const dateTime = new Date(
-                `${createPostDto.date}T${createPostDto.time}`,
-            );
+            const dateTime = new Date(`${createPostDto.date}T${createPostDto.time}`);
             const { date, time, ...rest } = createPostDto;
             const newCreatePostDto = {
                 ...rest,
@@ -230,8 +204,7 @@ export class PostsService {
                 user: { id: createPostDto.user_id },
             };
 
-            const newPost =
-                await this.postRepository.createPost(newCreatePostDto);
+            const newPost = await this.postRepository.createPost(newCreatePostDto);
 
             return {
                 statusCode: HttpStatus.CREATED,

@@ -85,16 +85,22 @@ export const CreatePostPage: React.FC = () => {
           values.priceMax = 0;
         }
 
-        const payload = { ...values, user_id: user?.user_id };
+        let images;
+
+        if (files.length > 0) {
+          images = await UploadService.uploadImages(files);
+        }
+        const payload = {
+          ...values,
+          user_id: user?.user_id,
+          images: images || [],
+        };
 
         const resPost = await postService.createPost(
           payload,
           user?.accessToken,
         );
         const postId = resPost?.data?.post;
-        if (files.length > 0) {
-          await UploadService.uploadImages(files);
-        }
 
         message.success("Tin của bạn đã được tải lên !");
         setTimeout(() => navigate("/user/my-post"), 1000);
